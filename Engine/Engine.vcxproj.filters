@@ -13,5 +13,16 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\main">
+      <UniqueIdentifier>{a8878309-414b-4f00-8a93-1487c3b78b74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\main\src">
+      <UniqueIdentifier>{6b311f9f-03c5-40f7-8cb6-087719447e47}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main\src\main.cpp">
+      <Filter>Source Files\main\src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
