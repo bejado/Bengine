@@ -31,7 +31,8 @@ namespace
 	{
 		UINT createDeviceFlags = 0;
 #ifdef _DEBUG
-		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+		// no longer works with Windows 10...
+		// createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
 

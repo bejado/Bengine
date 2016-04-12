@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <PrecompiledHeader.h>
 
 //--------------------------------------------------------------------------------------
 // Global Variables
@@ -56,6 +57,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 // loop. Idle time is used to render the scene.
 //--------------------------------------------------------------------------------------
 int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow )
+
 {
     UNREFERENCED_PARAMETER( hPrevInstance );
     UNREFERENCED_PARAMETER( lpCmdLine );
@@ -64,6 +66,8 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	{
 		return 0;
 	}
+
+	ITP485::GraphicsDriver::StaticInit( g_hWnd );
 
 	// Main message loop here
 	MSG msg = { 0 };
@@ -75,6 +79,12 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		}
 		else
 		{
+			// Clear back buffer
+			ITP485::GraphicsDriver::Get()->ClearBackBuffer();
+
+			// Present!
+			ITP485::GraphicsDriver::Get()->Present();
+
 			// do update and render here
 		}
 	}
