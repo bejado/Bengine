@@ -19,10 +19,90 @@
     <Filter Include="Source Files\main\src">
       <UniqueIdentifier>{6b311f9f-03c5-40f7-8cb6-087719447e47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\graphicsdriver">
+      <UniqueIdentifier>{0c02ba36-74bb-42f6-9cbf-b5f87b28fa41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphicsdriver\inc">
+      <UniqueIdentifier>{e5816aa8-6733-4b50-90e4-642809697c3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphicsdriver\src">
+      <UniqueIdentifier>{0cc56889-4df8-4b48-adb3-6097507743b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{f09f5062-d08a-4640-9937-230851f2e92d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\src">
+      <UniqueIdentifier>{cf6e852e-888a-4731-8d48-3c378f0e5ce1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\inc">
+      <UniqueIdentifier>{dfa40871-ad27-4531-8e58-9d7b32070b9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\main\inc">
+      <UniqueIdentifier>{9228759c-7d50-4dc6-bae8-dc68b45833c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\src\main.cpp">
       <Filter>Source Files\main\src</Filter>
     </ClCompile>
+    <ClCompile Include="graphicsdriver\src\GraphicsDriver.cpp">
+      <Filter>Source Files\graphicsdriver\src</Filter>
+    </ClCompile>
+    <ClCompile Include="core\src\dbg_assert.cpp">
+      <Filter>Source Files\core\src</Filter>
+    </ClCompile>
+    <ClCompile Include="core\src\fastmath.cpp">
+      <Filter>Source Files\core\src</Filter>
+    </ClCompile>
+    <ClCompile Include="core\src\slowmath.cpp">
+      <Filter>Source Files\core\src</Filter>
+    </ClCompile>
+    <ClCompile Include="core\src\StringUtils.cpp">
+      <Filter>Source Files\core\src</Filter>
+    </ClCompile>
+    <ClCompile Include="core\src\Timing.cpp">
+      <Filter>Source Files\core\src</Filter>
+    </ClCompile>
+    <ClCompile Include="main\src\PrecompiledHeader.cpp">
+      <Filter>Source Files\main\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h">
+      <Filter>Source Files\graphicsdriver\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\dbg_assert.h">
+      <Filter>Source Files\core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\DelegateList.h">
+      <Filter>Source Files\core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\fastmath.h">
+      <Filter>Source Files\core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\itpmath.h">
+      <Filter>Source Files\core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\ITPMememory.h">
+      <Filter>Source Files\core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\poolalloc.h">
+      <Filter>Source Files\core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\singleton.h">
+      <Filter>Source Files\core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\slowmath.h">
+      <Filter>Source Files\core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\StringUtils.h">
+      <Filter>Source Files\core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\Timing.h">
+      <Filter>Source Files\core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="main\inc\PrecompiledHeader.h">
+      <Filter>Source Files\main\inc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

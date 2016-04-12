@@ -65,10 +65,18 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		return 0;
 	}
 
-	MSG msg;
-	while (GetMessage(&msg, NULL, 0, 0)) {
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+	// Main message loop here
+	MSG msg = { 0 };
+	while ( msg.message != WM_QUIT ) {
+		if ( PeekMessage( &msg, nullptr, 0, 0, PM_REMOVE ) )
+		{
+			TranslateMessage( &msg );
+			DispatchMessage( &msg );
+		}
+		else
+		{
+			// do update and render here
+		}
 	}
 
 	DestroyWindow( g_hWnd );
