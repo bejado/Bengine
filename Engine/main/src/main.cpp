@@ -67,7 +67,9 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		return 0;
 	}
 
+	// Initialize subsystems
 	ITP485::GraphicsDriver::StaticInit( g_hWnd );
+	AppPtr app = AppPtr( new App() );
 
 	// Main message loop here
 	MSG msg = { 0 };
@@ -82,10 +84,11 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 			// Clear back buffer
 			ITP485::GraphicsDriver::Get()->ClearBackBuffer();
 
+			app->Update();
+			app->Render();
+
 			// Present!
 			ITP485::GraphicsDriver::Get()->Present();
-
-			// do update and render here
 		}
 	}
 

@@ -40,6 +40,15 @@
     <Filter Include="Source Files\main\inc">
       <UniqueIdentifier>{9228759c-7d50-4dc6-bae8-dc68b45833c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\engine">
+      <UniqueIdentifier>{27bb6e6c-633f-4a06-b9b8-a8929d31d7c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\inc">
+      <UniqueIdentifier>{c7f45ff6-9635-4b72-9ac5-5e739133d5da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\src">
+      <UniqueIdentifier>{ea664540-7b16-422c-b6f5-befa4e164b77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\src\main.cpp">
@@ -65,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="main\src\PrecompiledHeader.cpp">
       <Filter>Source Files\main\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\inc\App.cpp">
+      <Filter>Source Files\engine\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="main\inc\PrecompiledHeader.h">
       <Filter>Source Files\main\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\App.h">
+      <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

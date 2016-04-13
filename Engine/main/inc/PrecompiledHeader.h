@@ -24,3 +24,5 @@ using std::set;
 #include <Timing.h>
 
 #include <GraphicsDriver.h>
+
+#include <App.h>
