@@ -21,6 +21,7 @@ using std::set;
 #include <singleton.h>
 #include <StringUtils.h>
 #include <dbg_assert.h>
+#include <itpmath.h>
 #include <Timing.h>
 
 #include <GraphicsDriver.h>

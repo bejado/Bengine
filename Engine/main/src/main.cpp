@@ -69,7 +69,7 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 	// Initialize subsystems
 	ITP485::GraphicsDriver::StaticInit( g_hWnd );
-	AppPtr app = AppPtr( new App() );
+	ITP485::AppPtr app = ITP485::AppPtr( new ITP485::App() );
 
 	// Main message loop here
 	MSG msg = { 0 };
