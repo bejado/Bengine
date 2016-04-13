@@ -569,7 +569,7 @@ GraphicsDriver::~GraphicsDriver()
 
 void GraphicsDriver::ClearBackBuffer()
 {
-	ClearRenderTarget( mBackBufferRenderTarget, DirectX::Colors::MidnightBlue );
+	ClearRenderTarget( mBackBufferRenderTarget, DirectX::Colors::Firebrick );
 }
 
 
