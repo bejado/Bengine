@@ -33,6 +33,11 @@ namespace ITP485
 		vertices[2].Set( -0.5f, -0.5f, 0.5f );
 		mVertexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( vertices, sizeof( Vector3 ) * 3, EBindflags::EBF_VertexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
 
+		// create our index buffer
+		uint16_t indexes[6] = { 0, 1, 2 };
+		mIndexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer(indexes, sizeof(uint16_t) * 3, EBindflags::EBF_IndexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable);
+		GraphicsDriver::Get()->SetIndexBuffer(mIndexBuffer);
+
 		// create our projection view matrix buffer
 		GraphicsBufferPtr perCameraConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Matrix4 ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 		GraphicsDriver::Get()->SetPerCameraConstantBuffer( perCameraConstantBuffer );
@@ -63,7 +68,7 @@ namespace ITP485
 		GraphicsDriver::Get()->SetPixelShader( mPixelShader );
 
 		// Draw!
-		GraphicsDriver::Get()->Draw( 3, 0 );
+		GraphicsDriver::Get()->DrawIndexed( 3, 0, 0 );
 	}
 
 }
