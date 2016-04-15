@@ -78,6 +78,9 @@
     <ClCompile Include="engine\inc\App.cpp">
       <Filter>Source Files\engine\src</Filter>
     </ClCompile>
+    <ClCompile Include="engine\src\Camera.cpp">
+      <Filter>Source Files\engine\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h">
@@ -93,9 +96,6 @@
       <Filter>Source Files\core\inc</Filter>
     </ClInclude>
     <ClInclude Include="core\inc\itpmath.h">
-      <Filter>Source Files\core\inc</Filter>
-    </ClInclude>
-    <ClInclude Include="core\inc\ITPMememory.h">
       <Filter>Source Files\core\inc</Filter>
     </ClInclude>
     <ClInclude Include="core\inc\poolalloc.h">
@@ -118,6 +118,12 @@
     </ClInclude>
     <ClInclude Include="engine\inc\App.h">
       <Filter>Source Files\engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\Camera.h">
+      <Filter>Source Files\engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="core\inc\ITPMemory.h">
+      <Filter>Source Files\core\inc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,7 +11,13 @@ namespace ITP485
 	private:
 		VertexShaderPtr mVertexShader;
 		PixelShaderPtr mPixelShader;
+
 		GraphicsBufferPtr mVertexBuffer;
+		GraphicsBufferPtr mIndexBuffer;
+
+		GraphicsBufferPtr mObjectToWorldBuffer;
+
+		CameraPtr mCamera;
 	};
 
 	typedef shared_ptr< App > AppPtr;

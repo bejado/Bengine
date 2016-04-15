@@ -18,6 +18,7 @@ using std::set;
 #include <d3d11_1.h>
 #include <d3dcompiler.h>
 
+#include <ITPMemory.h>
 #include <singleton.h>
 #include <StringUtils.h>
 #include <dbg_assert.h>
@@ -25,5 +26,7 @@ using std::set;
 #include <Timing.h>
 
 #include <GraphicsDriver.h>
+
+#include <Camera.h>
 
 #include <App.h>

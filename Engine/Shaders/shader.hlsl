@@ -1,10 +1,20 @@
+cbuffer MyConstants : register(b0)
+{
+	float4x4 gViewProjection;
+}
+
+cbuffer MyConstants : register(b1)
+{
+	float4x4 gObjectToWorld;
+}
 
 //--------------------------------------------------------------------------------------
 // Vertex Shader
 //--------------------------------------------------------------------------------------
 float4 VS( float4 Pos : POSITION ) : SV_POSITION
 {
-    return Pos;
+	return mul( gViewProjection, Pos );
+	// return mul( gViewProjection, mul( gObjectToWorld, Pos ) );
 }
 
 

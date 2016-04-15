@@ -17,6 +17,7 @@
     <ClCompile Include="core\src\StringUtils.cpp" />
     <ClCompile Include="core\src\Timing.cpp" />
     <ClCompile Include="engine\inc\App.cpp" />
+    <ClCompile Include="engine\src\Camera.cpp" />
     <ClCompile Include="graphicsdriver\src\GraphicsDriver.cpp" />
     <ClCompile Include="main\src\main.cpp" />
     <ClCompile Include="main\src\PrecompiledHeader.cpp" />
@@ -26,13 +27,14 @@
     <ClInclude Include="core\inc\DelegateList.h" />
     <ClInclude Include="core\inc\fastmath.h" />
     <ClInclude Include="core\inc\itpmath.h" />
-    <ClInclude Include="core\inc\ITPMememory.h" />
+    <ClInclude Include="core\inc\ITPMemory.h" />
     <ClInclude Include="core\inc\poolalloc.h" />
     <ClInclude Include="core\inc\singleton.h" />
     <ClInclude Include="core\inc\slowmath.h" />
     <ClInclude Include="core\inc\StringUtils.h" />
     <ClInclude Include="core\inc\Timing.h" />
     <ClInclude Include="engine\inc\App.h" />
+    <ClInclude Include="engine\inc\Camera.h" />
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h" />
     <ClInclude Include="main\inc\PrecompiledHeader.h" />
   </ItemGroup>
