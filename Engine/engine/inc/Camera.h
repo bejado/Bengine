@@ -22,6 +22,33 @@ namespace ITP485
 			UpdateProjectionViewMatrix();
 		}
 
+		void Camera::SetPosition( const Vector3& inPosition )
+		{
+			mPosition = inPosition;
+			UpdateViewMatrix();
+			UpdateProjectionViewMatrix();
+		}
+
+		void Camera::SetPosition( float x, float y, float z )
+		{
+			mPosition = Vector3( x, y, z );
+			UpdateViewMatrix();
+			UpdateProjectionViewMatrix();
+		}
+
+		void Camera::MoveCamera( float offsetX, float offsetY, float offsetZ )
+		{
+			mPosition = mPosition + Vector3( offsetX, offsetY, offsetZ );
+			UpdateViewMatrix();
+			UpdateProjectionViewMatrix();
+		}
+
+		void Camera::LookAt( float x, float y, float z )
+		{
+			mViewMatrix.CreateLookAt( mPosition, Vector3(x, y, z), Vector3::Up );	
+			UpdateProjectionViewMatrix();
+		}
+
 		void SetPose( const Vector3& inPosition, const Quaternion& inRotation )
 		{
 			mPosition = inPosition;

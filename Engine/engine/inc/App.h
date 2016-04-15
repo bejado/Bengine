@@ -18,6 +18,8 @@ namespace ITP485
 		GraphicsBufferPtr mObjectToWorldBuffer;
 
 		CameraPtr mCamera;
+
+		float mCameraPathAmount = 0.f;
 	};
 
 	typedef shared_ptr< App > AppPtr;

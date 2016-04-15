@@ -23,19 +23,29 @@ namespace ITP485
 		GraphicsDriver::Get()->SetInputLayout( inputLayout );
 
 		// Create a solid fill rasterizer state
-		RasterizerStatePtr solidRasterizerState = GraphicsDriver::Get()->CreateRasterizerState(EFM_Solid);
-		GraphicsDriver::Get()->SetRasterizerState(solidRasterizerState);
+		// RasterizerStatePtr solidRasterizerState = GraphicsDriver::Get()->CreateRasterizerState(EFM_Solid);
+		// GraphicsDriver::Get()->SetRasterizerState(solidRasterizerState);
 
 		// create our vertex buffer
-		Vector3 vertices[3];
-		vertices[0].Set( 0.f, 0.5f, 0.5f );
-		vertices[1].Set( 0.5f, -0.5f, 0.5f );
-		vertices[2].Set( -0.5f, -0.5f, 0.5f );
-		mVertexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( vertices, sizeof( Vector3 ) * 3, EBindflags::EBF_VertexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
+		Vector3 vertices[8];
+		vertices[0].Set( 0.f, 0.f, 0.f );
+		vertices[1].Set( 1.f, 0.f, 0.f );
+		vertices[2].Set( 1.f, 1.f, 0.f );
+		vertices[3].Set( 0.f, 1.f, 0.f );
+		vertices[4].Set( 0.f, 0.f, 1.f );
+		vertices[5].Set( 1.f, 0.f, 1.f );
+		vertices[6].Set( 1.f, 1.f, 1.f );
+		vertices[7].Set( 0.f, 1.f, 1.f );
+		mVertexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( vertices, sizeof( Vector3 ) * 8, EBindflags::EBF_VertexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
 
 		// create our index buffer
-		uint16_t indexes[6] = { 0, 1, 2 };
-		mIndexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer(indexes, sizeof(uint16_t) * 3, EBindflags::EBF_IndexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable);
+		uint16_t indexes[36] = { 0, 3, 1, 1, 3, 2,		// front
+								 0, 4, 3, 4, 7, 3,
+								 1, 2, 5, 2, 6, 5,
+								 5, 6, 7, 7, 4, 5,
+								 3, 7, 6, 6, 2, 3,
+								 0, 1, 5, 5, 4, 0 };
+		mIndexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer(indexes, sizeof(uint16_t) * 36, EBindflags::EBF_IndexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable);
 		GraphicsDriver::Get()->SetIndexBuffer(mIndexBuffer);
 
 		// create our projection view matrix buffer
@@ -48,11 +58,14 @@ namespace ITP485
 		// GraphicsDriver::Get()->SetVSConstantBuffer(mPerObjectConstantBuffer, 1);
 		
 		// create our camera
-		mCamera = CameraPtr(new Camera(Vector3(0, 0, 0), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f));
+		mCamera = CameraPtr(new Camera(Vector3(-1, 0, -3), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f));
 	}
 
 	void App::Update()
 	{
+		mCameraPathAmount += 0.0001;
+		mCamera->SetPosition( cos( mCameraPathAmount ) * 5, cos( mCameraPathAmount * .5 ) * 5, sin( mCameraPathAmount ) * 5 );
+		mCamera->LookAt( 0, 0, 0 );
 		mCamera->UpdateConstants();
 	}
 
@@ -68,7 +81,7 @@ namespace ITP485
 		GraphicsDriver::Get()->SetPixelShader( mPixelShader );
 
 		// Draw!
-		GraphicsDriver::Get()->DrawIndexed( 3, 0, 0 );
+		GraphicsDriver::Get()->DrawIndexed( 36, 0, 0 );
 	}
 
 }
