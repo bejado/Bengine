@@ -81,6 +81,9 @@
     <ClCompile Include="engine\src\Camera.cpp">
       <Filter>Source Files\engine\src</Filter>
     </ClCompile>
+    <ClCompile Include="engine\src\Cube.cpp">
+      <Filter>Source Files\engine\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h">
@@ -124,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="core\inc\ITPMemory.h">
       <Filter>Source Files\core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\Cube.h">
+      <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

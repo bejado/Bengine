@@ -29,4 +29,5 @@ using std::set;
 
 #include <Camera.h>
 
+#include <Cube.h>
 #include <App.h>

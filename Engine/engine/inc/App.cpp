@@ -26,28 +26,6 @@ namespace ITP485
 		// RasterizerStatePtr solidRasterizerState = GraphicsDriver::Get()->CreateRasterizerState(EFM_Solid);
 		// GraphicsDriver::Get()->SetRasterizerState(solidRasterizerState);
 
-		// create our vertex buffer
-		Vector3 vertices[8];
-		vertices[0].Set( 0.f, 0.f, 0.f );
-		vertices[1].Set( 1.f, 0.f, 0.f );
-		vertices[2].Set( 1.f, 1.f, 0.f );
-		vertices[3].Set( 0.f, 1.f, 0.f );
-		vertices[4].Set( 0.f, 0.f, 1.f );
-		vertices[5].Set( 1.f, 0.f, 1.f );
-		vertices[6].Set( 1.f, 1.f, 1.f );
-		vertices[7].Set( 0.f, 1.f, 1.f );
-		mVertexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( vertices, sizeof( Vector3 ) * 8, EBindflags::EBF_VertexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
-
-		// create our index buffer
-		uint16_t indexes[36] = { 0, 3, 1, 1, 3, 2,		// front
-								 0, 4, 3, 4, 7, 3,
-								 1, 2, 5, 2, 6, 5,
-								 5, 6, 7, 7, 4, 5,
-								 3, 7, 6, 6, 2, 3,
-								 0, 1, 5, 5, 4, 0 };
-		mIndexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer(indexes, sizeof(uint16_t) * 36, EBindflags::EBF_IndexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable);
-		GraphicsDriver::Get()->SetIndexBuffer(mIndexBuffer);
-
 		// create our projection view matrix buffer
 		GraphicsBufferPtr perCameraConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Matrix4 ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 		GraphicsDriver::Get()->SetPerCameraConstantBuffer( perCameraConstantBuffer );
@@ -56,16 +34,26 @@ namespace ITP485
 		// create our object to world constant buffer
 		mObjectToWorldBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer(NULL, sizeof(Matrix4), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic);
 		GraphicsDriver::Get()->SetVSConstantBuffer(mObjectToWorldBuffer, 1);
-
-		// set the object to world constant buffer
-		Matrix4 *objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer(mObjectToWorldBuffer));
-		Matrix4 translationMatrix;
-		translationMatrix.CreateTranslation( Vector3( -.5, -.5, -.5 ) );
-		memcpy( objectToWorld, &translationMatrix.GetTranspose(), sizeof( Matrix4 ) );
-		GraphicsDriver::Get()->UnmapBuffer(mObjectToWorldBuffer);
 		
 		// create our camera
 		mCamera = CameraPtr(new Camera(Vector3(-1, 0, -3), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f));
+
+		// create the cubes
+		for (int i = 0; i < 5; i++) {
+			mCube[i] = CubePtr( new Cube( (i - 2) - .5f, -.5f, -.5f ) );
+		}
+		for (int i = 0; i < 2; i++) {
+			mCube[i + 5] = CubePtr( new Cube( -.5f, (i + 1) - .5f, -.5f ) );
+		}
+		for (int i = 0; i < 2; i++) {
+			mCube[i + 7] = CubePtr( new Cube( -.5f, (i - 2) - .5f, -.5f ) );
+		}
+		for (int i = 0; i < 2; i++) {
+			mCube[i + 9] = CubePtr( new Cube( -.5f, -.5f, (i + 1) - .5f ) );
+		}
+		for (int i = 0; i < 2; i++) {
+			mCube[i + 11] = CubePtr( new Cube( -.5f, -.5f, (i - 2) - .5f ) );
+		}
 	}
 
 	void App::Update()
@@ -78,17 +66,16 @@ namespace ITP485
 
 	void App::Render()
 	{
-		// Set vertex buffer
-		GraphicsDriver::Get()->SetVertexBuffer( mVertexBuffer, sizeof( Vector3 ) );
-
 		// Set vertex shader
 		GraphicsDriver::Get()->SetVertexShader( mVertexShader );
 
 		// Set pixel shader
 		GraphicsDriver::Get()->SetPixelShader( mPixelShader );
 
-		// Draw!
-		GraphicsDriver::Get()->DrawIndexed( 36, 0, 0 );
+		for (int i = 0; i < 13; i++) {
+			mCube[i]->UpdateObjectWorldBuffer( mObjectToWorldBuffer );
+			mCube[i]->Draw();
+		}
 	}
 
 }

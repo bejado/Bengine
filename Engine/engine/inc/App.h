@@ -12,12 +12,11 @@ namespace ITP485
 		VertexShaderPtr mVertexShader;
 		PixelShaderPtr mPixelShader;
 
-		GraphicsBufferPtr mVertexBuffer;
-		GraphicsBufferPtr mIndexBuffer;
-
 		GraphicsBufferPtr mObjectToWorldBuffer;
 
 		CameraPtr mCamera;
+
+		CubePtr mCube[13];
 
 		float mCameraPathAmount = 0.f;
 	};
