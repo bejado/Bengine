@@ -54,8 +54,15 @@ namespace ITP485
 		GraphicsDriver::Get()->SetVSConstantBuffer( perCameraConstantBuffer, 0 );
 
 		// create our object to world constant buffer
-		// mPerObjectConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer(NULL, sizeof(Matrix4), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic);
-		// GraphicsDriver::Get()->SetVSConstantBuffer(mPerObjectConstantBuffer, 1);
+		mObjectToWorldBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer(NULL, sizeof(Matrix4), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic);
+		GraphicsDriver::Get()->SetVSConstantBuffer(mObjectToWorldBuffer, 1);
+
+		// set the object to world constant buffer
+		Matrix4 *objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer(mObjectToWorldBuffer));
+		Matrix4 translationMatrix;
+		translationMatrix.CreateTranslation( Vector3( -.5, -.5, -.5 ) );
+		memcpy( objectToWorld, &translationMatrix.GetTranspose(), sizeof( Matrix4 ) );
+		GraphicsDriver::Get()->UnmapBuffer(mObjectToWorldBuffer);
 		
 		// create our camera
 		mCamera = CameraPtr(new Camera(Vector3(-1, 0, -3), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f));
@@ -63,7 +70,7 @@ namespace ITP485
 
 	void App::Update()
 	{
-		mCameraPathAmount += 0.0001;
+		mCameraPathAmount += Timing::Get().GetDeltaTime();
 		mCamera->SetPosition( cos( mCameraPathAmount ) * 5, cos( mCameraPathAmount * .5 ) * 5, sin( mCameraPathAmount ) * 5 );
 		mCamera->LookAt( 0, 0, 0 );
 		mCamera->UpdateConstants();
