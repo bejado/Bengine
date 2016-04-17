@@ -23,8 +23,8 @@ namespace ITP485
 		GraphicsDriver::Get()->SetInputLayout( inputLayout );
 
 		// Create a solid fill rasterizer state
-		// RasterizerStatePtr solidRasterizerState = GraphicsDriver::Get()->CreateRasterizerState(EFM_Solid);
-		// GraphicsDriver::Get()->SetRasterizerState(solidRasterizerState);
+		RasterizerStatePtr solidRasterizerState = GraphicsDriver::Get()->CreateRasterizerState(EFM_Wireframe);
+		GraphicsDriver::Get()->SetRasterizerState(solidRasterizerState);
 
 		// create our projection view matrix buffer
 		GraphicsBufferPtr perCameraConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Matrix4 ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
@@ -39,27 +39,13 @@ namespace ITP485
 		mCamera = CameraPtr(new Camera(Vector3(-1, 0, -3), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f));
 
 		// create the cubes
-		for (int i = 0; i < 5; i++) {
-			mCube[i] = CubePtr( new Cube( (i - 2) - .5f, -.5f, -.5f ) );
-		}
-		for (int i = 0; i < 2; i++) {
-			mCube[i + 5] = CubePtr( new Cube( -.5f, (i + 1) - .5f, -.5f ) );
-		}
-		for (int i = 0; i < 2; i++) {
-			mCube[i + 7] = CubePtr( new Cube( -.5f, (i - 2) - .5f, -.5f ) );
-		}
-		for (int i = 0; i < 2; i++) {
-			mCube[i + 9] = CubePtr( new Cube( -.5f, -.5f, (i + 1) - .5f ) );
-		}
-		for (int i = 0; i < 2; i++) {
-			mCube[i + 11] = CubePtr( new Cube( -.5f, -.5f, (i - 2) - .5f ) );
-		}
+		mCube = CubePtr( new Cube( -.5f, -.5f, -.5f ) );
 	}
 
 	void App::Update()
 	{
 		mCameraPathAmount += Timing::Get().GetDeltaTime();
-		mCamera->SetPosition( cos( mCameraPathAmount ) * 5, cos( mCameraPathAmount * .5 ) * 5, sin( mCameraPathAmount ) * 5 );
+		mCamera->SetPosition( cos( mCameraPathAmount ) * 5, cos( mCameraPathAmount * .25 ) * 5, sin( mCameraPathAmount ) * 5 );
 		mCamera->LookAt( 0, 0, 0 );
 		mCamera->UpdateConstants();
 	}
@@ -72,10 +58,8 @@ namespace ITP485
 		// Set pixel shader
 		GraphicsDriver::Get()->SetPixelShader( mPixelShader );
 
-		for (int i = 0; i < 13; i++) {
-			mCube[i]->UpdateObjectWorldBuffer( mObjectToWorldBuffer );
-			mCube[i]->Draw();
-		}
+		mCube->UpdateObjectWorldBuffer( mObjectToWorldBuffer );
+		mCube->Draw();
 	}
 
 }

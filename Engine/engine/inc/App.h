@@ -16,7 +16,7 @@ namespace ITP485
 
 		CameraPtr mCamera;
 
-		CubePtr mCube[13];
+		CubePtr mCube;
 
 		float mCameraPathAmount = 0.f;
 	};
