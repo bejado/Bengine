@@ -16,14 +16,14 @@ namespace ITP485
 		mPixelShader = GraphicsDriver::Get()->CreatePixelShader( compiledPixelShader );
 
 		// now create an input layout to describe vertices that contain 3 floats for position data and nothing else
-		InputLayoutElement element( "POSITION", 0, EGFormat::EGF_R32G32B32_Float, 0 );
-		InputLayoutPtr inputLayout = GraphicsDriver::Get()->CreateInputLayout( &element, 1, compiledVertexShader );
+		InputLayoutElement elements[3]{{ "POSITION", 0, EGFormat::EGF_R32G32B32_Float, 0 }, { "NORMAL", 0, EGFormat::EGF_R32G32B32_Float, sizeof( float ) * 3 }, { "TEXCOORD", 0, EGFormat::EGF_R32G32_Float, sizeof( float ) * 6 }};
+		InputLayoutPtr inputLayout = GraphicsDriver::Get()->CreateInputLayout( elements, 3, compiledVertexShader );
 
 		// now set it in the graphics driver
 		GraphicsDriver::Get()->SetInputLayout( inputLayout );
 
 		// Create a solid fill rasterizer state
-		RasterizerStatePtr solidRasterizerState = GraphicsDriver::Get()->CreateRasterizerState(EFM_Wireframe);
+		RasterizerStatePtr solidRasterizerState = GraphicsDriver::Get()->CreateRasterizerState(EFM_Solid);
 		GraphicsDriver::Get()->SetRasterizerState(solidRasterizerState);
 
 		// create our projection view matrix buffer
@@ -34,6 +34,12 @@ namespace ITP485
 		// create our object to world constant buffer
 		mObjectToWorldBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer(NULL, sizeof(Matrix4), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic);
 		GraphicsDriver::Get()->SetVSConstantBuffer(mObjectToWorldBuffer, 1);
+
+		// create our sampler state
+
+		// TexturePtr texture = GraphicsDriver::Get()->CreateTextureFromFile(widestr.c_str());
+		// SamplerStatePtr samplerState = GraphicsDriver::Get()->CreateSamplerState();
+		// GraphicsDriver::Get()->SetPSSamplerState(samplerState, 0);
 		
 		// create our camera
 		mCamera = CameraPtr(new Camera(Vector3(-1, 0, -3), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f));
@@ -45,7 +51,7 @@ namespace ITP485
 	void App::Update()
 	{
 		mCameraPathAmount += Timing::Get().GetDeltaTime();
-		mCamera->SetPosition( cos( mCameraPathAmount ) * 5, cos( mCameraPathAmount * .25 ) * 5, sin( mCameraPathAmount ) * 5 );
+		mCamera->SetPosition( cos( mCameraPathAmount ) * 5.f, cos( mCameraPathAmount * .25f ) * 5.f, sin( mCameraPathAmount ) * 5.f );
 		mCamera->LookAt( 0, 0, 0 );
 		mCamera->UpdateConstants();
 	}

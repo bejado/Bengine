@@ -8,19 +8,31 @@ cbuffer MyConstants : register(b1)
 	float4x4 gObjectToWorld;
 }
 
+struct VS_INPUT {
+	float4 Pos : POSITION;
+	float3 Normal : NORMAL;
+};
+
+struct PS_INPUT {
+	float4 Pos : SV_POSITION;
+	float3 Normal : NORMAL;
+};
+
 //--------------------------------------------------------------------------------------
 // Vertex Shader
 //--------------------------------------------------------------------------------------
-float4 VS( float4 Pos : POSITION ) : SV_POSITION
+PS_INPUT VS( VS_INPUT input )
 {
-	return mul( gViewProjection, mul( gObjectToWorld, Pos ) );
+	PS_INPUT output;
+	output.Pos = mul( gViewProjection, mul( gObjectToWorld, input.Pos ) );
+	output.Normal = input.Normal;
+	return output;
 }
-
 
 //--------------------------------------------------------------------------------------
 // Pixel Shader
 //--------------------------------------------------------------------------------------
-float4 PS( float4 Pos : SV_POSITION ) : SV_Target
+float4 PS( PS_INPUT input ) : SV_Target
 {
-    return float4( 0.0f, 1.0f, 0.0f, 1.0f );
+	return float4(input.Normal, 1.0f);
 }

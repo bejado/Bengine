@@ -11,7 +11,7 @@ namespace ITP485
 		Cube( float x, float y, float z ) : Cube( Vector3( x, y, z ) ) {}
 		Cube( const Vector3& position );
 
-		void UpdateObjectWorldBuffer( const GraphicsBufferPtr const buffer );
+		void UpdateObjectWorldBuffer( GraphicsBufferPtr buffer );
 		void Draw();
 
 	private:
