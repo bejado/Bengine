@@ -32,17 +32,17 @@ namespace ITP485
 		GraphicsDriver::Get()->SetVSConstantBuffer( perCameraConstantBuffer, 0 );
 
 		// create our object to world constant buffer
-		mObjectToWorldBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer(NULL, sizeof(Matrix4), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic);
-		GraphicsDriver::Get()->SetVSConstantBuffer(mObjectToWorldBuffer, 1);
+		mObjectToWorldBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Matrix4 ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
+		GraphicsDriver::Get()->SetVSConstantBuffer( mObjectToWorldBuffer, 1 );
 
 		// create our sampler state
+		SamplerStatePtr samplerState = GraphicsDriver::Get()->CreateSamplerState();
+		GraphicsDriver::Get()->SetPSSamplerState( samplerState, 0 );
+		TexturePtr texture = GraphicsDriver::Get()->CreateTextureFromFile( L"Textures\\crate.dds" );
+		GraphicsDriver::Get()->SetPSTexture( texture, 0 );
 
-		// TexturePtr texture = GraphicsDriver::Get()->CreateTextureFromFile(widestr.c_str());
-		// SamplerStatePtr samplerState = GraphicsDriver::Get()->CreateSamplerState();
-		// GraphicsDriver::Get()->SetPSSamplerState(samplerState, 0);
-		
 		// create our camera
-		mCamera = CameraPtr(new Camera(Vector3(-1, 0, -3), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f));
+		mCamera = CameraPtr( new Camera( Vector3( 0, 0, 0 ), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f ) );
 
 		// create the cubes
 		mCube = CubePtr( new Cube( -.5f, -.5f, -.5f ) );
@@ -51,7 +51,7 @@ namespace ITP485
 	void App::Update()
 	{
 		mCameraPathAmount += Timing::Get().GetDeltaTime();
-		mCamera->SetPosition( cos( mCameraPathAmount ) * 5.f, cos( mCameraPathAmount * .25f ) * 5.f, sin( mCameraPathAmount ) * 5.f );
+		mCamera->SetPosition( cos( mCameraPathAmount ) * 2.f, cos( mCameraPathAmount * 1.25f ) * 2.f, sin( mCameraPathAmount ) * 5.f );
 		mCamera->LookAt( 0, 0, 0 );
 		mCamera->UpdateConstants();
 	}

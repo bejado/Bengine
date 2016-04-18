@@ -2,6 +2,12 @@
 
 namespace ITP485
 {
+	struct PackedVector2
+	{
+		PackedVector2( float x, float y ) : mX( x ), mY( y ) {}
+		float mX, mY;
+	};
+
 	struct PackedVector3	// used instead of Vector3 because Vector3 is actually 16 bytes
 	{
 		PackedVector3( float x, float y, float z ) : mX( x ), mY( y ), mZ( z ) {}
@@ -10,9 +16,10 @@ namespace ITP485
 
 	struct VERTEX_P_N
 	{
-		VERTEX_P_N( const PackedVector3& position, const PackedVector3& normal ) : mPosition( position ), mNormal( normal ) {}
+		VERTEX_P_N( const PackedVector3& position, const PackedVector3& normal, const PackedVector2& texCoord ) : mPosition( position ), mNormal( normal ), mTexCoord( texCoord ) {}
 		PackedVector3 mPosition;
 		PackedVector3 mNormal;
+		PackedVector2 mTexCoord;
 	};
 
 	Cube::Cube( const Vector3& position )
@@ -20,25 +27,52 @@ namespace ITP485
 		mPosition = position;
 
 		// create our vertex buffer
-		VERTEX_P_N vertices[8] = {
-				{ PackedVector3( 0.f, 0.f, 0.f ), PackedVector3( 0.f, 1.f, 0.f ) },
-				{ PackedVector3( 1.f, 0.f, 0.f ), PackedVector3( 0.f, 1.f, 0.f ) },
-				{ PackedVector3( 1.f, 1.f, 0.f ), PackedVector3( 0.f, 1.f, 0.f ) },
-				{ PackedVector3( 0.f, 1.f, 0.f ), PackedVector3( 0.f, 1.f, 0.f ) },
-				{ PackedVector3( 0.f, 0.f, 1.f ), PackedVector3( 0.f, 1.f, 0.f ) },
-				{ PackedVector3( 1.f, 0.f, 1.f ), PackedVector3( 0.f, 1.f, 0.f ) },
-				{ PackedVector3( 1.f, 1.f, 1.f ), PackedVector3( 0.f, 1.f, 0.f ) },
-				{ PackedVector3( 0.f, 1.f, 1.f ), PackedVector3( 0.f, 1.f, 0.f ) },
+		VERTEX_P_N vertices[24] = {
+				// front face
+				{ PackedVector3( 0.f, 0.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 0.f) },
+				{ PackedVector3( 1.f, 0.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 0.f) },
+				{ PackedVector3( 1.f, 1.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 1.f) },
+				{ PackedVector3( 0.f, 1.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 1.f) },
+
+				// back face
+				{ PackedVector3( 0.f, 0.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 0.f) },
+				{ PackedVector3( 1.f, 0.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 0.f) },
+				{ PackedVector3( 1.f, 1.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 1.f) },
+				{ PackedVector3( 0.f, 1.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 1.f) },
+
+				// left face
+				{ PackedVector3( 0.f, 0.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 0.f) },
+				{ PackedVector3( 0.f, 0.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 0.f) },
+				{ PackedVector3( 0.f, 1.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 1.f) },
+				{ PackedVector3( 0.f, 1.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 1.f) },
+
+				// right face
+				{ PackedVector3( 1.f, 0.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 1.f) },
+				{ PackedVector3( 1.f, 0.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 0.f) },
+				{ PackedVector3( 1.f, 1.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 0.f) },
+				{ PackedVector3( 1.f, 1.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 1.f) },
+
+				// bottom face
+				{ PackedVector3( 0.f, 0.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 0.f) },
+				{ PackedVector3( 1.f, 0.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 0.f) },
+				{ PackedVector3( 1.f, 0.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 1.f) },
+				{ PackedVector3( 0.f, 0.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 1.f) },
+
+				// top face
+				{ PackedVector3( 0.f, 1.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 0.f) },
+				{ PackedVector3( 1.f, 1.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 0.f) },
+				{ PackedVector3( 1.f, 1.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 1.f) },
+				{ PackedVector3( 0.f, 1.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 1.f) }
 		};
-		mVertexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( vertices, sizeof( VERTEX_P_N ) * 8, EBindflags::EBF_VertexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
+		mVertexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( vertices, sizeof( VERTEX_P_N ) * 24, EBindflags::EBF_VertexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
 
 		// create our index buffer
-		uint16_t indexes[36] = { 0, 3, 1, 1, 3, 2,		// front
-								 0, 4, 3, 4, 7, 3,
-								 1, 2, 5, 2, 6, 5,
-								 5, 6, 7, 7, 4, 5,
-								 3, 7, 6, 6, 2, 3,
-								 0, 1, 5, 5, 4, 0 };
+		uint16_t indexes[36] = { 0, 3, 1, 1, 3, 2,			// front
+								 5, 7, 4, 6, 7, 5,			// back
+								 8, 11, 9, 9, 11, 10,		// left
+								 13, 15, 12, 14, 15, 13,	// right
+								 16, 17, 18, 18, 19, 16,	// bottom
+								 22, 21, 20, 20, 23, 22 };	// top
 		mIndexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( indexes, sizeof( uint16_t ) * 36, EBindflags::EBF_IndexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
 	}
 
