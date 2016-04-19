@@ -29,40 +29,40 @@ namespace ITP485
 		// create our vertex buffer
 		VERTEX_P_N vertices[24] = {
 				// front face
-				{ PackedVector3( 0.f, 0.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 0.f) },
-				{ PackedVector3( 1.f, 0.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 0.f) },
-				{ PackedVector3( 1.f, 1.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 1.f) },
-				{ PackedVector3( 0.f, 1.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 1.f) },
+				{ PackedVector3( 0.f, 0.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 1.f) },
+				{ PackedVector3( 1.f, 0.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 1.f) },
+				{ PackedVector3( 1.f, 1.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 0.f) },
+				{ PackedVector3( 0.f, 1.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 0.f) },
 
 				// back face
-				{ PackedVector3( 0.f, 0.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 0.f) },
-				{ PackedVector3( 1.f, 0.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 0.f) },
-				{ PackedVector3( 1.f, 1.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 1.f) },
-				{ PackedVector3( 0.f, 1.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 1.f) },
+				{ PackedVector3( 0.f, 0.f, 1.f ), PackedVector3( 0.f, 0.f, 1.f ), PackedVector2( 1.f, 1.f) },
+				{ PackedVector3( 1.f, 0.f, 1.f ), PackedVector3( 0.f, 0.f, 1.f ), PackedVector2( 0.f, 1.f) },
+				{ PackedVector3( 1.f, 1.f, 1.f ), PackedVector3( 0.f, 0.f, 1.f ), PackedVector2( 0.f, 0.f) },
+				{ PackedVector3( 0.f, 1.f, 1.f ), PackedVector3( 0.f, 0.f, 1.f ), PackedVector2( 1.f, 0.f) },
 
 				// left face
-				{ PackedVector3( 0.f, 0.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 0.f) },
-				{ PackedVector3( 0.f, 0.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 0.f) },
-				{ PackedVector3( 0.f, 1.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 1.f) },
-				{ PackedVector3( 0.f, 1.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 1.f) },
+				{ PackedVector3( 0.f, 0.f, 1.f ), PackedVector3( -1.f, 0.f, 0.f ), PackedVector2( 0.f, 1.f) },
+				{ PackedVector3( 0.f, 0.f, 0.f ), PackedVector3( -1.f, 0.f, 0.f ), PackedVector2( 1.f, 1.f) },
+				{ PackedVector3( 0.f, 1.f, 0.f ), PackedVector3( -1.f, 0.f, 0.f ), PackedVector2( 1.f, 0.f) },
+				{ PackedVector3( 0.f, 1.f, 1.f ), PackedVector3( -1.f, 0.f, 0.f ), PackedVector2( 0.f, 0.f) },
 
 				// right face
-				{ PackedVector3( 1.f, 0.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 1.f) },
-				{ PackedVector3( 1.f, 0.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 0.f) },
-				{ PackedVector3( 1.f, 1.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 0.f) },
-				{ PackedVector3( 1.f, 1.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 1.f) },
+				{ PackedVector3( 1.f, 0.f, 1.f ), PackedVector3( 1.f, 0.f, 0.f ), PackedVector2( 1.f, 1.f) },
+				{ PackedVector3( 1.f, 0.f, 0.f ), PackedVector3( 1.f, 0.f, 0.f ), PackedVector2( 0.f, 1.f) },
+				{ PackedVector3( 1.f, 1.f, 0.f ), PackedVector3( 1.f, 0.f, 0.f ), PackedVector2( 0.f, 0.f) },
+				{ PackedVector3( 1.f, 1.f, 1.f ), PackedVector3( 1.f, 0.f, 0.f ), PackedVector2( 1.f, 0.f) },
 
 				// bottom face
-				{ PackedVector3( 0.f, 0.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 0.f) },
-				{ PackedVector3( 1.f, 0.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 0.f) },
-				{ PackedVector3( 1.f, 0.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 1.f) },
-				{ PackedVector3( 0.f, 0.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 1.f) },
+				{ PackedVector3( 0.f, 0.f, 0.f ), PackedVector3( 0.f, -1.f, 0.f ), PackedVector2( 0.f, 0.f) },
+				{ PackedVector3( 1.f, 0.f, 0.f ), PackedVector3( 0.f, -1.f, 0.f ), PackedVector2( 1.f, 0.f) },
+				{ PackedVector3( 1.f, 0.f, 1.f ), PackedVector3( 0.f, -1.f, 0.f ), PackedVector2( 1.f, 1.f) },
+				{ PackedVector3( 0.f, 0.f, 1.f ), PackedVector3( 0.f, -1.f, 0.f ), PackedVector2( 0.f, 1.f) },
 
 				// top face
-				{ PackedVector3( 0.f, 1.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 0.f) },
-				{ PackedVector3( 1.f, 1.f, 0.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 0.f) },
-				{ PackedVector3( 1.f, 1.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 1.f, 1.f) },
-				{ PackedVector3( 0.f, 1.f, 1.f ), PackedVector3( 0.f, 0.f, -1.f ), PackedVector2( 0.f, 1.f) }
+				{ PackedVector3( 0.f, 1.f, 0.f ), PackedVector3( 0.f, 1.f, 0.f ), PackedVector2( 0.f, 1.f) },
+				{ PackedVector3( 1.f, 1.f, 0.f ), PackedVector3( 0.f, 1.f, 0.f ), PackedVector2( 1.f, 1.f) },
+				{ PackedVector3( 1.f, 1.f, 1.f ), PackedVector3( 0.f, 1.f, 0.f ), PackedVector2( 1.f, 0.f) },
+				{ PackedVector3( 0.f, 1.f, 1.f ), PackedVector3( 0.f, 1.f, 0.f ), PackedVector2( 0.f, 0.f) }
 		};
 		mVertexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( vertices, sizeof( VERTEX_P_N ) * 24, EBindflags::EBF_VertexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
 
