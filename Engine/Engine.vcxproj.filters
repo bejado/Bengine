@@ -49,6 +49,15 @@
     <Filter Include="Source Files\engine\src">
       <UniqueIdentifier>{ea664540-7b16-422c-b6f5-befa4e164b77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\tinyobj">
+      <UniqueIdentifier>{b9e48cd3-47ed-4153-81cf-b413729fcd74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tinyobj\inc">
+      <UniqueIdentifier>{b29ee60d-79b6-43a8-8d4b-3af9a0daab42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tinyobj\src">
+      <UniqueIdentifier>{2e163a5a-c39e-4bd6-989b-dea405a459c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\src\main.cpp">
@@ -83,6 +92,9 @@
     </ClCompile>
     <ClCompile Include="engine\src\Cube.cpp">
       <Filter>Source Files\engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyobj\src\tiny_obj_loader.cc">
+      <Filter>Source Files\tinyobj\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="engine\inc\Cube.h">
       <Filter>Source Files\engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyobj\inc\tiny_obj_loader.h">
+      <Filter>Source Files\tinyobj\inc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
