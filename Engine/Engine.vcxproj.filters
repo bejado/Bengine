@@ -96,6 +96,9 @@
     <ClCompile Include="tinyobj\src\tiny_obj_loader.cc">
       <Filter>Source Files\tinyobj\src</Filter>
     </ClCompile>
+    <ClCompile Include="engine\src\ObjMesh.cpp">
+      <Filter>Source Files\engine\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h">
@@ -145,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="tinyobj\inc\tiny_obj_loader.h">
       <Filter>Source Files\tinyobj\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\ObjMesh.h">
+      <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -12,11 +12,15 @@ namespace ITP485
 		VertexShaderPtr mVertexShader;
 		PixelShaderPtr mPixelShader;
 
+		DepthStencilPtr		mDepthStencilView;
+		DepthStencilStatePtr mDepthStencilState;
+
 		GraphicsBufferPtr mObjectToWorldBuffer;
 
 		CameraPtr mCamera;
 
 		CubePtr mCube;
+		ObjMeshPtr mObj;
 
 		float mCameraPathAmount = 0.f;
 	};

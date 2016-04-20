@@ -41,31 +41,42 @@ namespace ITP485
 		TexturePtr texture = GraphicsDriver::Get()->CreateTextureFromFile( L"Textures\\crate.dds" );
 		GraphicsDriver::Get()->SetPSTexture( texture, 0 );
 
+		// Set up our depth buffer and depth test
+		mDepthStencilView = GraphicsDriver::Get()->CreateDepthStencil(GraphicsDriver::Get()->GetWindowWidth(), GraphicsDriver::Get()->GetWindowHeight());
+		mDepthStencilState = GraphicsDriver::Get()->CreateDepthStencilState(true, EComparisonFunc::ECF_Less);
+		GraphicsDriver::Get()->SetDepthStencil(mDepthStencilView);
+		GraphicsDriver::Get()->SetDepthStencilState(mDepthStencilState);
+
 		// create our camera
 		mCamera = CameraPtr( new Camera( Vector3( 0, 0, 0 ), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f ) );
 
 		// create the cubes
 		mCube = CubePtr( new Cube( -.5f, -.5f, -.5f ) );
+		mObj = ObjMeshPtr( new ObjMesh() );
 	}
 
 	void App::Update()
 	{
 		mCameraPathAmount += Timing::Get().GetDeltaTime();
-		mCamera->SetPosition( cos( mCameraPathAmount ) * 2.f, cos( mCameraPathAmount * 1.25f ) * 2.f, sin( mCameraPathAmount ) * 5.f );
+		mCamera->SetPosition( cos( mCameraPathAmount ) * 20.f, cos( mCameraPathAmount * 1.25f ) * 20.f, sin( mCameraPathAmount ) * 20.f );
 		mCamera->LookAt( 0, 0, 0 );
 		mCamera->UpdateConstants();
 	}
 
 	void App::Render()
 	{
+		GraphicsDriver::Get()->ClearDepthStencil( mDepthStencilView, 1.0f );
+
 		// Set vertex shader
 		GraphicsDriver::Get()->SetVertexShader( mVertexShader );
 
 		// Set pixel shader
 		GraphicsDriver::Get()->SetPixelShader( mPixelShader );
 
-		mCube->UpdateObjectWorldBuffer( mObjectToWorldBuffer );
-		mCube->Draw();
+		mObj->UpdateObjectWorldBuffer( mObjectToWorldBuffer );
+		mObj->Draw();
+		// mCube->UpdateObjectWorldBuffer( mObjectToWorldBuffer );
+		// mCube->Draw();
 	}
 
 }

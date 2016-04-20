@@ -4,6 +4,7 @@
 #include <functional>
 #include <unordered_map>
 #include <set>
+#include <iostream>
 
 using std::shared_ptr;
 using std::vector;
@@ -30,4 +31,5 @@ using std::set;
 #include <Camera.h>
 
 #include <Cube.h>
+#include <ObjMesh.h>
 #include <App.h>
