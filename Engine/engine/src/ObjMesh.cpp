@@ -60,7 +60,7 @@ namespace ITP485
 	{
 		mPosition = position;
 
-		std::string inputfile = "Meshes\\ship.obj";
+		std::string inputfile = "Meshes\\frigate.obj";
 		std::vector<tinyobj::shape_t> shapes;
 		std::vector<tinyobj::material_t> materials;
 
@@ -74,55 +74,33 @@ namespace ITP485
 		std::vector<VERTEX_P_N_T> vertices;
 
 		for (size_t i = 0; i < shapes.size(); i++) {
-		  printf("shape[%ld].name = %s\n", i, shapes[i].name.c_str());
-		  printf("Size of shape[%ld].indices: %ld\n", i, shapes[i].mesh.indices.size());
-		  printf("Size of shape[%ld].material_ids: %ld\n", i, shapes[i].mesh.material_ids.size());
 		  assert((shapes[i].mesh.indices.size() % 3) == 0);
 
-		  // Loop through the faces of the mesh
-		  for (size_t f = 0; f < shapes[i].mesh.indices.size() / 3; f++) {
-
-			// Grab the vertex indicies for this face
-			unsigned int idx1, idx2, idx3;
-			idx1 = shapes[i].mesh.indices[3 * f + 0];
-			idx2 = shapes[i].mesh.indices[3 * f + 1];
-			idx3 = shapes[i].mesh.indices[3 * f + 2];
-
-			// Grab the positions
+		  // Loop through the vertices of the mesh
+		  for (size_t v = 0; v < shapes[i].mesh.positions.size() / 3; v++) {
+			// Grab the position
 			PackedVector3 pos1, pos2, pos3;
-			pos1 = GetPosition( shapes[i], idx1 );
-			pos2 = GetPosition( shapes[i], idx2 );
-			pos3 = GetPosition( shapes[i], idx3 );
+			pos1 = GetPosition( shapes[i], v );
 
-			// Grab the tex coords
+			// Grab the tex coord
 			PackedVector2 tex1, tex2, tex3;
-			tex1 = GetTexCoord( shapes[i], idx1 );
-			tex2 = GetTexCoord( shapes[i], idx2 );
-			tex3 = GetTexCoord( shapes[i], idx3 );
+			tex1 = GetTexCoord( shapes[i], v );
 
-			// Grab the normals
+			// Grab the normal
 			PackedVector3 norm1, norm2, norm3;
-			norm1 = GetNormal( shapes[i], idx1 );
-			norm2 = GetNormal( shapes[i], idx2 );
-			norm3 = GetNormal( shapes[i], idx3 );
+			norm1 = GetNormal( shapes[i], v );
 
-			// Create the vertices
+			// Create the vertex
 			VERTEX_P_N_T vert1 = VERTEX_P_N_T( pos1, norm1, tex1 );
-			VERTEX_P_N_T vert2 = VERTEX_P_N_T( pos2, norm2, tex2 );
-			VERTEX_P_N_T vert3 = VERTEX_P_N_T( pos3, norm3, tex3 );
 
 			vertices.push_back( vert1 );
-			vertices.push_back( vert2 );
-			vertices.push_back( vert3 );
-
-			printf("  idx[%ld] = %d, %d, %d. mat_id = %d\n", f, shapes[i].mesh.indices[3*f+0], shapes[i].mesh.indices[3*f+1], shapes[i].mesh.indices[3*f+2], shapes[i].mesh.material_ids[f]);
 		  }
 		}
 
 		// create our vertex buffer
 		mVertexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( vertices.data(), sizeof( VERTEX_P_N_T ) * vertices.size(), EBindflags::EBF_VertexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
 
-		// create our index buffer
+		// create our index buffer - convert each index from unsigned int to uint16_t
 		std::vector<unsigned int>& indices = shapes[0].mesh.indices;
 		std::vector<uint16_t> indices16(indices.size());
 		std::transform( indices.begin(), indices.end(), indices16.begin(), []( const unsigned int val )

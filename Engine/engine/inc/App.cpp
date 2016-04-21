@@ -38,7 +38,7 @@ namespace ITP485
 		// create our sampler state
 		SamplerStatePtr samplerState = GraphicsDriver::Get()->CreateSamplerState();
 		GraphicsDriver::Get()->SetPSSamplerState( samplerState, 0 );
-		TexturePtr texture = GraphicsDriver::Get()->CreateTextureFromFile( L"Textures\\crate.dds" );
+		TexturePtr texture = GraphicsDriver::Get()->CreateTextureFromFile( L"Textures\\frigate.dds" );
 		GraphicsDriver::Get()->SetPSTexture( texture, 0 );
 
 		// Set up our depth buffer and depth test
@@ -58,7 +58,7 @@ namespace ITP485
 	void App::Update()
 	{
 		mCameraPathAmount += Timing::Get().GetDeltaTime();
-		mCamera->SetPosition( cos( mCameraPathAmount ) * 20.f, cos( mCameraPathAmount * 1.25f ) * 20.f, sin( mCameraPathAmount ) * 20.f );
+		mCamera->SetPosition( cos( mCameraPathAmount ) * 30.f, cos( mCameraPathAmount * 1.25f ) * 40.f, sin( mCameraPathAmount ) * 60.f );
 		mCamera->LookAt( 0, 0, 0 );
 		mCamera->UpdateConstants();
 	}
