@@ -30,6 +30,7 @@ using std::set;
 
 #include <Camera.h>
 
+#include <Mesh.h>
 #include <Cube.h>
 #include <ObjMesh.h>
 #include <App.h>

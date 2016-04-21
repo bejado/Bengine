@@ -39,6 +39,7 @@
     <ClInclude Include="engine\inc\App.h" />
     <ClInclude Include="engine\inc\Camera.h" />
     <ClInclude Include="engine\inc\Cube.h" />
+    <ClInclude Include="engine\inc\Mesh.h" />
     <ClInclude Include="engine\inc\ObjMesh.h" />
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h" />
     <ClInclude Include="main\inc\PrecompiledHeader.h" />

@@ -19,8 +19,7 @@ namespace ITP485
 
 		CameraPtr mCamera;
 
-		CubePtr mCube;
-		ObjMeshPtr mObj;
+		MeshPtr mMesh;
 
 		float mCameraPathAmount = 0.f;
 	};

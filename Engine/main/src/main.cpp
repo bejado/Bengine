@@ -83,14 +83,9 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		{
 			Timing::Get().Update();
 
-			// Clear back buffer
-			ITP485::GraphicsDriver::Get()->ClearBackBuffer();
-
 			app->Update();
 			app->Render();
 
-			// Present!
-			ITP485::GraphicsDriver::Get()->Present();
 		}
 	}
 

@@ -51,8 +51,13 @@ namespace ITP485
 		mCamera = CameraPtr( new Camera( Vector3( 0, 0, 0 ), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f ) );
 
 		// create the cubes
-		mCube = CubePtr( new Cube( -.5f, -.5f, -.5f ) );
-		mObj = ObjMeshPtr( new ObjMesh() );
+		// mCube = CubePtr( new Cube( -.5f, -.5f, -.5f ) );
+		mMesh = ObjMeshPtr( new ObjMesh("Meshes\\frigate.obj") );
+
+		// Set object to world matrix
+		Matrix4 *objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer( mObjectToWorldBuffer ));
+		memcpy( objectToWorld, &Matrix4::Identity.GetTranspose(), sizeof( Matrix4 ) );
+		GraphicsDriver::Get()->UnmapBuffer( mObjectToWorldBuffer );
 	}
 
 	void App::Update()
@@ -65,6 +70,8 @@ namespace ITP485
 
 	void App::Render()
 	{
+		// Clear back buffer and depth stencil
+		GraphicsDriver::Get()->ClearBackBuffer();
 		GraphicsDriver::Get()->ClearDepthStencil( mDepthStencilView, 1.0f );
 
 		// Set vertex shader
@@ -73,10 +80,10 @@ namespace ITP485
 		// Set pixel shader
 		GraphicsDriver::Get()->SetPixelShader( mPixelShader );
 
-		mObj->UpdateObjectWorldBuffer( mObjectToWorldBuffer );
-		mObj->Draw();
-		// mCube->UpdateObjectWorldBuffer( mObjectToWorldBuffer );
-		// mCube->Draw();
+		mMesh->Draw();
+
+		// Present!
+		ITP485::GraphicsDriver::Get()->Present();
 	}
 
 }
