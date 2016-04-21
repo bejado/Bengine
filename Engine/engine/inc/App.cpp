@@ -38,7 +38,7 @@ namespace ITP485
 		// create our sampler state
 		SamplerStatePtr samplerState = GraphicsDriver::Get()->CreateSamplerState();
 		GraphicsDriver::Get()->SetPSSamplerState( samplerState, 0 );
-		TexturePtr texture = GraphicsDriver::Get()->CreateTextureFromFile( L"Textures\\frigate.dds" );
+		TexturePtr texture = GraphicsDriver::Get()->CreateTextureFromFile( L"Textures\\fighter.dds" );
 		GraphicsDriver::Get()->SetPSTexture( texture, 0 );
 
 		// Set up our depth buffer and depth test
@@ -50,9 +50,8 @@ namespace ITP485
 		// create our camera
 		mCamera = CameraPtr( new Camera( Vector3( 0, 0, 0 ), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f ) );
 
-		// create the cubes
-		// mCube = CubePtr( new Cube( -.5f, -.5f, -.5f ) );
-		mMesh = ObjMeshPtr( new ObjMesh("Meshes\\frigate.obj") );
+		// Create the mesh
+		mMesh = ObjMeshPtr( new ObjMesh("Meshes\\fighter.obj") );
 
 		// Set object to world matrix
 		Matrix4 *objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer( mObjectToWorldBuffer ));

@@ -1,11 +1,9 @@
 namespace ITP485
 {
 
-	class __declspec( align( 16 ) ) Mesh
+	class Mesh
 	{
 	public:
-
-		DECLARE_ALIGNED_NEW_DELETE
 
 		virtual void Draw() = 0;
 

@@ -1,11 +1,9 @@
 namespace ITP485
 {
 
-	class __declspec( align( 16 ) ) ObjMesh : public Mesh
+	class ObjMesh : public Mesh
 	{
 	public:
-
-		DECLARE_ALIGNED_NEW_DELETE
 
 		ObjMesh( std::string file );
 		virtual void Draw();

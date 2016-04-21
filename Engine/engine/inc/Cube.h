@@ -1,7 +1,7 @@
 namespace ITP485
 {
 
-	class __declspec( align( 16 ) ) Cube : public Mesh
+	class Cube : public Mesh
 	{
 	public:
 
