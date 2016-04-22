@@ -40,8 +40,11 @@ namespace ITP485
 		mCamera = CameraPtr( new Camera( Vector3( 0, 0, 0 ), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f ) );
 
 		// Create the mesh and material
-		mMesh = ObjMeshPtr( new ObjMesh( "Meshes\\fighter.obj" ) );
-		mMaterial = MaterialPtr( new Material( L"Shaders\\shader.hlsl", L"Textures\\fighter.dds" ) );
+		mFighterMesh = ObjMeshPtr( new ObjMesh( "Meshes\\fighter.obj" ) );
+		mFighterMaterial = MaterialPtr( new Material( L"Shaders\\shader.hlsl", L"Textures\\fighter.dds" ) );
+
+		mFrigateMesh = ObjMeshPtr( new ObjMesh( "Meshes\\frigate.obj" ) );
+		mFrigateMaterial = MaterialPtr( new Material( L"Shaders\\shader.hlsl", L"Textures\\frigate.dds" ) );
 
 		// Set object to world matrix
 		Matrix4 *objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer( mObjectToWorldBuffer ));
@@ -66,8 +69,26 @@ namespace ITP485
 		// Set vertex shader
 		GraphicsDriver::Get()->SetVertexShader( mVertexShader );
 
-		mMaterial->ActivateMaterial();
-		mMesh->Draw();
+		// Set object to world matrix
+		Matrix4 *objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer( mObjectToWorldBuffer ));
+		Matrix4 mat;
+		mat.CreateTranslation( Vector3( 0.0f, 10.0f, 0.0f ) );
+		memcpy( objectToWorld, &mat.GetTranspose(), sizeof( Matrix4 ) );
+		GraphicsDriver::Get()->UnmapBuffer( mObjectToWorldBuffer );
+
+		// Draw fighter
+		mFighterMaterial->ActivateMaterial();
+		mFighterMesh->Draw();
+
+		// Set object to world matrix
+		objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer( mObjectToWorldBuffer ));
+		mat.CreateTranslation( Vector3( 0.0f, -10.0f, 0.0f ) );
+		memcpy( objectToWorld, &mat.GetTranspose(), sizeof( Matrix4 ) );
+		GraphicsDriver::Get()->UnmapBuffer( mObjectToWorldBuffer );
+
+		// Draw frigate
+		mFrigateMaterial->ActivateMaterial();
+		mFrigateMesh->Draw();
 
 		// Present!
 		ITP485::GraphicsDriver::Get()->Present();
