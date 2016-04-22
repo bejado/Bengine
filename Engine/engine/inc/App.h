@@ -10,7 +10,6 @@ namespace ITP485
 
 	private:
 		VertexShaderPtr mVertexShader;
-		PixelShaderPtr mPixelShader;
 
 		DepthStencilPtr		mDepthStencilView;
 		DepthStencilStatePtr mDepthStencilState;
@@ -20,6 +19,7 @@ namespace ITP485
 		CameraPtr mCamera;
 
 		MeshPtr mMesh;
+		MaterialPtr mMaterial;
 
 		float mCameraPathAmount = 0.f;
 	};

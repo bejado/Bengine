@@ -99,6 +99,9 @@
     <ClCompile Include="engine\src\ObjMesh.cpp">
       <Filter>Source Files\engine\src</Filter>
     </ClCompile>
+    <ClCompile Include="engine\src\Material.cpp">
+      <Filter>Source Files\engine\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h">
@@ -153,6 +156,9 @@
       <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
     <ClInclude Include="engine\inc\Mesh.h">
+      <Filter>Source Files\engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\Material.h">
       <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
   </ItemGroup>

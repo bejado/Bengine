@@ -31,6 +31,8 @@ using std::set;
 #include <Camera.h>
 
 #include <Mesh.h>
+#include <Material.h>
 #include <Cube.h>
 #include <ObjMesh.h>
+
 #include <App.h>

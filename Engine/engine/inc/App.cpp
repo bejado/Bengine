@@ -10,11 +10,6 @@ namespace ITP485
 		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Shaders\\shader.hlsl", "VS", "vs_4_0", compiledVertexShader );
 		mVertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
 
-		// now load up the pixel shader named PS
-		vector< char > compiledPixelShader;
-		GraphicsDriver::Get()->CompileShaderFromFile( L"Shaders\\shader.hlsl", "PS", "ps_4_0", compiledPixelShader );
-		mPixelShader = GraphicsDriver::Get()->CreatePixelShader( compiledPixelShader );
-
 		// now create an input layout to describe vertices that contain 3 floats for position data and nothing else
 		InputLayoutElement elements[3]{{ "POSITION", 0, EGFormat::EGF_R32G32B32_Float, 0 }, { "NORMAL", 0, EGFormat::EGF_R32G32B32_Float, sizeof( float ) * 3 }, { "TEXCOORD", 0, EGFormat::EGF_R32G32_Float, sizeof( float ) * 6 }};
 		InputLayoutPtr inputLayout = GraphicsDriver::Get()->CreateInputLayout( elements, 3, compiledVertexShader );
@@ -35,12 +30,6 @@ namespace ITP485
 		mObjectToWorldBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Matrix4 ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 		GraphicsDriver::Get()->SetVSConstantBuffer( mObjectToWorldBuffer, 1 );
 
-		// create our sampler state
-		SamplerStatePtr samplerState = GraphicsDriver::Get()->CreateSamplerState();
-		GraphicsDriver::Get()->SetPSSamplerState( samplerState, 0 );
-		TexturePtr texture = GraphicsDriver::Get()->CreateTextureFromFile( L"Textures\\fighter.dds" );
-		GraphicsDriver::Get()->SetPSTexture( texture, 0 );
-
 		// Set up our depth buffer and depth test
 		mDepthStencilView = GraphicsDriver::Get()->CreateDepthStencil(GraphicsDriver::Get()->GetWindowWidth(), GraphicsDriver::Get()->GetWindowHeight());
 		mDepthStencilState = GraphicsDriver::Get()->CreateDepthStencilState(true, EComparisonFunc::ECF_Less);
@@ -50,8 +39,9 @@ namespace ITP485
 		// create our camera
 		mCamera = CameraPtr( new Camera( Vector3( 0, 0, 0 ), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f ) );
 
-		// Create the mesh
-		mMesh = ObjMeshPtr( new ObjMesh("Meshes\\fighter.obj") );
+		// Create the mesh and material
+		mMesh = ObjMeshPtr( new ObjMesh( "Meshes\\fighter.obj" ) );
+		mMaterial = MaterialPtr( new Material( L"Shaders\\shader.hlsl", L"Textures\\fighter.dds" ) );
 
 		// Set object to world matrix
 		Matrix4 *objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer( mObjectToWorldBuffer ));
@@ -76,9 +66,7 @@ namespace ITP485
 		// Set vertex shader
 		GraphicsDriver::Get()->SetVertexShader( mVertexShader );
 
-		// Set pixel shader
-		GraphicsDriver::Get()->SetPixelShader( mPixelShader );
-
+		mMaterial->ActivateMaterial();
 		mMesh->Draw();
 
 		// Present!
