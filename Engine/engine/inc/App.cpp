@@ -2,12 +2,13 @@
 
 namespace ITP485
 {
+	const float CAMERA_RADIUS = 50.f;
 
 	App::App()
 	{
 		// let's make some shaders! Here's the code from lecture to load up the vertex shader in App3_1.hlsl
 		vector< char > compiledVertexShader;
-		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Shaders\\shader.hlsl", "VS", "vs_4_0", compiledVertexShader );
+		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Shaders\\phong.hlsl", "VS", "vs_4_0", compiledVertexShader );
 		mVertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
 
 		// now create an input layout to describe vertices that contain 3 floats for position data and nothing else
@@ -21,10 +22,11 @@ namespace ITP485
 		RasterizerStatePtr solidRasterizerState = GraphicsDriver::Get()->CreateRasterizerState(EFM_Solid);
 		GraphicsDriver::Get()->SetRasterizerState(solidRasterizerState);
 
-		// create our projection view matrix buffer
-		GraphicsBufferPtr perCameraConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Matrix4 ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
+		// Create the camera constant buffer
+		GraphicsBufferPtr perCameraConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Camera::PerCameraConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 		GraphicsDriver::Get()->SetPerCameraConstantBuffer( perCameraConstantBuffer );
 		GraphicsDriver::Get()->SetVSConstantBuffer( perCameraConstantBuffer, 0 );
+		GraphicsDriver::Get()->SetPSConstantBuffer( perCameraConstantBuffer, 0 );
 
 		// create our object to world constant buffer
 		mObjectToWorldBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Matrix4 ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
@@ -41,10 +43,7 @@ namespace ITP485
 
 		// Create the mesh and material
 		mFighterMesh = ObjMeshPtr( new ObjMesh( "Meshes\\fighter.obj" ) );
-		mFighterMaterial = MaterialPtr( new Material( L"Shaders\\shader.hlsl", L"Textures\\fighter.dds" ) );
-
-		mFrigateMesh = ObjMeshPtr( new ObjMesh( "Meshes\\frigate.obj" ) );
-		mFrigateMaterial = MaterialPtr( new Material( L"Shaders\\shader.hlsl", L"Textures\\frigate.dds" ) );
+		mFighterMaterial = MaterialPtr( new Material( L"Shaders\\phong.hlsl", L"Textures\\fighter.dds" ) );
 
 		// Set object to world matrix
 		Matrix4 *objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer( mObjectToWorldBuffer ));
@@ -54,8 +53,8 @@ namespace ITP485
 
 	void App::Update()
 	{
-		mCameraPathAmount += Timing::Get().GetDeltaTime();
-		mCamera->SetPosition( cos( mCameraPathAmount ) * 30.f, cos( mCameraPathAmount * 1.25f ) * 40.f, sin( mCameraPathAmount ) * 60.f );
+		mCameraPathAmount += Timing::Get().GetDeltaTime() * .5f;
+		mCamera->SetPosition( cos( mCameraPathAmount ) * CAMERA_RADIUS, 5.0f, sin( mCameraPathAmount ) * CAMERA_RADIUS );
 		mCamera->LookAt( 0, 0, 0 );
 		mCamera->UpdateConstants();
 	}
@@ -69,26 +68,9 @@ namespace ITP485
 		// Set vertex shader
 		GraphicsDriver::Get()->SetVertexShader( mVertexShader );
 
-		// Set object to world matrix
-		Matrix4 *objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer( mObjectToWorldBuffer ));
-		Matrix4 mat;
-		mat.CreateTranslation( Vector3( 0.0f, 10.0f, 0.0f ) );
-		memcpy( objectToWorld, &mat.GetTranspose(), sizeof( Matrix4 ) );
-		GraphicsDriver::Get()->UnmapBuffer( mObjectToWorldBuffer );
-
 		// Draw fighter
 		mFighterMaterial->ActivateMaterial();
 		mFighterMesh->Draw();
-
-		// Set object to world matrix
-		objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer( mObjectToWorldBuffer ));
-		mat.CreateTranslation( Vector3( 0.0f, -10.0f, 0.0f ) );
-		memcpy( objectToWorld, &mat.GetTranspose(), sizeof( Matrix4 ) );
-		GraphicsDriver::Get()->UnmapBuffer( mObjectToWorldBuffer );
-
-		// Draw frigate
-		mFrigateMaterial->ActivateMaterial();
-		mFrigateMesh->Draw();
 
 		// Present!
 		ITP485::GraphicsDriver::Get()->Present();

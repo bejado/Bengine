@@ -19,9 +19,7 @@ namespace ITP485
 		CameraPtr mCamera;
 
 		MeshPtr mFighterMesh;
-		MeshPtr mFrigateMesh;
 		MaterialPtr mFighterMaterial;
-		MaterialPtr mFrigateMaterial;
 
 		float mCameraPathAmount = 0.f;
 	};
