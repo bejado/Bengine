@@ -8,7 +8,7 @@ namespace ITP485
 	{
 		// let's make some shaders! Here's the code from lecture to load up the vertex shader in App3_1.hlsl
 		vector< char > compiledVertexShader;
-		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Shaders\\phong.hlsl", "VS", "vs_4_0", compiledVertexShader );
+		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Shaders\\texture.hlsl", "VS", "vs_4_0", compiledVertexShader );
 		mVertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
 
 		// now create an input layout to describe vertices that contain 3 floats for position data and nothing else
@@ -43,7 +43,7 @@ namespace ITP485
 
 		// Create the mesh and material
 		mFighterMesh = ObjMeshPtr( new ObjMesh( "Meshes\\fighter.obj" ) );
-		mFighterMaterial = MaterialPtr( new Material( L"Shaders\\phong.hlsl", L"Textures\\fighter.dds" ) );
+		mFighterMaterial = MaterialPtr( new Material( L"Shaders\\texture.hlsl", L"Textures\\fighter.dds" ) );
 
 		// Set object to world matrix
 		Matrix4 *objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer( mObjectToWorldBuffer ));

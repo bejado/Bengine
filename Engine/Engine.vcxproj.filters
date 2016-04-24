@@ -58,6 +58,9 @@
     <Filter Include="Source Files\tinyobj\src">
       <UniqueIdentifier>{2e163a5a-c39e-4bd6-989b-dea405a459c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{0eaebf38-ee45-4302-9b16-d00c0a526700}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\src\main.cpp">
@@ -149,5 +152,13 @@
     <ClInclude Include="engine\inc\Material.h">
       <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\phong.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\texture.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
