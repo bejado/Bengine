@@ -72,9 +72,6 @@
     <ClCompile Include="core\src\fastmath.cpp">
       <Filter>Source Files\core\src</Filter>
     </ClCompile>
-    <ClCompile Include="core\src\slowmath.cpp">
-      <Filter>Source Files\core\src</Filter>
-    </ClCompile>
     <ClCompile Include="core\src\StringUtils.cpp">
       <Filter>Source Files\core\src</Filter>
     </ClCompile>
@@ -110,22 +107,13 @@
     <ClInclude Include="core\inc\dbg_assert.h">
       <Filter>Source Files\core\inc</Filter>
     </ClInclude>
-    <ClInclude Include="core\inc\DelegateList.h">
-      <Filter>Source Files\core\inc</Filter>
-    </ClInclude>
     <ClInclude Include="core\inc\fastmath.h">
       <Filter>Source Files\core\inc</Filter>
     </ClInclude>
     <ClInclude Include="core\inc\itpmath.h">
       <Filter>Source Files\core\inc</Filter>
     </ClInclude>
-    <ClInclude Include="core\inc\poolalloc.h">
-      <Filter>Source Files\core\inc</Filter>
-    </ClInclude>
     <ClInclude Include="core\inc\singleton.h">
-      <Filter>Source Files\core\inc</Filter>
-    </ClInclude>
-    <ClInclude Include="core\inc\slowmath.h">
       <Filter>Source Files\core\inc</Filter>
     </ClInclude>
     <ClInclude Include="core\inc\StringUtils.h">

@@ -13,7 +13,6 @@
   <ItemGroup>
     <ClCompile Include="core\src\dbg_assert.cpp" />
     <ClCompile Include="core\src\fastmath.cpp" />
-    <ClCompile Include="core\src\slowmath.cpp" />
     <ClCompile Include="core\src\StringUtils.cpp" />
     <ClCompile Include="core\src\Timing.cpp" />
     <ClCompile Include="engine\inc\App.cpp" />
@@ -28,13 +27,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\inc\dbg_assert.h" />
-    <ClInclude Include="core\inc\DelegateList.h" />
     <ClInclude Include="core\inc\fastmath.h" />
     <ClInclude Include="core\inc\itpmath.h" />
     <ClInclude Include="core\inc\ITPMemory.h" />
-    <ClInclude Include="core\inc\poolalloc.h" />
     <ClInclude Include="core\inc\singleton.h" />
-    <ClInclude Include="core\inc\slowmath.h" />
     <ClInclude Include="core\inc\StringUtils.h" />
     <ClInclude Include="core\inc\Timing.h" />
     <ClInclude Include="engine\inc\App.h" />
