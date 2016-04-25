@@ -36,9 +36,11 @@ namespace ITP485
 			UpdateProjectionViewMatrix();
 		}
 
-		void Camera::MoveCamera( float offsetX, float offsetY, float offsetZ )
+		void Camera::MoveCamera( const Vector3& cameraSpaceDirection, float amount )
 		{
-			mPosition = mPosition + Vector3( offsetX, offsetY, offsetZ );
+			Vector3 vector = cameraSpaceDirection;
+			vector.Rotate( mRotation );
+			mPosition = mPosition + vector * amount;
 			UpdateViewMatrix();
 			UpdateProjectionViewMatrix();
 		}
@@ -87,7 +89,6 @@ namespace ITP485
 		float mAspectRatio;
 		float mNearZ;
 		float mFarZ;
-
 
 	};
 	typedef shared_ptr< Camera > CameraPtr;

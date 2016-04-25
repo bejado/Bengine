@@ -113,13 +113,10 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM inWParam, LPARAM inLPa
             break;
 			
 		case WM_KEYDOWN:
-			if( ( inLParam & ( 1 << 30 ) ) == 0 )
-			{
-				//great, it just went down!
-				// InputManager::Get().OnKeyEvent( EIA_KeyDown, inWParam );
-			}
+		case WM_KEYUP:
+			ITP485::InputManager::Get().HandleEvent( message, inWParam, inLParam );
 			break;
-			
+
         default:
 			return DefWindowProc( hWnd, message, inWParam, inLParam );
     }

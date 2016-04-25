@@ -29,10 +29,11 @@ using std::set;
 #include <GraphicsDriver.h>
 
 #include <Camera.h>
-
 #include <Mesh.h>
 #include <Material.h>
 #include <Cube.h>
 #include <ObjMesh.h>
+
+#include <InputManager.h>
 
 #include <App.h>

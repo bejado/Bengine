@@ -546,8 +546,11 @@ public:
 	static const FastVector3 NegativeUnitY;
 	static const FastVector3 NegativeUnitZ;
 	static const FastVector3 Right;
+	static const FastVector3 Left;
 	static const FastVector3 Up;
+	static const FastVector3 Down;
 	static const FastVector3 Forward;
+	static const FastVector3 Backward;
 };
 
 // Unit quaternion class using SIMD

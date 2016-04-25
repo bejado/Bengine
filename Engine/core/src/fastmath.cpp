@@ -23,6 +23,10 @@ const FastVector3 FastVector3::Right( 1.0f, 0.0f, 0.0f );
 const FastVector3 FastVector3::Up( 0.0f, 1.0f, 0.0f );
 const FastVector3 FastVector3::Forward( 0.0f, 0.0f, 1.0f );
 
+//these are provided for semantics
+const FastVector3 FastVector3::Left( -1.0f, 0.0f, 0.0f );
+const FastVector3 FastVector3::Down( 0.0f, -1.0f, 0.0f );
+const FastVector3 FastVector3::Backward( 0.0f, 0.0f, -1.0f );
 
 const FastQuaternion FastQuaternion::Identity(0.0f, 0.0f, 0.0f, 1.0f);
 

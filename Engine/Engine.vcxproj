@@ -18,6 +18,7 @@
     <ClCompile Include="engine\inc\App.cpp" />
     <ClCompile Include="engine\src\Camera.cpp" />
     <ClCompile Include="engine\src\Cube.cpp" />
+    <ClCompile Include="engine\src\InputManager.cpp" />
     <ClCompile Include="engine\src\Material.cpp" />
     <ClCompile Include="engine\src\ObjMesh.cpp" />
     <ClCompile Include="graphicsdriver\src\GraphicsDriver.cpp" />
@@ -36,6 +37,7 @@
     <ClInclude Include="engine\inc\App.h" />
     <ClInclude Include="engine\inc\Camera.h" />
     <ClInclude Include="engine\inc\Cube.h" />
+    <ClInclude Include="engine\inc\InputManager.h" />
     <ClInclude Include="engine\inc\Material.h" />
     <ClInclude Include="engine\inc\Mesh.h" />
     <ClInclude Include="engine\inc\ObjMesh.h" />

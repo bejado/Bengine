@@ -39,7 +39,7 @@ namespace ITP485
 		GraphicsDriver::Get()->SetDepthStencilState(mDepthStencilState);
 
 		// create our camera
-		mCamera = CameraPtr( new Camera( Vector3( 0, 0, 0 ), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f ) );
+		mCamera = CameraPtr( new Camera( Vector3( 0, 0, -CAMERA_RADIUS ), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f ) );
 
 		// Create the mesh and material
 		mFighterMesh = ObjMeshPtr( new ObjMesh( "Meshes\\fighter.obj" ) );
@@ -53,10 +53,24 @@ namespace ITP485
 
 	void App::Update()
 	{
-		mCameraPathAmount += Timing::Get().GetDeltaTime() * .5f;
-		mCamera->SetPosition( cos( mCameraPathAmount ) * CAMERA_RADIUS, 5.0f, sin( mCameraPathAmount ) * CAMERA_RADIUS );
-		mCamera->LookAt( 0, 0, 0 );
 		mCamera->UpdateConstants();
+		float moveAmount = Timing::Get().GetDeltaTime() * 10.0f;
+		if ( InputManager::Get().GetKeyState( Key::A ) )
+		{
+			mCamera->MoveCamera( Vector3::Left, moveAmount );
+		}
+		if ( InputManager::Get().GetKeyState( Key::D ) )
+		{
+			mCamera->MoveCamera( Vector3::Right, moveAmount );
+		}
+		if ( InputManager::Get().GetKeyState( Key::W ) )
+		{
+			mCamera->MoveCamera( Vector3::Forward, moveAmount );
+		}
+		if ( InputManager::Get().GetKeyState( Key::S ) )
+		{
+			mCamera->MoveCamera( Vector3::Backward, moveAmount );
+		}
 	}
 
 	void App::Render()

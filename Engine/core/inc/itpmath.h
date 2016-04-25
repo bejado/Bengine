@@ -27,13 +27,25 @@ namespace ITP485
 		return toRet;
 	}
 
+
+	__forceinline Vector3 operator*( const Vector3& inA, const float inB )
+	{
+		Vector3 toRet = inA;
+		toRet.Multiply( inB );
+		return toRet;
+	}
+
+	__forceinline Vector3 operator*( const float inA, const Vector3& inB )
+	{
+		return operator*( inB, inA );
+	}
+
 	__forceinline Vector3 Dot( const Vector3& inA, const Vector3& inB )
 	{
 		Vector3 toRet = inA;
 		toRet.Dot( inB );
 		return toRet;
 	}
-
 
 }
 
