@@ -45,6 +45,22 @@ namespace ITP485
 			UpdateProjectionViewMatrix();
 		}
 
+		void Camera::RotateCameraFixedAxis( const Vector3& axis, float amount )
+		{
+			mRotation.Multiply( Quaternion( axis, amount ) );
+			UpdateViewMatrix();
+			UpdateProjectionViewMatrix();
+		}
+
+		void Camera::RotateCameraRelativeAxis( const Vector3& axis, float amount )
+		{
+			Vector3 rotationAxis = axis;
+			rotationAxis.Rotate( mRotation );
+			mRotation.Multiply( Quaternion( rotationAxis, amount ) );
+			UpdateViewMatrix();
+			UpdateProjectionViewMatrix();
+		}
+
 		void Camera::LookAt( float x, float y, float z )
 		{
 			mViewMatrix.CreateLookAt( mPosition, Vector3(x, y, z), Vector3::Up );	

@@ -42,6 +42,9 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
                            WS_OVERLAPPEDWINDOW,
                            CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance,
                            nullptr );
+
+	ITP485::InputManager::Get().SetWindow( g_hWnd );
+
 	if( !g_hWnd )
 	{
 		return E_FAIL;
@@ -85,6 +88,8 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 			app->Update();
 			app->Render();
+
+			ITP485::InputManager::Get().ResetEvents();
 		}
 	}
 
@@ -114,6 +119,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM inWParam, LPARAM inLPa
 			
 		case WM_KEYDOWN:
 		case WM_KEYUP:
+		case WM_INPUT:
 			ITP485::InputManager::Get().HandleEvent( message, inWParam, inLParam );
 			break;
 

@@ -53,8 +53,14 @@ namespace ITP485
 
 	void App::Update()
 	{
-		mCamera->UpdateConstants();
-		float moveAmount = Timing::Get().GetDeltaTime() * 10.0f;
+		// Handle mouse movement
+		float mouseX = InputManager::Get().GetMouseX();
+		float mouseY = InputManager::Get().GetMouseY();
+		mCamera->RotateCameraFixedAxis( Vector3::Up, mouseX / 300.0f );
+		mCamera->RotateCameraRelativeAxis( Vector3::Right, mouseY / 300.0f );
+
+		// Handle keyboard movement
+		float moveAmount = Timing::Get().GetDeltaTime() * 75.0f;
 		if ( InputManager::Get().GetKeyState( Key::A ) )
 		{
 			mCamera->MoveCamera( Vector3::Left, moveAmount );
@@ -71,6 +77,13 @@ namespace ITP485
 		{
 			mCamera->MoveCamera( Vector3::Backward, moveAmount );
 		}
+
+		// Allow ESC to exit
+		if ( InputManager::Get().GetKeyState( Key::ESC ) ) {
+			PostQuitMessage( 0 );
+		}
+
+		mCamera->UpdateConstants();
 	}
 
 	void App::Render()
