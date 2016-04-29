@@ -40,5 +40,5 @@ PS_INPUT VS( VS_INPUT input )
 float4 PS( PS_INPUT input ) : SV_Target
 {
 	float3 textureColor = gTexture.Sample( gSamplerState, float2(input.TexCoord.x, 1.f - input.TexCoord.y) );
-	return float4( textureColor, 1.0f );
+	return float4( textureColor, .7f );
 }

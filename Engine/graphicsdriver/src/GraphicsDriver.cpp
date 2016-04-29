@@ -31,8 +31,7 @@ namespace
 	{
 		UINT createDeviceFlags = 0;
 #ifdef _DEBUG
-		// no longer works with Windows 10...
-		// createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
 
@@ -633,7 +632,34 @@ RasterizerStatePtr GraphicsDriver::CreateRasterizerState( EFillMode inFillMode )
 	return RasterizerStatePtr( toRet, AutoReleaseD3D );
 }
 
+BlendStatePtr GraphicsDriver::CreateBlendState()
+{
+	D3D11_BLEND_DESC blendDesc;
+	ZeroMemory( &blendDesc, sizeof( blendDesc ) );
+	blendDesc.RenderTarget[0].BlendEnable = true;
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = 0x0f;
+
+	ID3D11BlendState* toRet;
+	auto hr = g_pd3dDevice->CreateBlendState( &blendDesc, &toRet );
+	Dbg_Assert( hr == S_OK, "Problem Creating Blend State" );
+
+	return BlendStatePtr( toRet, AutoReleaseD3D );
+}
+
 void GraphicsDriver::SetRasterizerState( RasterizerStatePtr inRasterizerState )
 {
 	g_pImmediateContext->RSSetState( inRasterizerState.get() );
+}
+
+void GraphicsDriver::SetBlendState( BlendStatePtr inBlendState )
+{
+	float blendFactor[4] = { 0.f, 0.f, 0.f, 0.f };
+	UINT sampleMask = 0xffffffff;
+	g_pImmediateContext->OMSetBlendState( inBlendState.get(), NULL, sampleMask );
 }

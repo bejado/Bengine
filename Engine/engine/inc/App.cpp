@@ -24,6 +24,10 @@ namespace ITP485
 		RasterizerStatePtr solidRasterizerState = GraphicsDriver::Get()->CreateRasterizerState(EFM_Solid);
 		GraphicsDriver::Get()->SetRasterizerState(solidRasterizerState);
 
+		// Create a blend state
+		BlendStatePtr blendState = GraphicsDriver::Get()->CreateBlendState();
+		GraphicsDriver::Get()->SetBlendState( blendState );
+
 		// Create the camera constant buffer
 		GraphicsBufferPtr perCameraConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Camera::PerCameraConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 		GraphicsDriver::Get()->SetPerCameraConstantBuffer( perCameraConstantBuffer );
@@ -105,6 +109,11 @@ namespace ITP485
 
 		// Set vertex shader
 		GraphicsDriver::Get()->SetVertexShader( mVertexShader );
+
+		// Set object to world matrix
+		Matrix4 *objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer( mObjectToWorldBuffer ));
+		memcpy( objectToWorld, &Matrix4::Identity.GetTranspose(), sizeof( Matrix4 ) );
+		GraphicsDriver::Get()->UnmapBuffer( mObjectToWorldBuffer );
 
 		// Draw fighter
 		mFighterMaterial->ActivateMaterial();

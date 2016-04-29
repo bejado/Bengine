@@ -78,6 +78,7 @@ namespace ITP485
 	typedef shared_ptr< ID3D11ShaderResourceView >	TexturePtr;
 	typedef shared_ptr< ID3D11DepthStencilState >	DepthStencilStatePtr;
 	typedef shared_ptr< ID3D11RasterizerState >		RasterizerStatePtr;
+	typedef shared_ptr< ID3D11BlendState >			BlendStatePtr;
 
 
 	class GraphicsDriver 
@@ -105,6 +106,7 @@ namespace ITP485
 		DepthStencilPtr CreateDepthStencil( int inWidth, int inHeight );
 		DepthStencilStatePtr CreateDepthStencilState( bool inDepthTestEnable, EComparisonFunc inDepthComparisonFunction );
 		RasterizerStatePtr CreateRasterizerState( EFillMode inFillMode );
+		BlendStatePtr CreateBlendState();
 
 		void SetRenderTarget( RenderTargetPtr inRenderTarget );
 		void SetDepthStencil( DepthStencilPtr inDepthStencil );
@@ -121,6 +123,7 @@ namespace ITP485
 		void SetPSTexture( TexturePtr inTexture, int inStartSlot );
 		void SetDepthStencilState( DepthStencilStatePtr inDepthStencilState );
 		void SetRasterizerState( RasterizerStatePtr inRasterizerStatePtr );
+		void SetBlendState( BlendStatePtr inBlendState );
 
 		void* MapBuffer( GraphicsBufferPtr inBuffer );
 		void UnmapBuffer( GraphicsBufferPtr inBuffer );
