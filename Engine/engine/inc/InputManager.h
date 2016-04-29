@@ -18,10 +18,14 @@ namespace ITP485
 
 		void SetWindow( HWND wnd );
 		void ResetEvents();
-		void HandleEvent( UINT message, WPARAM inWParam, LPARAM inLParam );
+
+		/* Returns true if the InputManager was successfully able to handle the event. */
+		bool HandleEvent( UINT message, WPARAM inWParam, LPARAM inLParam );
+
 		bool GetKeyState( Key key );
-		long GetMouseX() { return mMouseX; }
-		long GetMouseY() { return mMouseY; }
+		long GetMouseDeltaX() { return mMouseX; }
+		long GetMouseDeltaY() { return mMouseY; }
+		short GetMouseWheelDelta();
 
 	private:
 
@@ -29,7 +33,9 @@ namespace ITP485
 		void HandleRawInputMessage( UINT message, WPARAM inWParam, LPARAM inLParam );
 
 		bool mKeyState[NumKeys];
-		long mMouseX, mMouseY;
+		long mMouseX = 0, mMouseY = 0;
+		unsigned short mMouseButtonFlags = 0;
+		short mMouseButtonData = 0;
 
 	};
 

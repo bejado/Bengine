@@ -106,6 +106,12 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM inWParam, LPARAM inLPa
     PAINTSTRUCT ps;
     HDC hdc;
 
+	// Allow the InputManager a chance to handle the event
+	if ( ITP485::InputManager::Get().HandleEvent( message, inWParam, inLParam ) )
+	{
+		return 0;
+	}
+
     switch( message )
     {
         case WM_PAINT:
@@ -116,11 +122,10 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM inWParam, LPARAM inLPa
         case WM_DESTROY:
             PostQuitMessage( 0 );
             break;
-			
-		case WM_KEYDOWN:
-		case WM_KEYUP:
-		case WM_INPUT:
-			ITP485::InputManager::Get().HandleEvent( message, inWParam, inLParam );
+
+		case WM_ACTIVATEAPP:
+			// Hide the cursor while our app has focus
+			ShowCursor( false );
 			break;
 
         default:

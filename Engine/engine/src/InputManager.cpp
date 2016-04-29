@@ -19,9 +19,11 @@ namespace ITP485
 	{
 		mMouseX = 0;
 		mMouseY = 0;
+		mMouseButtonFlags = 0;
+		mMouseButtonData = 0;
 	}
 
-	void InputManager::HandleEvent( UINT message, WPARAM inWParam, LPARAM inLParam )
+	bool InputManager::HandleEvent( UINT message, WPARAM inWParam, LPARAM inLParam )
 	{
 		switch( message )
 		{
@@ -33,12 +35,25 @@ namespace ITP485
 			case WM_INPUT:
 				HandleRawInputMessage( message, inWParam, inLParam );
 				break;
+
+			default:
+				return false;
 		}
+
+		return true;
 	}
 
 	bool InputManager::GetKeyState(Key key)
 	{
 		return mKeyState[key];
+	}
+
+	short InputManager::GetMouseWheelDelta()
+	{
+		if ( mMouseButtonFlags & RI_MOUSE_WHEEL ) {
+			return mMouseButtonData;
+		}
+		return 0;
 	}
 
 	void InputManager::HandleKeyboardMessage( UINT message, WPARAM inWParam, LPARAM inLParam )
@@ -79,6 +94,8 @@ namespace ITP485
 		{
 			mMouseX = raw->data.mouse.lLastX;
 			mMouseY = raw->data.mouse.lLastY;
+			mMouseButtonFlags = raw->data.mouse.usButtonFlags;
+			mMouseButtonData = raw->data.mouse.usButtonData;
 		}
 
 		delete[] lpb;

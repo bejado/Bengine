@@ -2,7 +2,9 @@
 
 namespace ITP485
 {
-	const float CAMERA_RADIUS = 50.f;
+	const float CAMERA_MIN_SPEED = 5.f;
+	const float MOUSE_WHEEL_SCALE = 1.f / 100.f;
+	const float MOUSE_ROTATION_SCALE = 1.f / 300.f;
 
 	App::App()
 	{
@@ -39,7 +41,7 @@ namespace ITP485
 		GraphicsDriver::Get()->SetDepthStencilState(mDepthStencilState);
 
 		// create our camera
-		mCamera = CameraPtr( new Camera( Vector3( 0, 0, -CAMERA_RADIUS ), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f ) );
+		mCamera = CameraPtr( new Camera( Vector3( 0, 0, 0 ), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f ) );
 
 		// Create the mesh and material
 		mFighterMesh = ObjMeshPtr( new ObjMesh( "Meshes\\fighter.obj" ) );
@@ -54,13 +56,13 @@ namespace ITP485
 	void App::Update()
 	{
 		// Handle mouse movement
-		float mouseX = InputManager::Get().GetMouseX();
-		float mouseY = InputManager::Get().GetMouseY();
-		mCamera->RotateCameraFixedAxis( Vector3::Up, mouseX / 300.0f );
-		mCamera->RotateCameraRelativeAxis( Vector3::Right, mouseY / 300.0f );
+		float mouseX = InputManager::Get().GetMouseDeltaX();
+		float mouseY = InputManager::Get().GetMouseDeltaY();
+		mCamera->RotateCameraFixedAxis( Vector3::Up, mouseX * MOUSE_ROTATION_SCALE );
+		mCamera->RotateCameraRelativeAxis( Vector3::Right, mouseY * MOUSE_ROTATION_SCALE );
 
 		// Handle keyboard movement
-		float moveAmount = Timing::Get().GetDeltaTime() * 75.0f;
+		float moveAmount = Timing::Get().GetDeltaTime() * mCameraMoveSpeed;
 		if ( InputManager::Get().GetKeyState( Key::A ) )
 		{
 			mCamera->MoveCamera( Vector3::Left, moveAmount );
@@ -76,6 +78,15 @@ namespace ITP485
 		if ( InputManager::Get().GetKeyState( Key::S ) )
 		{
 			mCamera->MoveCamera( Vector3::Backward, moveAmount );
+		}
+
+		// Adjust the camera move speed by the mouse wheel
+		short wheel = InputManager::Get().GetMouseWheelDelta();
+		if ( wheel != 0 ) {
+			mCameraMoveSpeed += wheel * MOUSE_WHEEL_SCALE;
+			if ( mCameraMoveSpeed < CAMERA_MIN_SPEED ) {
+				mCameraMoveSpeed = CAMERA_MIN_SPEED;
+			}
 		}
 
 		// Allow ESC to exit

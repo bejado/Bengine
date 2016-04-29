@@ -21,11 +21,7 @@ namespace ITP485
 		MeshPtr mFighterMesh;
 		MaterialPtr mFighterMaterial;
 
-		float mCameraPathAmount = 0.f;
-
-		short mMouseDeltaX = 0, mMouseDeltaY = 0;
-		short mMouseOldX = 0, mMouseOldY = 0;
-		bool mFirstMouseReading = true;
+		float mCameraMoveSpeed = 50.0f;
 	};
 
 	typedef shared_ptr< App > AppPtr;
