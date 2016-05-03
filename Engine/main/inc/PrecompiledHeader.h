@@ -35,5 +35,6 @@ using std::set;
 #include <ObjMesh.h>
 
 #include <InputManager.h>
+#include <Renderer.h>
 
 #include <App.h>

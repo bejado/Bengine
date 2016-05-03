@@ -621,8 +621,8 @@ RasterizerStatePtr GraphicsDriver::CreateRasterizerState( EFillMode inFillMode )
 	//lab3
 	rastDesc.FillMode = static_cast< D3D11_FILL_MODE >( inFillMode );
 
-	rastDesc.CullMode = D3D11_CULL_BACK;
-	//rastDesc.CullMode = D3D11_CULL_NONE;
+	//rastDesc.CullMode = D3D11_CULL_BACK;
+	rastDesc.CullMode = D3D11_CULL_NONE;
 	rastDesc.FrontCounterClockwise = false;
 
 	ID3D11RasterizerState* toRet;

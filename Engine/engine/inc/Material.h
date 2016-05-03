@@ -10,9 +10,9 @@ namespace ITP485
 
 	private:
 
-		PixelShaderPtr mPixelShader;
-		SamplerStatePtr mSamplerState;
-		TexturePtr mTexture;
+		PixelShaderPtr mPixelShader = nullptr;
+		SamplerStatePtr mSamplerState = nullptr;
+		TexturePtr mTexture = nullptr;
 
 	};
 

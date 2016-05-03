@@ -21,6 +21,7 @@
     <ClCompile Include="engine\src\InputManager.cpp" />
     <ClCompile Include="engine\src\Material.cpp" />
     <ClCompile Include="engine\src\ObjMesh.cpp" />
+    <ClCompile Include="engine\src\Renderer.cpp" />
     <ClCompile Include="graphicsdriver\src\GraphicsDriver.cpp" />
     <ClCompile Include="main\src\main.cpp" />
     <ClCompile Include="main\src\PrecompiledHeader.cpp" />
@@ -41,6 +42,7 @@
     <ClInclude Include="engine\inc\Material.h" />
     <ClInclude Include="engine\inc\Mesh.h" />
     <ClInclude Include="engine\inc\ObjMesh.h" />
+    <ClInclude Include="engine\inc\Renderer.h" />
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h" />
     <ClInclude Include="main\inc\PrecompiledHeader.h" />
     <ClInclude Include="tinyobj\inc\tiny_obj_loader.h" />

@@ -11,8 +11,8 @@ namespace ITP485
 		mouse.usUsage = 0x02;
 		mouse.dwFlags = RIDEV_NOLEGACY;
 		mouse.hwndTarget = 0;
-		bool result = RegisterRawInputDevices( &mouse, 1, sizeof( mouse ) );
-		Dbg_Assert( result, "Failed to register for raw mouse input." );
+		BOOL result = RegisterRawInputDevices( &mouse, 1, sizeof( mouse ) );
+		Dbg_Assert( result == TRUE, "Failed to register for raw mouse input." );
 	}
 
 	void InputManager::ResetEvents()

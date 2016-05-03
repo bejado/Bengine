@@ -14,14 +14,15 @@ namespace ITP485
 		DepthStencilPtr		mDepthStencilView;
 		DepthStencilStatePtr mDepthStencilState;
 
-		GraphicsBufferPtr mObjectToWorldBuffer;
 
 		CameraPtr mCamera;
 
-		MeshPtr mFighterMesh;
-		MaterialPtr mFighterMaterial;
+		MeshPtr mCubeOne;
+		MeshPtr mCubeTwo;
+		MaterialPtr mCubeOneMaterial;
+		MaterialPtr mCubeTwoMaterial;
 
-		float mCameraMoveSpeed = 50.0f;
+		float mCameraMoveSpeed = 5.0f;
 	};
 
 	typedef shared_ptr< App > AppPtr;

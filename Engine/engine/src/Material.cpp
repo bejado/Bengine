@@ -2,7 +2,7 @@
 
 namespace ITP485
 {
-	Material::Material( std::wstring shaderPath, std::wstring texturePath )
+	Material::Material( std::wstring shaderPath, std::wstring texturePath = L"" )
 	{
 		// Load the pixel shader
 		vector< char > compiledPixelShader;
@@ -13,13 +13,17 @@ namespace ITP485
 		mSamplerState = GraphicsDriver::Get()->CreateSamplerState();
 
 		// Load and set the texture
-		mTexture = GraphicsDriver::Get()->CreateTextureFromFile( texturePath.c_str() );
+		if ( !texturePath.empty() ) {
+			mTexture = GraphicsDriver::Get()->CreateTextureFromFile( texturePath.c_str() );
+		}
 	}
 
 	void Material::ActivateMaterial()
 	{
-		GraphicsDriver::Get()->SetPSSamplerState( mSamplerState, 0 );
-		GraphicsDriver::Get()->SetPSTexture( mTexture, 0 );
+		if (mTexture) {
+			GraphicsDriver::Get()->SetPSSamplerState( mSamplerState, 0 );
+			GraphicsDriver::Get()->SetPSTexture( mTexture, 0 );
+		}
 		GraphicsDriver::Get()->SetPixelShader( mPixelShader );
 	}
 }
