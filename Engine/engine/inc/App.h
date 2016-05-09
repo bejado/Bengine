@@ -17,10 +17,8 @@ namespace ITP485
 
 		CameraPtr mCamera;
 
-		MeshPtr mCubeOne;
-		MeshPtr mCubeTwo;
-		MaterialPtr mCubeOneMaterial;
-		MaterialPtr mCubeTwoMaterial;
+		MeshPtr mQuad;
+		MaterialPtr mMaterial;
 
 		float mCameraMoveSpeed = 5.0f;
 	};

@@ -12,7 +12,7 @@ namespace ITP485
 
 		// let's make some shaders! Here's the code from lecture to load up the vertex shader in App3_1.hlsl
 		vector< char > compiledVertexShader;
-		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Shaders\\red.hlsl", "VS", "vs_4_0", compiledVertexShader );
+		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Shaders\\texture.hlsl", "VS", "vs_4_0", compiledVertexShader );
 		mVertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
 
 		// now create an input layout to describe vertices that contain 3 floats for position data and nothing else
@@ -30,10 +30,8 @@ namespace ITP485
 		mCamera = CameraPtr( new Camera( Vector3( 0, 0, -5.f ), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f ) );
 
 		// Create the mesh and material
-		mCubeOne = CubePtr( new Cube() );
-		mCubeTwo = CubePtr( new Cube() );
-		mCubeOneMaterial = MaterialPtr( new Material( L"Shaders\\red.hlsl", L"" ) );
-		mCubeTwoMaterial = MaterialPtr( new Material( L"Shaders\\green.hlsl", L"" ) );
+		mQuad = MeshPtr( new Quad() );
+		mMaterial = MaterialPtr( new Material( L"Shaders\\texture.hlsl", L"Textures\\crate.dds" ) );
 
 		// Set vertex shader
 		GraphicsDriver::Get()->SetVertexShader( mVertexShader );
@@ -86,7 +84,7 @@ namespace ITP485
 	void App::Render()
 	{
 		Renderer::Get().BeginRender();
-		Renderer::Get().Submit( mCubeOne, mCubeOneMaterial, Matrix4::Identity );
+		Renderer::Get().Submit( mQuad, mMaterial, Matrix4::Identity );
 		Renderer::Get().Render();
 		Renderer::Get().FinishRender();
 	}
