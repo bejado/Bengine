@@ -61,6 +61,15 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{0eaebf38-ee45-4302-9b16-d00c0a526700}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\particles">
+      <UniqueIdentifier>{1385a7a5-e0d4-4795-8758-74c900412ecc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\particles\src">
+      <UniqueIdentifier>{b4ad3fab-5c88-4107-bf00-62896bbf620a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\particles\inc">
+      <UniqueIdentifier>{09f62b28-dd73-463d-80e1-d1aea507648e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\src\main.cpp">
@@ -110,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="engine\src\Quad.cpp">
       <Filter>Source Files\engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="particles\src\ParticleEmitter.cpp">
+      <Filter>Source Files\particles\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="engine\inc\Quad.h">
       <Filter>Source Files\engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="particles\inc\ParticleEmitter.h">
+      <Filter>Source Files\particles\inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

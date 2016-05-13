@@ -6,6 +6,7 @@ namespace ITP485
 	public:
 
 		ObjMesh( std::string file );
+		virtual void BindBuffers();
 		virtual void Draw();
 
 	private:

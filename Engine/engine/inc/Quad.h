@@ -8,6 +8,7 @@ namespace ITP485
 		DECLARE_ALIGNED_NEW_DELETE
 
 		Quad();
+		virtual void BindBuffers();
 		virtual void Draw();
 
 	private:

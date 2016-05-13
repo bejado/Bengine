@@ -1,3 +1,5 @@
+#include "ParticleEmitter.h"
+
 namespace ITP485
 {
 
@@ -14,11 +16,9 @@ namespace ITP485
 		DepthStencilPtr		mDepthStencilView;
 		DepthStencilStatePtr mDepthStencilState;
 
-
 		CameraPtr mCamera;
 
-		MeshPtr mQuad;
-		MaterialPtr mMaterial;
+		ParticleEmitterPtr mParticleEmitter;
 
 		float mCameraMoveSpeed = 5.0f;
 	};

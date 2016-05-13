@@ -14,7 +14,7 @@ namespace ITP485
 
 		// Set up our depth buffer and depth test
 		mDepthStencilView = GraphicsDriver::Get()->CreateDepthStencil( GraphicsDriver::Get()->GetWindowWidth(), GraphicsDriver::Get()->GetWindowHeight() );
-		mDepthStencilState = GraphicsDriver::Get()->CreateDepthStencilState( true, EComparisonFunc::ECF_Greater );
+		mDepthStencilState = GraphicsDriver::Get()->CreateDepthStencilState( true, EComparisonFunc::ECF_Less );
 		GraphicsDriver::Get()->SetDepthStencil(mDepthStencilView);
 		GraphicsDriver::Get()->SetDepthStencilState(mDepthStencilState);
 
@@ -27,7 +27,7 @@ namespace ITP485
 	{
 		// Clear back buffer and depth stencil
 		GraphicsDriver::Get()->ClearBackBuffer();
-		GraphicsDriver::Get()->ClearDepthStencil( mDepthStencilView, 0.0f );
+		GraphicsDriver::Get()->ClearDepthStencil( mDepthStencilView, 1.0f );
 
 		// Empty render entities vector
 		mEntities.clear();
@@ -47,9 +47,7 @@ namespace ITP485
 		for ( const auto& entity : mEntities )
 		{
 			// Set object to world matrix
-			Matrix4 *objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer( mObjectToWorldBuffer ));
-			memcpy( objectToWorld, &entity.mModelTransform.GetTranspose(), sizeof( Matrix4 ) );
-			GraphicsDriver::Get()->UnmapBuffer( mObjectToWorldBuffer );
+			SetObjectToWorldMatrix( entity.mModelTransform );
 
 			// Draw
 			entity.mMaterial->ActivateMaterial();
@@ -61,5 +59,13 @@ namespace ITP485
 	{
 		// Present!
 		ITP485::GraphicsDriver::Get()->Present();
+	}
+
+	void Renderer::SetObjectToWorldMatrix( const Matrix4& matrix )
+	{
+		// Set object to world matrix
+		Matrix4 *objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer( mObjectToWorldBuffer ));
+		memcpy( objectToWorld, &matrix.GetTranspose(), sizeof( Matrix4 ) );
+		GraphicsDriver::Get()->UnmapBuffer( mObjectToWorldBuffer );
 	}
 }

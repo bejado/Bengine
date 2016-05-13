@@ -22,13 +22,14 @@ namespace ITP485
 		mIndexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( indexes, sizeof( uint16_t ) * NUM_INDICES, EBindflags::EBF_IndexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
 	}
 
-	void Quad::Draw()
+	void Quad::BindBuffers()
 	{
-		// Set buffers
 		GraphicsDriver::Get()->SetVertexBuffer( mVertexBuffer, sizeof( VERTEX_P_N_T ) );
 		GraphicsDriver::Get()->SetIndexBuffer( mIndexBuffer );
+	}
 
-		// Draw!
+	void Quad::Draw()
+	{
 		GraphicsDriver::Get()->DrawIndexed( NUM_INDICES, 0, 0 );
 	}
 

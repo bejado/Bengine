@@ -18,6 +18,8 @@ namespace ITP485
 		void Render();
 		void FinishRender();
 
+		void SetObjectToWorldMatrix( const Matrix4& matrix );
+
 	private:
 		RasterizerStatePtr mRasterizerState;
 		BlendStatePtr mBlendState;

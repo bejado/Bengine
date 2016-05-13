@@ -26,6 +26,7 @@
     <ClCompile Include="graphicsdriver\src\GraphicsDriver.cpp" />
     <ClCompile Include="main\src\main.cpp" />
     <ClCompile Include="main\src\PrecompiledHeader.cpp" />
+    <ClCompile Include="particles\src\ParticleEmitter.cpp" />
     <ClCompile Include="tinyobj\src\tiny_obj_loader.cc" />
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +48,7 @@
     <ClInclude Include="engine\inc\Renderer.h" />
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h" />
     <ClInclude Include="main\inc\PrecompiledHeader.h" />
+    <ClInclude Include="particles\inc\ParticleEmitter.h" />
     <ClInclude Include="tinyobj\inc\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
@@ -93,7 +95,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>engine/inc;main/inc;DirectXTK/inc;graphicsdriver/inc;core/inc;tinyobj/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>engine/inc;main/inc;DirectXTK/inc;graphicsdriver/inc;core/inc;tinyobj/inc;particles/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
     </ClCompile>

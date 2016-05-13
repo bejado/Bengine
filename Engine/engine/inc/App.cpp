@@ -29,12 +29,12 @@ namespace ITP485
 		// create our camera
 		mCamera = CameraPtr( new Camera( Vector3( 0.f, 0.f, -5.f ), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f ) );
 
-		// Create the mesh and material
-		mQuad = MeshPtr( new Quad() );
-		mMaterial = MaterialPtr( new Material( L"Shaders\\texture.hlsl", L"Textures\\crate.dds" ) );
-
 		// Set vertex shader
+		// TODO: probably should move this to Renderer
 		GraphicsDriver::Get()->SetVertexShader( mVertexShader );
+
+		// Create a particle system
+		mParticleEmitter = ParticleEmitterPtr( new ParticleEmitter() );
 	}
 
 	void App::Update()
@@ -79,25 +79,16 @@ namespace ITP485
 		}
 
 		mCamera->UpdateConstants();
+
+		// Update particle system
+		mParticleEmitter->Update();
 	}
 
 	void App::Render()
 	{
 		Renderer::Get().BeginRender();
 
-		Vector3 normalVector = Vector3( 0.f, 0.f, 0.f ) - mCamera->GetPosition();
-		normalVector.Normalize();
-		Vector3 rightVector = Cross( Vector3::Up, normalVector );
-		Vector3 upVector = Cross( normalVector, rightVector );
-
-		Matrix4 rotation;
-		rotation.CreateCoordinateFrameTransform( rightVector, upVector, normalVector );
-		Matrix4 translation;
-		translation.CreateTranslation( Vector3( 0.f, 0.f, 0.f ) );
-
-		translation.Multiply( rotation );
-
-		Renderer::Get().Submit( mQuad, mMaterial, translation );
+		mParticleEmitter->Render( mCamera->GetPosition() );
 
 		Renderer::Get().Render();
 		Renderer::Get().FinishRender();
