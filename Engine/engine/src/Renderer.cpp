@@ -38,7 +38,7 @@ namespace ITP485
 		RenderEntity entity;
 		entity.mMesh = mesh;
 		entity.mMaterial = material;
-		entity.mTranslation = translation;
+		entity.mModelTransform = translation;
 		mEntities.push_back( entity );
 	}
 
@@ -48,7 +48,7 @@ namespace ITP485
 		{
 			// Set object to world matrix
 			Matrix4 *objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer( mObjectToWorldBuffer ));
-			memcpy( objectToWorld, &entity.mTranslation.GetTranspose(), sizeof( Matrix4 ) );
+			memcpy( objectToWorld, &entity.mModelTransform.GetTranspose(), sizeof( Matrix4 ) );
 			GraphicsDriver::Get()->UnmapBuffer( mObjectToWorldBuffer );
 
 			// Draw

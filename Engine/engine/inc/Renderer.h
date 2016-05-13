@@ -4,7 +4,7 @@ namespace ITP485
 	{
 		MeshPtr mMesh;
 		MaterialPtr mMaterial;
-		Matrix4 mTranslation;
+		Matrix4 mModelTransform;
 	};
 
 	class Renderer : public Singleton < Renderer >

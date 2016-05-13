@@ -27,7 +27,7 @@ namespace ITP485
 		GraphicsDriver::Get()->SetPSConstantBuffer( perCameraConstantBuffer, 0 );
 
 		// create our camera
-		mCamera = CameraPtr( new Camera( Vector3( 0, 0, -5.f ), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f ) );
+		mCamera = CameraPtr( new Camera( Vector3( 0.f, 0.f, -5.f ), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f ) );
 
 		// Create the mesh and material
 		mQuad = MeshPtr( new Quad() );
@@ -84,7 +84,21 @@ namespace ITP485
 	void App::Render()
 	{
 		Renderer::Get().BeginRender();
-		Renderer::Get().Submit( mQuad, mMaterial, Matrix4::Identity );
+
+		Vector3 normalVector = Vector3( 0.f, 0.f, 0.f ) - mCamera->GetPosition();
+		normalVector.Normalize();
+		Vector3 rightVector = Cross( Vector3::Up, normalVector );
+		Vector3 upVector = Cross( normalVector, rightVector );
+
+		Matrix4 rotation;
+		rotation.CreateCoordinateFrameTransform( rightVector, upVector, normalVector );
+		Matrix4 translation;
+		translation.CreateTranslation( Vector3( 0.f, 0.f, 0.f ) );
+
+		translation.Multiply( rotation );
+
+		Renderer::Get().Submit( mQuad, mMaterial, translation );
+
 		Renderer::Get().Render();
 		Renderer::Get().FinishRender();
 	}

@@ -71,6 +71,22 @@ void FastMatrix4::CreateLookAt( const FastVector3& vEye, const FastVector3& vAt,
 	_MM_TRANSPOSE4_PS(_rows[0], _rows[1], _rows[2], _rows[3]);
 }
 
+void FastMatrix4::CreateCoordinateFrameTransform( const FastVector3& vX, const FastVector3& vY, const FastVector3& vZ )
+{
+	_rows[0] = vX._data;
+	_rows[0].m128_f32[3] = 0.0f;
+
+	_rows[1] = vY._data;
+	_rows[1].m128_f32[3] = 0.0f;
+
+	_rows[2] = vZ._data;
+	_rows[2].m128_f32[3] = 0.0f;
+
+	_rows[3] = _mm_set_ps( 1.0f, 0.0f, 0.0f, 0.0f );
+
+	_MM_TRANSPOSE4_PS(_rows[0], _rows[1], _rows[2], _rows[3]);
+}
+
 
 void FastMatrix4::CreatePerspectiveFOV(float fFOVy, float fAspectRatio, float fNear, float fFar)
 {

@@ -36,6 +36,11 @@ namespace ITP485
 			UpdateProjectionViewMatrix();
 		}
 
+		const Vector3& Camera::GetPosition() const
+		{
+			return mPosition;
+		}
+
 		void Camera::MoveCamera( const Vector3& cameraSpaceDirection, float amount )
 		{
 			Vector3 vector = cameraSpaceDirection;

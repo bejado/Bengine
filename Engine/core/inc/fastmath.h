@@ -283,6 +283,8 @@ public:
 	// vUp MUST be normalized or bad things will happen
 	void CreateLookAt(const FastVector3& vEye, const FastVector3& vAt, const FastVector3& vUp);
 
+	void CreateCoordinateFrameTransform( const FastVector3& vX, const FastVector3& vY, const FastVector3& vZ );
+
 	// Constructs a Perspective FOV matrix
 	void CreatePerspectiveFOV(float fFOVy, float fAspectRatio, float fNear, float fFar);
 
