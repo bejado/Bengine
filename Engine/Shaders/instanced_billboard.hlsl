@@ -9,11 +9,13 @@ struct VS_INPUT {
 	float3 Normal : NORMAL;
 	float2 TexCoord : TEXCOORD0;
 	float4 InstancePos : INSTANCEPOS;
+	float InstanceAge : INSTANCEAGE;
 };
 
 struct PS_INPUT {
 	float4 Pos : SV_POSITION;
 	float2 TexCoord : TEXCOORD0;
+	float InstanceAge : INSTANCEAGE;
 };
 
 //--------------------------------------------------------------------------------------
@@ -22,6 +24,12 @@ struct PS_INPUT {
 PS_INPUT VS( VS_INPUT input )
 {
 	PS_INPUT output;
+
+	if ( input.InstanceAge < 0.f ) // check if the particle is dead
+	{
+		output.InstanceAge = input.InstanceAge;
+		return output;	// doesn't matter what we return, just let the pixel shader know that the particle is dead
+	}
 
 	float3 normalVector = normalize( input.InstancePos - gCameraPosition );
 	float3 rightVector = cross( float3( 0.f, 1.f, 0.f ), normalVector );
@@ -36,5 +44,7 @@ PS_INPUT VS( VS_INPUT input )
 
 	output.Pos = mul( gViewProjection, input.Pos );
 	output.TexCoord = input.TexCoord;
+	output.InstanceAge = input.InstanceAge;
+
 	return output;
 }

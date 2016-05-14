@@ -3,9 +3,11 @@
 namespace ITP485
 {
 
+	// Per-particle data copied to instance buffer each frame
 	struct Particle
 	{
 		Vector3 position;
+		float age;
 	};
 
 	class ParticleEmitter
@@ -21,6 +23,8 @@ namespace ITP485
 	private:
 
 		Particle mParticles[1000];
+		Vector3 mParticleVelocity[1000];
+
 		QuadPtr mParticleQuad;
 		MaterialPtr mMaterial;
 		CameraPtr mCamera;

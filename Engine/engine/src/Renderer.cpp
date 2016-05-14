@@ -14,7 +14,7 @@ namespace ITP485
 
 		// Set up our depth buffer and depth test
 		mDepthStencilView = GraphicsDriver::Get()->CreateDepthStencil( GraphicsDriver::Get()->GetWindowWidth(), GraphicsDriver::Get()->GetWindowHeight() );
-		mDepthStencilState = GraphicsDriver::Get()->CreateDepthStencilState( true, EComparisonFunc::ECF_Less );
+		mDepthStencilState = GraphicsDriver::Get()->CreateDepthStencilState( true, EComparisonFunc::ECF_Always );
 		GraphicsDriver::Get()->SetDepthStencil(mDepthStencilView);
 		GraphicsDriver::Get()->SetDepthStencilState(mDepthStencilState);
 

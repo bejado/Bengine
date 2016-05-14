@@ -14,15 +14,17 @@ namespace ITP485
 		mVertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
 
 		// Create an input layout
-		InputLayoutElement elements[4] {
+		InputLayoutElement elements[5] {
 			/* from vertex buffer */
 			{ "POSITION", 0, EGFormat::EGF_R32G32B32_Float, 0, 0, EIC_PerVertex, 0 },
 			{ "NORMAL", 0, EGFormat::EGF_R32G32B32_Float, 0, sizeof( float ) * 3, EIC_PerVertex, 0 },
 			{ "TEXCOORD", 0, EGFormat::EGF_R32G32_Float, 0, sizeof( float ) * 6, EIC_PerVertex, 0 },
 			/* from index buffer */
-			{ "INSTANCEPOS", 0, EGFormat::EGF_R32G32B32A32_Float, 1, 0, EIC_PerInstance, 1}
+			{ "INSTANCEPOS", 0, EGFormat::EGF_R32G32B32A32_Float, 1, 0, EIC_PerInstance, 1 },
+			{ "INSTANCEAGE", 0, EGFormat::EGF_R32_Float, 1, sizeof( float ) * 4, EIC_PerInstance, 1 }
+			
 		};
-		mInputLayout = GraphicsDriver::Get()->CreateInputLayout( elements, 4, compiledVertexShader );
+		mInputLayout = GraphicsDriver::Get()->CreateInputLayout( elements, 5, compiledVertexShader );
 
 		// Create vertex buffer
 		VERTEX_P_N_T vertices[NUM_VERTICES] = {
@@ -34,7 +36,8 @@ namespace ITP485
 		mVertexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( vertices, sizeof( VERTEX_P_N_T ) * NUM_VERTICES, EBindflags::EBF_VertexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
 
 		// Create an instance buffer
-		mInstanceBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( mInstanceData, sizeof( Vector3 ) * MAX_INSTANCES, EBindflags::EBF_VertexBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
+		// TODO: Quad shouldn't know about Particle!!
+		mInstanceBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( mInstanceData, sizeof( Particle ) * MAX_INSTANCES, EBindflags::EBF_VertexBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 
 		// Create index buffer
 		uint16_t indexes[NUM_INDICES] = { 0, 3, 1, 1, 3, 2 };
@@ -45,7 +48,7 @@ namespace ITP485
 	{
 		GraphicsDriver::Get()->SetInputLayout( mInputLayout );
 		GraphicsDriver::Get()->SetVertexShader( mVertexShader );
-		GraphicsDriver::Get()->SetVertexBuffers( mVertexBuffer, sizeof( VERTEX_P_N_T ), mInstanceBuffer, sizeof( Vector3 ) );
+		GraphicsDriver::Get()->SetVertexBuffers( mVertexBuffer, sizeof( VERTEX_P_N_T ), mInstanceBuffer, sizeof( Particle ) );
 		GraphicsDriver::Get()->SetIndexBuffer( mIndexBuffer );
 	}
 

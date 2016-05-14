@@ -1,6 +1,5 @@
 namespace ITP485
 {
-
 	const uint32_t MAX_INSTANCES = 10000;
 
 	class Quad 
