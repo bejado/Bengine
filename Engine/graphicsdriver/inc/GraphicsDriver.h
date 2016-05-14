@@ -54,17 +54,23 @@ namespace ITP485
 		ECF_Always = D3D11_COMPARISON_ALWAYS,
 	};
 
+	enum EInputClassificationType
+	{
+		EIC_PerVertex = D3D11_INPUT_PER_VERTEX_DATA,
+		EIC_PerInstance = D3D11_INPUT_PER_INSTANCE_DATA
+	};
+
 	struct InputLayoutElement : D3D11_INPUT_ELEMENT_DESC
 	{
-		InputLayoutElement( const char* inSemanticName, uint32_t inSemanticIndex, EGFormat inFormat, uint32_t inByteOffset ) 
+		InputLayoutElement( const char* inSemanticName, uint32_t inSemanticIndex, EGFormat inFormat, uint32_t inInputSlot, uint32_t inByteOffset, EInputClassificationType inInputClassification, uint32_t inInstanceDataStepRate ) 
 		{
 			SemanticName = inSemanticName;
 			SemanticIndex = inSemanticIndex;
 			Format = static_cast< DXGI_FORMAT > ( inFormat );
-			InputSlot = 0;
+			InputSlot = inInputSlot;
 			AlignedByteOffset = inByteOffset;
-			InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-			InstanceDataStepRate = 0;
+			InputSlotClass = static_cast< D3D11_INPUT_CLASSIFICATION > (inInputClassification);
+			InstanceDataStepRate = inInstanceDataStepRate;
 		}
 	};
 
@@ -114,6 +120,7 @@ namespace ITP485
 		void SetInputLayout( InputLayoutPtr inLayout );
 		void SetPrimitiveTopology( D3D_PRIMITIVE_TOPOLOGY inTopology );
 		void SetVertexBuffer( GraphicsBufferPtr inBuffer, uint32_t inVertexSize );
+		void SetVertexBuffers( GraphicsBufferPtr firstBuffer, uint32_t inFirstVertexSize, GraphicsBufferPtr secondBuffer, uint32_t inSecondVertexSize );
 		void SetIndexBuffer( GraphicsBufferPtr inBuffer );
 		void SetVertexShader( VertexShaderPtr inVertexShader );
 		void SetVSConstantBuffer( GraphicsBufferPtr inBuffer, int inStartSlot );
@@ -140,6 +147,7 @@ namespace ITP485
 		void ClearDepthStencil( DepthStencilPtr inDepthStencil, float inDepth );
 		void Draw( int inVertexCount, int inStartVertexIndex );
 		void DrawIndexed( int inIndexCount, int inStartIndexLocation, int inBaseVertexLocation );
+		void DrawIndexedInstanced( int inIndexCountPerInstance, int inInstanceCount, int inStartIndexLocation, int inBaseVertexLocation, int inStartInstanceLocation );
 		void Present();
 
 		void SetPerObjectConstantBuffer( GraphicsBufferPtr inConstantBuffer ) { mPerObjectConstantBuffer = inConstantBuffer; }

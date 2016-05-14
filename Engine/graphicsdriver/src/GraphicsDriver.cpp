@@ -388,6 +388,14 @@ void GraphicsDriver::SetVertexBuffer( GraphicsBufferPtr inBuffer, uint32_t inVer
 	g_pImmediateContext->IASetVertexBuffers( 0, 1, &buffer, &inVertexSize, &offset );
 }
 
+void GraphicsDriver::SetVertexBuffers( GraphicsBufferPtr firstBuffer, uint32_t inFirstVertexSize, GraphicsBufferPtr secondBuffer, uint32_t inSecondVertexSize )
+{
+	ID3D11Buffer *buffers[2] = { firstBuffer.get(), secondBuffer.get() };
+	uint32_t strides[2] = { inFirstVertexSize, inSecondVertexSize };
+	uint32_t offsets[2] = { 0, 0 };
+	g_pImmediateContext->IASetVertexBuffers( 0, 2, buffers, strides, offsets );
+}
+
 void GraphicsDriver::SetIndexBuffer( GraphicsBufferPtr inBuffer )
 {
 	g_pImmediateContext->IASetIndexBuffer( inBuffer.get(), DXGI_FORMAT_R16_UINT, 0 );
@@ -571,7 +579,6 @@ void GraphicsDriver::ClearBackBuffer()
 	ClearRenderTarget( mBackBufferRenderTarget, DirectX::Colors::Black );
 }
 
-
 void GraphicsDriver::ClearRenderTarget( RenderTargetPtr inRenderTarget, const XMVECTORF32& inColor )
 {
 	// Clear the back buffer 
@@ -583,8 +590,6 @@ void GraphicsDriver::ClearDepthStencil( DepthStencilPtr inDepthStencil, float in
 	// Clear the back buffer 
 	g_pImmediateContext->ClearDepthStencilView( inDepthStencil.get(), D3D11_CLEAR_DEPTH, inDepth, 0 );
 }
-
-
 
 void GraphicsDriver::SetVertexShader( VertexShaderPtr inVertexShader )
 {
@@ -604,6 +609,11 @@ void GraphicsDriver::Draw( int inVertexCount, int inStartVertexIndex )
 void GraphicsDriver::DrawIndexed( int inIndexCount, int inStartIndexLocation, int inBaseVertexLocation )
 {
 	g_pImmediateContext->DrawIndexed( inIndexCount, inStartIndexLocation, inBaseVertexLocation );
+}
+
+void GraphicsDriver::DrawIndexedInstanced( int inIndexCountPerInstance, int inInstanceCount, int inStartIndexLocation, int inBaseVertexLocation, int inStartInstanceLocation )
+{
+	g_pImmediateContext->DrawIndexedInstanced( inIndexCountPerInstance, inInstanceCount, inStartIndexLocation, inBaseVertexLocation, inStartIndexLocation );
 }
 
 void GraphicsDriver::Present()

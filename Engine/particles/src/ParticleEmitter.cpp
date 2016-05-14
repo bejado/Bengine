@@ -6,50 +6,34 @@ namespace ITP485
 
 	ParticleEmitter::ParticleEmitter()
 	{
-		mParticleQuad = MeshPtr( new Quad() );
-		mMaterial = MaterialPtr( new Material( L"Shaders\\texture.hlsl", L"Textures\\crate.dds" ) );
+		mParticleQuad = QuadPtr( new Quad() );
+		mMaterial = MaterialPtr( new Material( L"Shaders\\texture.hlsl", L"Textures\\cage.dds" ) );
 
-		for ( int x = -50; x < 50; x++ )
+		int i = 0;
+		for ( int x = -5; x < 5; x++ )
 		{
-			for ( int y = -50; y < 50; y++ ) {
-				Particle particle;
-				particle.position = Vector3( x, y, 0.f );
-				mParticles.push_back( particle );
+			for ( int y = -5; y < 5; y++ )
+			{
+				for ( int z = -5; z < 5; z++ )
+				{
+					mParticles[i++].position = Vector3( (float) x * 2.f, (float) y * 2.f, (float) z * 2.f);
+				}
 			}
 		}
 	}
 
 	void ParticleEmitter::Update()
 	{
-
+		mTime += Timing::Get().GetDeltaTime() / 10.f;
+		Vector3 *perInstanceData = mParticleQuad->MapInstanceBuffer();
+		memcpy( perInstanceData, mParticles, sizeof( Particle ) * 1000 );
+		mParticleQuad->UnmapInstanceBuffer();
 	}
 
 	void ParticleEmitter::Render( const Vector3& viewPosition )
 	{
 		mMaterial->ActivateMaterial();
-		mParticleQuad->BindBuffers();
-		for ( const auto& particle : mParticles )
-		{
-			Renderer::Get().SetObjectToWorldMatrix( ParticleEmitter::CreateBillboardMatrix( particle.position, viewPosition ) );
-			mParticleQuad->Draw();
-		}
+		mParticleQuad->BindContext();
+		mParticleQuad->DrawInstanced( 1000 );
 	}
-
-	Matrix4 ParticleEmitter::CreateBillboardMatrix( const Vector3& anchor, const Vector3& cameraPosition )
-	{
-		Vector3 normalVector = anchor - cameraPosition;
-		normalVector.Normalize();
-		Vector3 rightVector = Cross( Vector3::Up, normalVector );
-		Vector3 upVector = Cross( normalVector, rightVector );
-
-		Matrix4 rotation;
-		rotation.CreateCoordinateFrameTransform( rightVector, upVector, normalVector );
-		Matrix4 translation;
-		translation.CreateTranslation( anchor );
-
-		translation.Multiply( rotation );
-
-		return translation;
-	}
-
 }

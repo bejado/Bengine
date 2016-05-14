@@ -12,18 +12,19 @@ namespace ITP485
 	{
 	public:
 
+		DECLARE_ALIGNED_NEW_DELETE
+
 		ParticleEmitter();
 		void ParticleEmitter::Update();
 		void Render( const Vector3& viewPosition );
 
-		static Matrix4 CreateBillboardMatrix( const Vector3& anchor, const Vector3& cameraPosition );
-
 	private:
 
-		vector<Particle> mParticles;
-		MeshPtr mParticleQuad;
+		Particle mParticles[1000];
+		QuadPtr mParticleQuad;
 		MaterialPtr mMaterial;
 		CameraPtr mCamera;
+		float mTime = 0.f;
 
 	};
 

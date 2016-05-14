@@ -10,28 +10,14 @@ namespace ITP485
 	{
 		Renderer::Get().Initialize();
 
-		// let's make some shaders! Here's the code from lecture to load up the vertex shader in App3_1.hlsl
-		vector< char > compiledVertexShader;
-		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Shaders\\texture.hlsl", "VS", "vs_4_0", compiledVertexShader );
-		mVertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
-
-		// now create an input layout to describe vertices that contain 3 floats for position data and nothing else
-		InputLayoutElement elements[3]{{ "POSITION", 0, EGFormat::EGF_R32G32B32_Float, 0 }, { "NORMAL", 0, EGFormat::EGF_R32G32B32_Float, sizeof( float ) * 3 }, { "TEXCOORD", 0, EGFormat::EGF_R32G32_Float, sizeof( float ) * 6 }};
-		InputLayoutPtr inputLayout = GraphicsDriver::Get()->CreateInputLayout( elements, 3, compiledVertexShader );
-		GraphicsDriver::Get()->SetInputLayout( inputLayout );
-
 		// Create the camera constant buffer
 		GraphicsBufferPtr perCameraConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Camera::PerCameraConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 		GraphicsDriver::Get()->SetPerCameraConstantBuffer( perCameraConstantBuffer );
 		GraphicsDriver::Get()->SetVSConstantBuffer( perCameraConstantBuffer, 0 );
 		GraphicsDriver::Get()->SetPSConstantBuffer( perCameraConstantBuffer, 0 );
 
-		// create our camera
+		// Create our camera
 		mCamera = CameraPtr( new Camera( Vector3( 0.f, 0.f, -5.f ), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f ) );
-
-		// Set vertex shader
-		// TODO: probably should move this to Renderer
-		GraphicsDriver::Get()->SetVertexShader( mVertexShader );
 
 		// Create a particle system
 		mParticleEmitter = ParticleEmitterPtr( new ParticleEmitter() );

@@ -77,7 +77,7 @@ namespace ITP485
 		mNumIndexes = indices16.size();
 	}
 
-	void ObjMesh::BindBuffers()
+	void ObjMesh::BindContext()
 	{
 		GraphicsDriver::Get()->SetVertexBuffer( mVertexBuffer, sizeof( VERTEX_P_N_T ) );
 		GraphicsDriver::Get()->SetIndexBuffer( mIndexBuffer );

@@ -5,7 +5,7 @@ namespace ITP485
 	{
 	public:
 
-		virtual void BindBuffers() = 0;
+		virtual void BindContext() = 0;
 		virtual void Draw() = 0;
 
 	private:
