@@ -20,6 +20,11 @@ namespace ITP485
 			UpdateViewMatrix();
 			UpdateProjectionMatrix();
 			UpdateProjectionViewMatrix();
+
+			// Create the camera constant buffer
+			mCameraConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( nullptr, sizeof( Camera::PerCameraConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
+			GraphicsDriver::Get()->SetVSConstantBuffer( mCameraConstantBuffer, 0 );
+			GraphicsDriver::Get()->SetPSConstantBuffer( mCameraConstantBuffer, 0 );
 		}
 
 		void Camera::SetPosition( const Vector3& inPosition )
@@ -110,6 +115,8 @@ namespace ITP485
 		float mAspectRatio;
 		float mNearZ;
 		float mFarZ;
+
+		GraphicsBufferPtr mCameraConstantBuffer;
 
 	};
 	typedef shared_ptr< Camera > CameraPtr;

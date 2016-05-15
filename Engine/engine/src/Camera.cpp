@@ -30,11 +30,10 @@ namespace ITP485
 
 	void Camera::UpdateConstants() const
 	{
-		GraphicsBufferPtr perCameraConstantBuffer = GraphicsDriver::Get()->GetPerCameraConstantBuffer();
-		PerCameraConstants *cameraConstants = static_cast<PerCameraConstants*>(GraphicsDriver::Get()->MapBuffer(perCameraConstantBuffer));
+		PerCameraConstants *cameraConstants = static_cast<PerCameraConstants*>(GraphicsDriver::Get()->MapBuffer(mCameraConstantBuffer));
 		cameraConstants->mProjectionViewMatrix = GetProjectionViewMatrix().GetTranspose();
 		cameraConstants->mCameraPosition = mPosition;
-		GraphicsDriver::Get()->UnmapBuffer(perCameraConstantBuffer);
+		GraphicsDriver::Get()->UnmapBuffer(mCameraConstantBuffer);
 	}
 
 }

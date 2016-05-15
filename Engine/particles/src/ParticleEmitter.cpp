@@ -73,15 +73,6 @@ namespace ITP485
 		float deltaTime = Timing::Get().GetDeltaTime();
 		mSpawnTimer -= deltaTime;
 
-		/*
-		if ( mSpawnTimer < 0.f )
-		{
-			mSpawnTimer = .01f;
-			Particle *particle = SpawnParticle();
-			InitParticle( particle );
-		}
-		*/
-
 		if ( mSpawnTimer < 0.f )
 		{
 			mSpawnTimer = 2.f;

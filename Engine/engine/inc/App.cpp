@@ -10,12 +10,6 @@ namespace ITP485
 	{
 		Renderer::Get().Initialize();
 
-		// Create the camera constant buffer
-		GraphicsBufferPtr perCameraConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Camera::PerCameraConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
-		GraphicsDriver::Get()->SetPerCameraConstantBuffer( perCameraConstantBuffer );
-		GraphicsDriver::Get()->SetVSConstantBuffer( perCameraConstantBuffer, 0 );
-		GraphicsDriver::Get()->SetPSConstantBuffer( perCameraConstantBuffer, 0 );
-
 		// Create our camera
 		mCamera = CameraPtr( new Camera( Vector3( 0.f, 0.f, -5.f ), Quaternion::Identity, 1.04719755f, 1.333f, 1.f, 100.f ) );
 

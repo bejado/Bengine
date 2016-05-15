@@ -152,11 +152,9 @@ namespace ITP485
 		void Present();
 
 		void SetPerObjectConstantBuffer( GraphicsBufferPtr inConstantBuffer ) { mPerObjectConstantBuffer = inConstantBuffer; }
-		void SetPerCameraConstantBuffer( GraphicsBufferPtr inConstantBuffer ) { mPerCameraConstantBuffer = inConstantBuffer; }
 		void SetMatrixPaletteConstantBuffer( GraphicsBufferPtr inConstantBuffer ) { mMatrixPaletteConstantBuffer = inConstantBuffer; }
 
 		GraphicsBufferPtr GetPerObjectConstantBuffer() const { return mPerObjectConstantBuffer; }
-		GraphicsBufferPtr GetPerCameraConstantBuffer() const { return mPerCameraConstantBuffer; }
 		GraphicsBufferPtr GetMatrixPaletteConstantBuffer() const { return mMatrixPaletteConstantBuffer; }
 
 		uint32_t GetWindowWidth() const { return mWindowWidth; }
@@ -171,7 +169,6 @@ namespace ITP485
 		RenderTargetPtr mBackBufferRenderTarget;
 
 		GraphicsBufferPtr mPerObjectConstantBuffer;
-		GraphicsBufferPtr mPerCameraConstantBuffer;
 		GraphicsBufferPtr mMatrixPaletteConstantBuffer;
 
 		RenderTargetPtr	mCurrentRenderTarget;
