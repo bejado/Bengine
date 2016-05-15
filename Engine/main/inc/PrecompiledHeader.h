@@ -32,7 +32,6 @@ using std::set;
 #include <Mesh.h>
 #include <Material.h>
 #include <Cube.h>
-#include <Quad.h>
 #include <ObjMesh.h>
 
 #include <InputManager.h>

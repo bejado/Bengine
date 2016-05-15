@@ -1,6 +1,7 @@
+#pragma once
+
 namespace ITP485
 {
-	const uint32_t MAX_INSTANCES = 10000;
 
 	class Quad 
 	{
@@ -8,10 +9,10 @@ namespace ITP485
 
 		DECLARE_ALIGNED_NEW_DELETE
 
-		Quad();
-		virtual void BindContext();
+		Quad( uint32_t instanceDataSize, uint32_t instanceCount );
+		void BindContext();
 		void DrawInstanced( uint32_t instanceCount );
-		Vector3* MapInstanceBuffer();
+		void* MapInstanceBuffer();
 		void UnmapInstanceBuffer();
 
 	private:
@@ -23,7 +24,8 @@ namespace ITP485
 		VertexShaderPtr mVertexShader;
 		InputLayoutPtr mInputLayout;
 
-		Vector3 mInstanceData[MAX_INSTANCES];
+		uint32_t mInstanceDataSize;
+		uint32_t mInstanceCount;
 
 	};
 

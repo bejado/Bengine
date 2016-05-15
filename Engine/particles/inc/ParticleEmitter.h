@@ -1,7 +1,11 @@
+#include "Quad.h"
+
 #pragma once
 
 namespace ITP485
 {
+
+	const uint32_t MAX_PARTICLES = 1024;
 
 	// Per-particle data copied to instance buffer each frame
 	struct Particle
@@ -22,8 +26,8 @@ namespace ITP485
 
 	private:
 
-		Particle mParticles[1000];
-		Vector3 mParticleVelocity[1000];
+		Particle mParticles[MAX_PARTICLES];
+		Vector3 mParticleVelocity[MAX_PARTICLES];
 
 		QuadPtr mParticleQuad;
 		MaterialPtr mMaterial;

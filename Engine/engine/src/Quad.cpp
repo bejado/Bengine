@@ -1,4 +1,5 @@
 #include <PrecompiledHeader.h>
+#include "Quad.h"
 
 static const unsigned int NUM_VERTICES = 4;
 static const unsigned int NUM_INDICES = 6;
@@ -6,7 +7,7 @@ static const unsigned int NUM_INDICES = 6;
 namespace ITP485
 {
 
-	Quad::Quad()
+	Quad::Quad( uint32_t instanceDataSize, uint32_t instanceCount ) : mInstanceDataSize (instanceDataSize ), mInstanceCount (instanceCount )
 	{
 		// Compile vertex shader
 		vector< char > compiledVertexShader;
@@ -22,7 +23,6 @@ namespace ITP485
 			/* from index buffer */
 			{ "INSTANCEPOS", 0, EGFormat::EGF_R32G32B32A32_Float, 1, 0, EIC_PerInstance, 1 },
 			{ "INSTANCEAGE", 0, EGFormat::EGF_R32_Float, 1, sizeof( float ) * 4, EIC_PerInstance, 1 }
-			
 		};
 		mInputLayout = GraphicsDriver::Get()->CreateInputLayout( elements, 5, compiledVertexShader );
 
@@ -35,9 +35,8 @@ namespace ITP485
 		};
 		mVertexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( vertices, sizeof( VERTEX_P_N_T ) * NUM_VERTICES, EBindflags::EBF_VertexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
 
-		// Create an instance buffer
-		// TODO: Quad shouldn't know about Particle!!
-		mInstanceBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( mInstanceData, sizeof( Particle ) * MAX_INSTANCES, EBindflags::EBF_VertexBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
+		// Create an instance buffer- we set this to nullptr for now, clients will map and unmap the buffer themselves
+		mInstanceBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( nullptr, mInstanceDataSize * mInstanceCount, EBindflags::EBF_VertexBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 
 		// Create index buffer
 		uint16_t indexes[NUM_INDICES] = { 0, 3, 1, 1, 3, 2 };
@@ -48,7 +47,7 @@ namespace ITP485
 	{
 		GraphicsDriver::Get()->SetInputLayout( mInputLayout );
 		GraphicsDriver::Get()->SetVertexShader( mVertexShader );
-		GraphicsDriver::Get()->SetVertexBuffers( mVertexBuffer, sizeof( VERTEX_P_N_T ), mInstanceBuffer, sizeof( Particle ) );
+		GraphicsDriver::Get()->SetVertexBuffers( mVertexBuffer, sizeof( VERTEX_P_N_T ), mInstanceBuffer, mInstanceDataSize );
 		GraphicsDriver::Get()->SetIndexBuffer( mIndexBuffer );
 	}
 
@@ -57,9 +56,9 @@ namespace ITP485
 		GraphicsDriver::Get()->DrawIndexedInstanced( NUM_INDICES, instanceCount, 0, 0, 0 );
 	}
 
-	Vector3* Quad::MapInstanceBuffer()
+	void* Quad::MapInstanceBuffer()
 	{
-		return GraphicsDriver::Get()->MapBuffer<Vector3>( mInstanceBuffer );
+		return GraphicsDriver::Get()->MapBuffer<void>( mInstanceBuffer );
 	}
 
 	void Quad::UnmapInstanceBuffer()
