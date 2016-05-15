@@ -18,6 +18,13 @@ namespace ITP485
 		Particle* next;		// when the particle is not in use, this holds a link to the next free particle
 	};
 
+	struct EmitterConstants
+	{
+		Vector3 startColor;
+		Vector3 endColor;
+		float life;
+	};
+
 	class ParticleEmitter
 	{
 	public:
@@ -46,6 +53,10 @@ namespace ITP485
 
 		uint32_t mAliveParticles = 0;
 		Particle *mNextFreeParticle = nullptr;
+
+		GraphicsBufferPtr mParticleConstantBuffer;
+
+		float mLife = 1.f;
 
 	};
 

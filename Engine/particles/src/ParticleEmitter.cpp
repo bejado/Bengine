@@ -29,6 +29,14 @@ namespace ITP485
 			mParticles[p].age = -1.f;	// all particles start off dead
 		}
 		mNextFreeParticle = mParticles;
+
+		// Create the particle constant buffer
+		EmitterConstants constants;
+		constants.startColor = Vector3( 0.f, 1.f, 0.f );
+		constants.endColor = Vector3( 1.f, 0.f, 1.f );
+		constants.life = mLife;
+		mParticleConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( &constants, sizeof( EmitterConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
+		GraphicsDriver::Get()->SetPSConstantBuffer( mParticleConstantBuffer, 1 );
 	}
 
 	Particle* ParticleEmitter::SpawnParticle()
@@ -55,7 +63,7 @@ namespace ITP485
 		
 		// A bit of some l33t pointer arithmatic to figure out which particle in our array we're dealing with
 		uint32_t particleIndex = ( (size_t) ( particle ) - (size_t) ( mParticles ) ) / ( sizeof( Particle ) );
-		mParticleVelocity[particleIndex] = RandomPointOnUnitSphere() * 2.f;
+		mParticleVelocity[particleIndex] = RandomPointOnUnitSphere() * 5.f;
 	}
 
 
@@ -76,7 +84,7 @@ namespace ITP485
 		if ( mSpawnTimer < 0.f )
 		{
 			mSpawnTimer = 2.f;
-			BurstParticles( 50 );
+			BurstParticles( 100 );
 		}
 
 		// Update all particles
@@ -86,9 +94,11 @@ namespace ITP485
 			{
 				mParticles[p].position.Add( mParticleVelocity[p] * deltaTime );
 				mParticles[p].age += deltaTime;
+				mParticleVelocity[p].Add( Vector3( 0.f, -10.0 * deltaTime, 0.f ) );
 			}
+
 			// Reset the particle
-			if ( mParticles[p].age > 1.f )
+			if ( mParticles[p].age > mLife )
 			{
 				KillParticle( &mParticles[p] );
 			}
