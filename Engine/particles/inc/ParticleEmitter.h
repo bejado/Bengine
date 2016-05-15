@@ -33,6 +33,9 @@ namespace ITP485
 		Particle* SpawnParticle();
 		void KillParticle( Particle* particle );
 
+		void InitParticle( Particle* particle );
+		void BurstParticles( uint32_t amount );
+
 		Particle mParticles[MAX_PARTICLES];
 		Vector3 mParticleVelocity[MAX_PARTICLES];
 

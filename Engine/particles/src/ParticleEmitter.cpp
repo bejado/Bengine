@@ -10,7 +10,7 @@ namespace ITP485
 	Vector3 RandomPointOnUnitSphere()
 	{
 		Vector3 v = Vector3( RANDOM_FLOAT, RANDOM_FLOAT, RANDOM_FLOAT );
-		// v.Normalize();
+		v.Normalize();
 		return v;
 	}
 
@@ -27,7 +27,6 @@ namespace ITP485
 				mParticles[p].next = &mParticles[p + 1];
 			}
 			mParticles[p].age = -1.f;	// all particles start off dead
-			mParticleVelocity[p] = RandomPointOnUnitSphere() * 2.f;	//TODO: this shouldn't be here
 		}
 		mNextFreeParticle = mParticles;
 	}
@@ -49,16 +48,44 @@ namespace ITP485
 		mNextFreeParticle = particle;
 	}
 
+	void ParticleEmitter::InitParticle( Particle* particle )
+	{
+		particle->age = 0.0f;
+		particle->position = Vector3( 0.f, 0.f, 0.f );
+		
+		// A bit of some l33t pointer arithmatic to figure out which particle in our array we're dealing with
+		uint32_t particleIndex = ( (size_t) ( particle ) - (size_t) ( mParticles ) ) / ( sizeof( Particle ) );
+		mParticleVelocity[particleIndex] = RandomPointOnUnitSphere() * 2.f;
+	}
+
+
+	void ParticleEmitter::BurstParticles( uint32_t amount )
+	{
+		while ( amount-- )
+		{
+			Particle *particle = SpawnParticle();
+			InitParticle( particle );
+		}
+	}
+
 	void ParticleEmitter::Update()
 	{
 		float deltaTime = Timing::Get().GetDeltaTime();
 		mSpawnTimer -= deltaTime;
+
+		/*
 		if ( mSpawnTimer < 0.f )
 		{
-			mSpawnTimer = .05f;
-			Particle* particle = SpawnParticle();
-			particle->age = 0.0f;
-			particle->position = Vector3( 0.f, 0.f, 0.f );
+			mSpawnTimer = .01f;
+			Particle *particle = SpawnParticle();
+			InitParticle( particle );
+		}
+		*/
+
+		if ( mSpawnTimer < 0.f )
+		{
+			mSpawnTimer = 2.f;
+			BurstParticles( 50 );
 		}
 
 		// Update all particles
@@ -70,7 +97,7 @@ namespace ITP485
 				mParticles[p].age += deltaTime;
 			}
 			// Reset the particle
-			if ( mParticles[p].age > 2.f )
+			if ( mParticles[p].age > 1.f )
 			{
 				KillParticle( &mParticles[p] );
 			}
