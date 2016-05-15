@@ -31,7 +31,9 @@ namespace ITP485
 
 		DECLARE_ALIGNED_NEW_DELETE
 
-		ParticleEmitter();
+		ParticleEmitter( const Vector3& emitterPosition = Vector3( 0.f, 0.f, 0.f ),
+						 const Vector3& startColor = Vector3( 1.f, 1.f, 1.f ),
+						 const Vector3& endColor = Vector3( 1.f, 0.f, 0.f ) );
 		void ParticleEmitter::Update();
 		void Render( const Vector3& viewPosition );
 
@@ -39,9 +41,10 @@ namespace ITP485
 
 		Particle* SpawnParticle();
 		void KillParticle( Particle* particle );
-
 		void InitParticle( Particle* particle );
 		void BurstParticles( uint32_t amount );
+
+		void UpdateParticleConstantBuffer();
 
 		Particle mParticles[MAX_PARTICLES];
 		Vector3 mParticleVelocity[MAX_PARTICLES];
@@ -54,9 +57,9 @@ namespace ITP485
 		uint32_t mAliveParticles = 0;
 		Particle *mNextFreeParticle = nullptr;
 
-		GraphicsBufferPtr mParticleConstantBuffer;
-
-		float mLife = 1.f;
+		static GraphicsBufferPtr ParticleConstantBuffer;	// static, because we only need one
+		EmitterConstants mEmitterConstants;
+		Vector3 mEmitterPosition = Vector3( 0.f, 0.f, 0.f );
 
 	};
 

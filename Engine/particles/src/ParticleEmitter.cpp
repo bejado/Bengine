@@ -7,6 +7,8 @@ namespace ITP485
 
 	#define RANDOM_FLOAT ((float) std::rand() / (float) RAND_MAX - .5f)
 
+	GraphicsBufferPtr ParticleEmitter::ParticleConstantBuffer = nullptr;
+
 	Vector3 RandomPointOnUnitSphere()
 	{
 		Vector3 v = Vector3( RANDOM_FLOAT, RANDOM_FLOAT, RANDOM_FLOAT );
@@ -14,10 +16,12 @@ namespace ITP485
 		return v;
 	}
 
-	ParticleEmitter::ParticleEmitter()
+	ParticleEmitter::ParticleEmitter( const Vector3& emitterPosition,
+									  const Vector3& startColor,
+									  const Vector3& endColor ) : mEmitterPosition( emitterPosition )
 	{
 		mParticleQuad = QuadPtr( new Quad( sizeof(Particle), MAX_PARTICLES ) );
-		mMaterial = MaterialPtr( new Material( L"Shaders\\particle.hlsl", L"Textures\\cage.dds" ) ); 
+		mMaterial = MaterialPtr( new Material( L"Shaders\\particle.hlsl", L"" ) ); 
 
 		// Initialize and link the particles
 		for ( int p = 0; p < MAX_PARTICLES; p++ )
@@ -30,13 +34,16 @@ namespace ITP485
 		}
 		mNextFreeParticle = mParticles;
 
-		// Create the particle constant buffer
-		EmitterConstants constants;
-		constants.startColor = Vector3( 0.f, 1.f, 0.f );
-		constants.endColor = Vector3( 1.f, 0.f, 1.f );
-		constants.life = mLife;
-		mParticleConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( &constants, sizeof( EmitterConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
-		GraphicsDriver::Get()->SetPSConstantBuffer( mParticleConstantBuffer, 1 );
+		mEmitterConstants.startColor = startColor;
+		mEmitterConstants.endColor = endColor;
+		mEmitterConstants.life = 1.f;
+
+		// Create the particle constant buffer, if one doesn't already exist
+		if ( ParticleConstantBuffer == nullptr )
+		{
+			ParticleConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( nullptr, sizeof( EmitterConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
+			GraphicsDriver::Get()->SetPSConstantBuffer( ParticleConstantBuffer, 1 );
+		}
 	}
 
 	Particle* ParticleEmitter::SpawnParticle()
@@ -59,13 +66,12 @@ namespace ITP485
 	void ParticleEmitter::InitParticle( Particle* particle )
 	{
 		particle->age = 0.0f;
-		particle->position = Vector3( 0.f, 0.f, 0.f );
+		particle->position = mEmitterPosition;
 		
 		// A bit of some l33t pointer arithmatic to figure out which particle in our array we're dealing with
 		uint32_t particleIndex = ( (size_t) ( particle ) - (size_t) ( mParticles ) ) / ( sizeof( Particle ) );
 		mParticleVelocity[particleIndex] = RandomPointOnUnitSphere() * 5.f;
 	}
-
 
 	void ParticleEmitter::BurstParticles( uint32_t amount )
 	{
@@ -94,11 +100,11 @@ namespace ITP485
 			{
 				mParticles[p].position.Add( mParticleVelocity[p] * deltaTime );
 				mParticles[p].age += deltaTime;
-				mParticleVelocity[p].Add( Vector3( 0.f, -10.0 * deltaTime, 0.f ) );
+				mParticleVelocity[p].Add( Vector3( 0.f, -10.f * deltaTime, 0.f ) );
 			}
 
 			// Reset the particle
-			if ( mParticles[p].age > mLife )
+			if ( mParticles[p].age > mEmitterConstants.life )
 			{
 				KillParticle( &mParticles[p] );
 			}
@@ -108,12 +114,21 @@ namespace ITP485
 		Particle *perInstanceData = static_cast<Particle*>( mParticleQuad->MapInstanceBuffer() );
 		memcpy( perInstanceData, mParticles, sizeof( Particle ) * MAX_PARTICLES );
 		mParticleQuad->UnmapInstanceBuffer();
+
 	}
 
 	void ParticleEmitter::Render( const Vector3& viewPosition )
 	{
 		mMaterial->ActivateMaterial();
+		UpdateParticleConstantBuffer();
 		mParticleQuad->BindContext();
 		mParticleQuad->DrawInstanced( MAX_PARTICLES );
+	}
+
+	void ParticleEmitter::UpdateParticleConstantBuffer()
+	{
+		EmitterConstants *emitterData = GraphicsDriver::Get()->MapBuffer<EmitterConstants>( ParticleConstantBuffer );
+		memcpy( emitterData, &mEmitterConstants, sizeof( EmitterConstants ) );
+		GraphicsDriver::Get()->UnmapBuffer( ParticleConstantBuffer );
 	}
 }
