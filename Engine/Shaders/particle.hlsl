@@ -15,8 +15,10 @@ float4 PS( PS_INPUT input ) : SV_Target
 	if ( input.InstanceAge >= 0.f )
 	{
 		float2 texCoordFromCenter = input.TexCoord.xy - float2( 0.5f, 0.5f );
-		float d = saturate( 1.f - distance( texCoordFromCenter, float2(0.f, 0.f) ) * 2.f );
-		return float4( 1.f, 0.f, 0.f, d * ( 1.f - input.InstanceAge / 10.f ) );
+		float d = saturate( 1.f - distance( texCoordFromCenter, float2(0.f, 0.f) ) * 5.f );
+		float lifeCompletion = input.InstanceAge / 2.f;
+		float3 color = float3( 0.f, 1.f, 0.f ) * lifeCompletion + float3( 0.f, 0.f, 1.f ) * ( 1.f - lifeCompletion );
+		return float4( color, d * ( 1.f - lifeCompletion ) );
 	}
 	return float4( 0.f, 0.f, 0.f, 0.f );	// do nothing if the particle is dead
 }
