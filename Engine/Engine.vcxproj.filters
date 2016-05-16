@@ -70,6 +70,15 @@
     <Filter Include="Source Files\particles\inc">
       <UniqueIdentifier>{09f62b28-dd73-463d-80e1-d1aea507648e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\messaging">
+      <UniqueIdentifier>{c075a3b8-fdd7-433e-a272-9c6daba852cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\messaging\inc">
+      <UniqueIdentifier>{65c8fb6d-480a-4c4e-8148-44c7a46bec77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\messaging\src">
+      <UniqueIdentifier>{cb2fc68d-52b7-4e5d-ad61-329a42f70ab7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\src\main.cpp">
@@ -122,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="particles\src\ParticleEmitter.cpp">
       <Filter>Source Files\particles\src</Filter>
+    </ClCompile>
+    <ClCompile Include="messaging\src\MessageManager.cpp">
+      <Filter>Source Files\messaging\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="particles\inc\ParticleEmitter.h">
       <Filter>Source Files\particles\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="messaging\inc\MessageManager.h">
+      <Filter>Source Files\messaging\inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

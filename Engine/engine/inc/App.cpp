@@ -74,4 +74,9 @@ namespace ITP485
 		Renderer::Get().FinishRender();
 	}
 
+	void App::Burst()
+	{
+		mParticleEmitter->BurstParticles( 500 );
+	}
+
 }

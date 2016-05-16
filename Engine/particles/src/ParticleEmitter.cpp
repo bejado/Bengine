@@ -87,11 +87,13 @@ namespace ITP485
 		float deltaTime = Timing::Get().GetDeltaTime();
 		mSpawnTimer -= deltaTime;
 
+		/*
 		if ( mSpawnTimer < 0.f )
 		{
 			mSpawnTimer = 2.f;
 			BurstParticles( 100 );
 		}
+		*/
 
 		// Update all particles
 		for ( int p = 0; p < MAX_PARTICLES; p++ )

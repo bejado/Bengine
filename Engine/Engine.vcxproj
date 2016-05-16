@@ -26,6 +26,7 @@
     <ClCompile Include="graphicsdriver\src\GraphicsDriver.cpp" />
     <ClCompile Include="main\src\main.cpp" />
     <ClCompile Include="main\src\PrecompiledHeader.cpp" />
+    <ClCompile Include="messaging\src\MessageManager.cpp" />
     <ClCompile Include="particles\src\ParticleEmitter.cpp" />
     <ClCompile Include="tinyobj\src\tiny_obj_loader.cc" />
   </ItemGroup>
@@ -48,6 +49,7 @@
     <ClInclude Include="engine\inc\Renderer.h" />
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h" />
     <ClInclude Include="main\inc\PrecompiledHeader.h" />
+    <ClInclude Include="messaging\inc\MessageManager.h" />
     <ClInclude Include="particles\inc\ParticleEmitter.h" />
     <ClInclude Include="tinyobj\inc\tiny_obj_loader.h" />
   </ItemGroup>
@@ -103,14 +105,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>engine/inc;main/inc;DirectXTK/inc;graphicsdriver/inc;core/inc;tinyobj/inc;particles/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>engine/inc;main/inc;DirectXTK/inc;graphicsdriver/inc;core/inc;tinyobj/inc;particles/inc;messaging/inc;../Mongoose;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>DirectXTK/lib/Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTK.lib;Mongoose.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>DirectXTK/lib/Debug;../Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

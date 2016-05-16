@@ -1,5 +1,6 @@
 #include <memory>
 #include <vector>
+#include <queue>
 #include <string>
 #include <functional>
 #include <unordered_map>
@@ -8,6 +9,7 @@
 
 using std::shared_ptr;
 using std::vector;
+using std::queue;
 using std::string;
 using std::wstring;
 using std::function;
@@ -35,6 +37,7 @@ using std::set;
 #include <ObjMesh.h>
 
 #include <InputManager.h>
+#include <MessageManager.h>
 #include <Renderer.h>
 
 #include <App.h>

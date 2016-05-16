@@ -36,13 +36,13 @@ namespace ITP485
 						 const Vector3& endColor = Vector3( 1.f, 0.f, 0.f ) );
 		void ParticleEmitter::Update();
 		void Render( const Vector3& viewPosition );
+		void BurstParticles( uint32_t amount );
 
 	private:
 
 		Particle* SpawnParticle();
 		void KillParticle( Particle* particle );
 		void InitParticle( Particle* particle );
-		void BurstParticles( uint32_t amount );
 
 		void UpdateParticleConstantBuffer();
 

@@ -1,4 +1,3 @@
-#include <Windows.h>
 #include <PrecompiledHeader.h>
 
 //--------------------------------------------------------------------------------------
@@ -73,9 +72,11 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	// Initialize subsystems
 	ITP485::GraphicsDriver::StaticInit( g_hWnd );
 	ITP485::AppPtr app = ITP485::AppPtr( new ITP485::App() );
+	ITP485::MessageManager::Get().Initialize();
 
 	// Main message loop here
 	MSG msg = { 0 };
+	ITP485::MessageManager::Message socketMsg = { 0 };
 	while ( msg.message != WM_QUIT ) {
 		if ( PeekMessage( &msg, nullptr, 0, 0, PM_REMOVE ) )
 		{
@@ -84,6 +85,13 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		}
 		else
 		{
+			// Poll for new websocket messages
+			ITP485::MessageManager::Get().Poll();
+			if ( ITP485::MessageManager::Get().PeekMessage( socketMsg ) )
+			{
+				app->Burst();
+			}
+
 			Timing::Get().Update();
 
 			app->Update();

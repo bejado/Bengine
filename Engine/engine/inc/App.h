@@ -10,6 +10,7 @@ namespace ITP485
 		App();
 		void Update();
 		void Render();
+		void Burst();
 
 	private:
 
