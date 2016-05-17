@@ -79,6 +79,12 @@
     <Filter Include="Source Files\messaging\src">
       <UniqueIdentifier>{cb2fc68d-52b7-4e5d-ad61-329a42f70ab7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\json">
+      <UniqueIdentifier>{fc4027d5-bd10-4def-822d-6df61bedf2da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\json\inc">
+      <UniqueIdentifier>{c084697d-b905-42ff-96f3-b89ab66733ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\src\main.cpp">
@@ -199,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="messaging\inc\MessageManager.h">
       <Filter>Source Files\messaging\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="json\inc\json.hpp">
+      <Filter>Source Files\json\inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

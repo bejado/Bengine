@@ -48,6 +48,7 @@
     <ClInclude Include="engine\inc\Quad.h" />
     <ClInclude Include="engine\inc\Renderer.h" />
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h" />
+    <ClInclude Include="json\inc\json.hpp" />
     <ClInclude Include="main\inc\PrecompiledHeader.h" />
     <ClInclude Include="messaging\inc\MessageManager.h" />
     <ClInclude Include="particles\inc\ParticleEmitter.h" />
@@ -105,8 +106,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>engine/inc;main/inc;DirectXTK/inc;graphicsdriver/inc;core/inc;tinyobj/inc;particles/inc;messaging/inc;../Mongoose;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>engine/inc;main/inc;DirectXTK/inc;graphicsdriver/inc;core/inc;tinyobj/inc;particles/inc;messaging/inc;json/inc;../Mongoose;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
     </ClCompile>
     <Link>

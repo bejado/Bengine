@@ -89,7 +89,15 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 			ITP485::MessageManager::Get().Poll();
 			if ( ITP485::MessageManager::Get().PeekMessage( socketMsg ) )
 			{
-				app->HandleMessage( socketMsg );
+				try
+				{
+					auto jsonMsg = json::parse( socketMsg.data );
+					app->HandleMessage( jsonMsg );
+				}
+				catch ( const std::exception& )
+				{
+					Dbg_Assert( false, "Invalid JSON message received." );
+				}
 			}
 
 			Timing::Get().Update();

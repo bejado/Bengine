@@ -1,3 +1,4 @@
+#include <json.hpp>
 #include <memory>
 #include <vector>
 #include <queue>
@@ -6,6 +7,8 @@
 #include <unordered_map>
 #include <set>
 #include <iostream>
+
+using json = nlohmann::json;
 
 using std::shared_ptr;
 using std::vector;

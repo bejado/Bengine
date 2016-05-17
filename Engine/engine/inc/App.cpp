@@ -76,11 +76,19 @@ namespace ITP485
 		Renderer::Get().FinishRender();
 	}
 
-	void App::HandleMessage( const MessageManager::Message& msg )
+	void App::HandleMessage( const json& msg )
 	{
-		if ( strcmp( msg.data, "BURST" ) == 0 )
+		if ( msg.is_object() )
 		{
-			mParticleEmitter->BurstParticles( 20 );
+			for (json::const_iterator it = msg.begin(); it != msg.end(); ++it) {
+				std::string key = it.key();
+				json value = it.value();
+				if ( value.is_number_integer() )
+				{
+					uint32_t amount = it.value();
+					mParticleEmitter->BurstParticles( amount );
+				}
+			}	
 		}
 	}
 
