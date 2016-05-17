@@ -68,7 +68,7 @@ namespace ITP485
 		particle->age = 0.0f;
 		particle->position = mEmitterPosition;
 		
-		// A bit of some l33t pointer arithmatic to figure out which particle in our array we're dealing with
+		// A bit of some l33t pointer arithmetic to figure out which particle in our array we're dealing with
 		uint32_t particleIndex = ( (size_t) ( particle ) - (size_t) ( mParticles ) ) / ( sizeof( Particle ) );
 		mParticleVelocity[particleIndex] = RandomPointOnUnitSphere() * 5.f;
 	}
