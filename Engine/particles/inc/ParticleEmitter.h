@@ -38,6 +38,9 @@ namespace ITP485
 		void Render( const Vector3& viewPosition );
 		void BurstParticles( uint32_t amount );
 
+		// We'll delegate all message handling to a message handler class
+		friend class ParticleEmitterMessageHandler;
+
 	private:
 
 		Particle* SpawnParticle();
@@ -60,9 +63,46 @@ namespace ITP485
 		static GraphicsBufferPtr ParticleConstantBuffer;	// static, because we only need one
 		EmitterConstants mEmitterConstants;
 		Vector3 mEmitterPosition = Vector3( 0.f, 0.f, 0.f );
+		float mGravity = 0.f;
 
 	};
 
 	typedef shared_ptr< ParticleEmitter > ParticleEmitterPtr;
+
+	class ParticleEmitterMessageHandler
+	{
+	public:
+
+		void HandleMessage( const json& msg, ParticleEmitterPtr emitter )
+		{
+			if ( msg.is_object() )
+			{
+				// Loop through all the key/value pairs of the object
+				for (json::const_iterator it = msg.begin(); it != msg.end(); ++it) {
+					std::string key = it.key();
+					json value = it.value();
+
+					if ( key.compare( "burst" ) == 0 && value.is_number_integer() )
+					{
+						uint32_t amount = it.value();
+						emitter->BurstParticles( amount );
+					}
+
+					if ( key.compare( "life" ) == 0 && value.is_number_float() )
+					{
+						float life = it.value();
+						emitter->mEmitterConstants.life = life;
+					}
+
+					if ( key.compare( "gravity" ) == 0 && value.is_number_float() )
+					{
+						float gravity = it.value();
+						emitter->mGravity = gravity;
+					}
+				}	
+			}
+		}
+
+	};
 
 }

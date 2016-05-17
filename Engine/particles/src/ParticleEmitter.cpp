@@ -94,7 +94,10 @@ namespace ITP485
 			{
 				mParticles[p].position.Add( mParticleVelocity[p] * deltaTime );
 				mParticles[p].age += deltaTime;
-				mParticleVelocity[p].Add( Vector3( 0.f, -10.f * deltaTime, 0.f ) );
+				if ( mGravity != 0.f )
+				{
+					mParticleVelocity[p].Add( Vector3( 0.f, mGravity * deltaTime, 0.f ) );
+				}
 			}
 
 			// Reset the particle

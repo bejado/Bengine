@@ -20,6 +20,7 @@ namespace ITP485
 		CameraPtr mCamera;
 
 		ParticleEmitterPtr mParticleEmitter;
+		ParticleEmitterMessageHandler mParticleMessageHandler;
 
 		float mCameraMoveSpeed = 5.0f;
 	};

@@ -78,18 +78,7 @@ namespace ITP485
 
 	void App::HandleMessage( const json& msg )
 	{
-		if ( msg.is_object() )
-		{
-			for (json::const_iterator it = msg.begin(); it != msg.end(); ++it) {
-				std::string key = it.key();
-				json value = it.value();
-				if ( value.is_number_integer() )
-				{
-					uint32_t amount = it.value();
-					mParticleEmitter->BurstParticles( amount );
-				}
-			}	
-		}
+		mParticleMessageHandler.HandleMessage( msg, mParticleEmitter );
 	}
 
 }
