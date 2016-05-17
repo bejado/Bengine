@@ -10,7 +10,7 @@ namespace ITP485
 		App();
 		void Update();
 		void Render();
-		void Burst();
+		void HandleMessage( const MessageManager::Message& msg );
 
 	private:
 

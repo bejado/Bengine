@@ -19,6 +19,7 @@ namespace ITP485
 
 	void App::Update()
 	{
+		/*
 		// Handle mouse movement
 		long mouseX = InputManager::Get().GetMouseDeltaX();
 		long mouseY = InputManager::Get().GetMouseDeltaY();
@@ -52,6 +53,7 @@ namespace ITP485
 				mCameraMoveSpeed = CAMERA_MIN_SPEED;
 			}
 		}
+		*/
 
 		// Allow ESC to exit
 		if ( InputManager::Get().GetKeyState( Key::ESC ) ) {
@@ -74,9 +76,12 @@ namespace ITP485
 		Renderer::Get().FinishRender();
 	}
 
-	void App::Burst()
+	void App::HandleMessage( const MessageManager::Message& msg )
 	{
-		mParticleEmitter->BurstParticles( 500 );
+		if ( strcmp( msg.data, "BURST" ) == 0 )
+		{
+			mParticleEmitter->BurstParticles( 20 );
+		}
 	}
 
 }

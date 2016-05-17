@@ -17,6 +17,7 @@ namespace ITP485
 		DECLARE_SINGLETON( MessageManager );
 
 		void Initialize();
+		void Shutdown();
 		void Poll();
 		bool PeekMessage( Message& msg );
 

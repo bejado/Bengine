@@ -8,4 +8,4 @@ namespace StringUtils
 	void	Log( const wchar_t* inFormat, ... );
 }
 
-#define LOG( ... ) StringUtils::Log( __VA_ARGS__ );
+#define BELOG( ... ) StringUtils::Log( __VA_ARGS__ );

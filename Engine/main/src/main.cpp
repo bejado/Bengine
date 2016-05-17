@@ -89,7 +89,7 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 			ITP485::MessageManager::Get().Poll();
 			if ( ITP485::MessageManager::Get().PeekMessage( socketMsg ) )
 			{
-				app->Burst();
+				app->HandleMessage( socketMsg );
 			}
 
 			Timing::Get().Update();
@@ -100,6 +100,9 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 			ITP485::InputManager::Get().ResetEvents();
 		}
 	}
+
+	// Shut down subsystems
+	ITP485::MessageManager::Get().Shutdown();
 
 	DestroyWindow( g_hWnd );
 
