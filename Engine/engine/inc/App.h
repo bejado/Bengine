@@ -1,4 +1,5 @@
 #include "ParticleEmitter.h"
+#include "ParticleEmitterMessageHandler.h"
 
 namespace ITP485
 {

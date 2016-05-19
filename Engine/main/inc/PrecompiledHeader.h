@@ -1,3 +1,5 @@
+#pragma once
+
 #include <json.hpp>
 #include <memory>
 #include <vector>
@@ -42,5 +44,3 @@ using std::set;
 #include <InputManager.h>
 #include <MessageManager.h>
 #include <Renderer.h>
-
-#include <App.h>

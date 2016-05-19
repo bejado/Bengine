@@ -1,3 +1,4 @@
+#include "App.h"
 #include <PrecompiledHeader.h>
 
 namespace ITP485

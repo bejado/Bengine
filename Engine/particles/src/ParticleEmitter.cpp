@@ -1,4 +1,3 @@
-#include <PrecompiledHeader.h>
 #include "ParticleEmitter.h"
 #include <cstdlib>	// random number generator
 
@@ -70,7 +69,7 @@ namespace ITP485
 		
 		// A bit of some l33t pointer arithmetic to figure out which particle in our array we're dealing with
 		uint32_t particleIndex = ( (size_t) ( particle ) - (size_t) ( mParticles ) ) / ( sizeof( Particle ) );
-		mParticleVelocity[particleIndex] = RandomPointOnUnitSphere() * 5.f;
+		mParticleVelocity[particleIndex] = RandomPointOnUnitSphere() * mInitialVelocity;
 	}
 
 	void ParticleEmitter::BurstParticles( uint32_t amount )
@@ -86,6 +85,12 @@ namespace ITP485
 	{
 		float deltaTime = Timing::Get().GetDeltaTime();
 		mSpawnTimer -= deltaTime;
+
+		if ( mSpawnTimer < 0.f )
+		{
+			BurstParticles( 100 );
+			mSpawnTimer = max( mEmitterConstants.life, 1.f );
+		}
 
 		// Update all particles
 		for ( int p = 0; p < MAX_PARTICLES; p++ )
