@@ -88,8 +88,8 @@ namespace ITP485
 
 		if ( mSpawnTimer < 0.f )
 		{
-			BurstParticles( 100 );
-			mSpawnTimer = max( mEmitterConstants.life, 1.f );
+			BurstParticles( 1 );
+			mSpawnTimer = 0.005;
 		}
 
 		// Update all particles

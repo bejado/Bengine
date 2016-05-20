@@ -11,30 +11,36 @@ namespace ITP485
 				std::string key = it.key();
 				json value = it.value();
 
-				if ( key.compare( "burst" ) == 0 && value.is_number_integer() )
+				if ( ParseForInteger( key, "burst", value ) )
 				{
-					uint32_t amount = it.value();
-					emitter->BurstParticles( amount );
+					emitter->BurstParticles( value );
 				}
 
-				if ( key.compare( "life" ) == 0 && value.is_number_float() )
+				if ( ParseForFloat( key, "life", value ) )
 				{
-					float life = it.value();
-					emitter->mEmitterConstants.life = life;
+					emitter->mEmitterConstants.life = value;
 				}
 
-				if ( key.compare( "gravity" ) == 0 && value.is_number_float() )
+				if ( ParseForFloat( key, "gravity", value ) )
 				{
-					float gravity = it.value();
-					emitter->mGravity = gravity;
+					emitter->mGravity = value;
 				}
 
-				if ( key.compare( "startColor" ) == 0 && value.is_array() && value.size() == 3 )
+				if ( ParseForFloat( key, "initialVelocity", value ) )
+				{
+					emitter->mInitialVelocity = value;
+				}
+
+				if ( ParseForFloat( key, "rate", value ) )
+				{
+				}
+
+				if ( ParseForVector3( key, "startColor", value ) )
 				{
 					emitter->mEmitterConstants.startColor = Vector3( value[0], value[1], value[2] );
 				}
 
-				if ( key.compare( "endColor" ) == 0 && value.is_array() && value.size() == 3 )
+				if ( ParseForVector3( key, "endColor", value ) )
 				{
 					emitter->mEmitterConstants.endColor = Vector3( value[0], value[1], value[2] );
 				}
