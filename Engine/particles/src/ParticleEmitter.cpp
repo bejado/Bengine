@@ -67,9 +67,14 @@ namespace ITP485
 		particle->age = 0.0f;
 		particle->position = mEmitterPosition;
 		
-		// A bit of some l33t pointer arithmetic to figure out which particle in our array we're dealing with
-		uint32_t particleIndex = ( (size_t) ( particle ) - (size_t) ( mParticles ) ) / ( sizeof( Particle ) );
+		uint32_t particleIndex = ParticleIndex( particle );
 		mParticleVelocity[particleIndex] = RandomPointOnUnitSphere() * mInitialVelocity;
+	}
+
+	uint32_t ParticleEmitter::ParticleIndex( Particle* particle )
+	{
+		// A bit of some l33t pointer arithmetic to figure out which particle in our array we're dealing with
+		return ( (size_t) ( particle ) - (size_t) ( mParticles ) ) / ( sizeof( Particle ) );
 	}
 
 	void ParticleEmitter::BurstParticles( uint32_t amount )
@@ -112,10 +117,75 @@ namespace ITP485
 			}
 		}
 
+		// DepthSort();
+
 		// Update the particle instance buffer
 		Particle *perInstanceData = static_cast<Particle*>( mParticleQuad->MapInstanceBuffer() );
 		memcpy( perInstanceData, mParticles, sizeof( Particle ) * MAX_PARTICLES );
 		mParticleQuad->UnmapInstanceBuffer();
+
+	}
+
+	Particle* ParticleEmitter::FindFirstParticle()
+	{
+		for ( int p = 0; p < MAX_PARTICLES; p++ )
+		{
+			if ( mParticles[p].age >= 0.f )
+			{
+				return &mParticles[p];
+			}
+		}
+		return nullptr;		// no particles
+	}
+
+	Particle* ParticleEmitter::FindNextParticle( Particle* startParticle )
+	{
+		for ( int p = ParticleIndex( startParticle ) + 1; p < MAX_PARTICLES; p++ )
+		{
+			if ( mParticles[p].age >= 0.f )
+			{
+				return &mParticles[p];
+			}
+		}
+		return nullptr;
+	}
+
+	void ParticleEmitter::SwapParticles( Particle* first, Particle* second )
+	{
+		uint32_t firstIndex = ParticleIndex( first );
+		uint32_t secondIndex = ParticleIndex( second );
+
+		// Swap within particle instance buffer
+		Particle temp(*first);
+		memcpy( first, second, sizeof( Particle ) );
+		memcpy( second, &temp, sizeof( Particle ) );
+		
+		// Swap within aux array
+		Vector3 velocityTemp = mParticleVelocity[firstIndex];
+		mParticleVelocity[firstIndex] = mParticleVelocity[secondIndex];
+		mParticleVelocity[secondIndex] = velocityTemp;
+	}
+
+	void ParticleEmitter::DepthSort()
+	{
+		// Bubble-sort the particles
+		bool sorted = false;
+		while ( !sorted )
+		{
+			Particle* first = FindFirstParticle();
+			Particle* second = FindNextParticle( first );
+			sorted = true;
+			while ( first != nullptr && second != nullptr )
+			{	// make a pass through the particles
+				if ( first->position.GetZ() < second->position.GetZ() )	// out of order
+				{
+					SwapParticles( first, second );	// first and second still point to the same memory locations
+					sorted = false;
+				}
+				first = second;
+				second = FindNextParticle( second );
+			}
+		}
 
 	}
 

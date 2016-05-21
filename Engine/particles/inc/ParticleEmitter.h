@@ -12,6 +12,7 @@ namespace ITP485
 	union Particle
 	{
 		Particle() { memset( this, 0, sizeof( Particle ) ); }
+		Particle( const Particle &obj ) { memcpy( this, &obj, sizeof( Particle ) ); }
 		struct {
 			Vector3 position;
 			float age;
@@ -48,6 +49,11 @@ namespace ITP485
 		void KillParticle( Particle* particle );
 		void InitParticle( Particle* particle );
 
+		uint32_t ParticleIndex( Particle* particle );
+		Particle* FindFirstParticle();
+		Particle* FindNextParticle( Particle* startParticle );
+		void SwapParticles( Particle* first, Particle* second );
+		void DepthSort();
 		void UpdateParticleConstantBuffer();
 
 		Particle mParticles[MAX_PARTICLES];
