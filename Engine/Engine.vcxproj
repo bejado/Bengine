@@ -29,6 +29,7 @@
     <ClCompile Include="messaging\src\MessageManager.cpp" />
     <ClCompile Include="particles\src\ParticleEmitter.cpp" />
     <ClCompile Include="particles\src\ParticleEmitterMessageHandler.cpp" />
+    <ClCompile Include="particles\src\ParticleSystem.cpp" />
     <ClCompile Include="tinyobj\src\tiny_obj_loader.cc" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +55,7 @@
     <ClInclude Include="messaging\inc\MessageManager.h" />
     <ClInclude Include="particles\inc\ParticleEmitter.h" />
     <ClInclude Include="particles\inc\ParticleEmitterMessageHandler.h" />
+    <ClInclude Include="particles\inc\ParticleSystem.h" />
     <ClInclude Include="tinyobj\inc\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>

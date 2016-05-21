@@ -36,7 +36,7 @@ namespace ITP485
 		ParticleEmitter( const Vector3& emitterPosition = Vector3( 0.f, 0.f, 0.f ),
 						 const Vector3& startColor = Vector3( 1.f, 1.f, 1.f ),
 						 const Vector3& endColor = Vector3( 1.f, 0.f, 0.f ) );
-		void ParticleEmitter::Update();
+		void Update();
 		void Render( const Vector3& viewPosition );
 		void BurstParticles( uint32_t amount );
 

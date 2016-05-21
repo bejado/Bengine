@@ -91,7 +91,7 @@ namespace ITP485
 		float deltaTime = Timing::Get().GetDeltaTime();
 		mSpawnTimer -= deltaTime;
 
-		if ( mSpawnTimer < 0.f )
+		if ( mSpawnTimer < 0.f && mEmitterRate > 0.f )
 		{
 			BurstParticles( 1 );
 			mSpawnTimer = 1.f / mEmitterRate;

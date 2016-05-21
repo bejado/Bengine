@@ -16,6 +16,8 @@ namespace ITP485
 
 		// Create a particle system
 		mParticleEmitter = ParticleEmitterPtr( new ParticleEmitter() );
+		mParticleSystem = ParticleSystemPtr( new ParticleSystem() );
+		mParticleSystem->AddEmitter( mParticleEmitter );
 	}
 
 	void App::Update()
@@ -62,14 +64,14 @@ namespace ITP485
 		mCamera->UpdateConstants();
 
 		// Update particle system
-		mParticleEmitter->Update();
+		mParticleSystem->Update();
 	}
 
 	void App::Render()
 	{
 		Renderer::Get().BeginRender();
 
-		mParticleEmitter->Render( mCamera->GetPosition() );
+		mParticleSystem->Render( mCamera->GetPosition() );
 
 		Renderer::Get().Render();
 		Renderer::Get().FinishRender();

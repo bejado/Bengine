@@ -21,7 +21,7 @@ namespace ITP485
 
 		bool ParseForFloat( const std::string& key, const std::string& target, const json& value )
 		{
-			return key.compare( target ) == 0 && value.is_number_float();
+			return key.compare( target ) == 0 && ( value.is_number_float() || value.is_number_integer() );	// allow integers as well
 		}
 
 		bool ParseForVector3( const std::string& key, const std::string& target, const json& value )

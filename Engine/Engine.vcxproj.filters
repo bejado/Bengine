@@ -144,6 +144,9 @@
     <ClCompile Include="particles\src\ParticleEmitterMessageHandler.cpp">
       <Filter>Source Files\particles\src</Filter>
     </ClCompile>
+    <ClCompile Include="particles\src\ParticleSystem.cpp">
+      <Filter>Source Files\particles\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h">
@@ -213,6 +216,9 @@
       <Filter>Source Files\json\inc</Filter>
     </ClInclude>
     <ClInclude Include="particles\inc\ParticleEmitterMessageHandler.h">
+      <Filter>Source Files\particles\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="particles\inc\ParticleSystem.h">
       <Filter>Source Files\particles\inc</Filter>
     </ClInclude>
   </ItemGroup>
