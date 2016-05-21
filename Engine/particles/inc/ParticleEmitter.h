@@ -66,6 +66,7 @@ namespace ITP485
 		Vector3 mEmitterPosition = Vector3( 0.f, 0.f, 0.f );
 		float mGravity = 0.f;
 		float mInitialVelocity = 5.f;
+		float mEmitterRate = 1.f;	// in particles per second
 
 	};
 

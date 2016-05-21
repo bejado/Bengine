@@ -89,7 +89,7 @@ namespace ITP485
 		if ( mSpawnTimer < 0.f )
 		{
 			BurstParticles( 1 );
-			mSpawnTimer = 0.005;
+			mSpawnTimer = 1.f / mEmitterRate;
 		}
 
 		// Update all particles

@@ -33,6 +33,7 @@ namespace ITP485
 
 				if ( ParseForFloat( key, "rate", value ) )
 				{
+					emitter->mEmitterRate = value;
 				}
 
 				if ( ParseForVector3( key, "startColor", value ) )
