@@ -132,6 +132,7 @@ namespace
 			sd.SampleDesc.Quality = 0;
 			sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 			sd.BufferCount = 1;
+			sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
 			hr = dxgiFactory2->CreateSwapChainForHwnd( g_pd3dDevice, inWindow, &sd, nullptr, nullptr, &g_pSwapChain1 );
 			if( SUCCEEDED( hr ) )

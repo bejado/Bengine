@@ -36,7 +36,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
     // Create window
     g_hInst = hInstance;
-    RECT rc = { 0, 0, 1200, 900 };
+    RECT rc = { 0, 0, 1920, 1080 };
     AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
     g_hWnd = CreateWindow( L"WindowClass", L"Ben's Game Engine",
                            WS_OVERLAPPEDWINDOW,
