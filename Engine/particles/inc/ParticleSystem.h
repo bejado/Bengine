@@ -19,7 +19,7 @@ namespace ITP485
 		void BurstParticles( uint32_t amount );
 
 		// We'll delegate all message handling to a message handler class
-		// friend class ParticleEmitterMessageHandler;
+		friend class ParticleSystemMessageHandler;
 
 	private:
 

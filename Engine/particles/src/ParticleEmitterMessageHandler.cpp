@@ -11,37 +11,33 @@ namespace ITP485
 				std::string key = it.key();
 				json value = it.value();
 
-				if ( ParseForInteger( key, "burst", value ) )
-				{
-					emitter->BurstParticles( value );
-				}
 
-				if ( ParseForFloat( key, "life", value ) )
+				if ( MessageHandler::ParseForFloat( key, "life", value ) )
 				{
 					emitter->mEmitterConstants.life = value;
 				}
 
-				if ( ParseForFloat( key, "gravity", value ) )
+				if ( MessageHandler::ParseForFloat( key, "gravity", value ) )
 				{
 					emitter->mGravity = value;
 				}
 
-				if ( ParseForFloat( key, "initialVelocity", value ) )
+				if ( MessageHandler::ParseForFloat( key, "initialVelocity", value ) )
 				{
 					emitter->mInitialVelocity = value;
 				}
 
-				if ( ParseForFloat( key, "rate", value ) )
+				if ( MessageHandler::ParseForFloat( key, "rate", value ) )
 				{
 					emitter->mEmitterRate = value;
 				}
 
-				if ( ParseForVector3( key, "startColor", value ) )
+				if ( MessageHandler::ParseForVector3( key, "startColor", value ) )
 				{
 					emitter->mEmitterConstants.startColor = Vector3( value[0], value[1], value[2] );
 				}
 
-				if ( ParseForVector3( key, "endColor", value ) )
+				if ( MessageHandler::ParseForVector3( key, "endColor", value ) )
 				{
 					emitter->mEmitterConstants.endColor = Vector3( value[0], value[1], value[2] );
 				}

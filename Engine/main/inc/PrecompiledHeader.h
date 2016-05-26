@@ -5,6 +5,7 @@
 #include <vector>
 #include <queue>
 #include <string>
+#include <regex>
 #include <functional>
 #include <unordered_map>
 #include <set>

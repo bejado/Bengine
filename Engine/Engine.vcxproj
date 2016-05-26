@@ -30,6 +30,7 @@
     <ClCompile Include="particles\src\ParticleEmitter.cpp" />
     <ClCompile Include="particles\src\ParticleEmitterMessageHandler.cpp" />
     <ClCompile Include="particles\src\ParticleSystem.cpp" />
+    <ClCompile Include="particles\src\ParticleSystemMessageHandler.cpp" />
     <ClCompile Include="tinyobj\src\tiny_obj_loader.cc" />
   </ItemGroup>
   <ItemGroup>
@@ -53,9 +54,11 @@
     <ClInclude Include="json\inc\json.hpp" />
     <ClInclude Include="main\inc\PrecompiledHeader.h" />
     <ClInclude Include="messaging\inc\MessageManager.h" />
+    <ClInclude Include="particles\inc\MessageHandler.h" />
     <ClInclude Include="particles\inc\ParticleEmitter.h" />
     <ClInclude Include="particles\inc\ParticleEmitterMessageHandler.h" />
     <ClInclude Include="particles\inc\ParticleSystem.h" />
+    <ClInclude Include="particles\inc\ParticleSystemMessageHandler.h" />
     <ClInclude Include="tinyobj\inc\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>

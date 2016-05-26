@@ -1,6 +1,7 @@
 #include "ParticleEmitter.h"
-#include "ParticleEmitterMessageHandler.h"
 #include "ParticleSystem.h"
+#include "ParticleEmitterMessageHandler.h"
+#include "ParticleSystemMessageHandler.h"
 
 namespace ITP485
 {
@@ -22,8 +23,7 @@ namespace ITP485
 		CameraPtr mCamera;
 
 		ParticleSystemPtr mParticleSystem;
-		ParticleEmitterPtr mParticleEmitter;
-		ParticleEmitterMessageHandler mParticleMessageHandler;
+		ParticleSystemMessageHandler mParticleSystemMessageHandler;
 
 		float mCameraMoveSpeed = 5.0f;
 	};

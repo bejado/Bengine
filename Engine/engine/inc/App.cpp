@@ -15,9 +15,7 @@ namespace ITP485
 		mCamera = CameraPtr( new Camera( Vector3( 0.f, 0.f, -5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 1.f, 100.f ) );
 
 		// Create a particle system
-		mParticleEmitter = ParticleEmitterPtr( new ParticleEmitter() );
 		mParticleSystem = ParticleSystemPtr( new ParticleSystem() );
-		mParticleSystem->AddEmitter( mParticleEmitter );
 	}
 
 	void App::Update()
@@ -79,7 +77,7 @@ namespace ITP485
 
 	void App::HandleMessage( const json& msg )
 	{
-		mParticleMessageHandler.HandleMessage( msg, mParticleEmitter );
+		mParticleSystemMessageHandler.HandleMessage( msg, mParticleSystem );
 	}
 
 }
