@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{821CD44D-EB04-4A00-AE54-1433720DD9EA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2BE5675F-F1D3-4A68-B4B3-FDAE8E0AE450} = {2BE5675F-F1D3-4A68-B4B3-FDAE8E0AE450}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mongoose", "Mongoose\Mongoose.vcxproj", "{2BE5675F-F1D3-4A68-B4B3-FDAE8E0AE450}"
 EndProject
