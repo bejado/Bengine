@@ -18,7 +18,7 @@ namespace ITP485
 		// Create a particle system
 		ParticleSystemLoader loader;
 		mParticleSystem = ParticleSystemPtr( new ParticleSystem() );
-		loader.LoadFromFile( "ParticleSystems\\jet_fuel.part", mParticleSystem );
+		loader.LoadFromFile( "Resources\\ParticleSystems\\jet_fuel.part", mParticleSystem );
 	}
 
 	void App::Update()

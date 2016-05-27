@@ -11,7 +11,7 @@ namespace ITP485
 	{
 		// Compile vertex shader
 		vector< char > compiledVertexShader;
-		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Shaders\\instanced_billboard.hlsl", "VS", "vs_4_0", compiledVertexShader );
+		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\instanced_billboard.hlsl", "VS", "vs_4_0", compiledVertexShader );
 		mVertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
 
 		// Create an input layout

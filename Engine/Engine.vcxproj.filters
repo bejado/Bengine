@@ -238,16 +238,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shaders\phong.hlsl">
+    <FxCompile Include="..\Resources\Shaders\instanced_billboard.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\texture.hlsl">
+    <FxCompile Include="..\Resources\Shaders\particle.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\instanced_billboard.hlsl">
+    <FxCompile Include="..\Resources\Shaders\phong.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\particle.hlsl">
+    <FxCompile Include="..\Resources\Shaders\texture.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

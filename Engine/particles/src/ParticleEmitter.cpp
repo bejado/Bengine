@@ -20,7 +20,7 @@ namespace ITP485
 									  const Vector3& endColor ) : mEmitterPosition( emitterPosition )
 	{
 		mParticleQuad = QuadPtr( new Quad( sizeof(Particle), MAX_PARTICLES ) );
-		mMaterial = MaterialPtr( new Material( L"Shaders\\particle.hlsl", L"" ) ); 
+		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\particle.hlsl", L"" ) ); 
 
 		// Initialize and link the particles
 		for ( int p = 0; p < MAX_PARTICLES; p++ )
