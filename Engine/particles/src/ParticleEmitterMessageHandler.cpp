@@ -2,7 +2,7 @@
 
 namespace ITP485
 {
-	void ParticleEmitterMessageHandler::HandleMessage( const json& msg, ParticleEmitterPtr emitter )
+	void ParticleEmitterMessageHandler::HandleMessage( const json& msg, ParticleEmitterPtr emitter ) const
 	{
 		if ( msg.is_object() )
 		{

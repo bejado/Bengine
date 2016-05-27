@@ -11,7 +11,7 @@ namespace ITP485
 	{
 	public:
 
-		void HandleMessage( const json& msg, ParticleEmitterPtr emitter );
+		void HandleMessage( const json& msg, ParticleEmitterPtr emitter ) const;
 
 	};
 }

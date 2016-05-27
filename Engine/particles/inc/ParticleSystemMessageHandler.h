@@ -13,7 +13,7 @@ namespace ITP485
 	{
 	public:
 
-		void HandleMessage( const json& msg, ParticleSystemPtr system );
+		void HandleMessage( const json& msg, ParticleSystemPtr system ) const;
 
 	private:
 

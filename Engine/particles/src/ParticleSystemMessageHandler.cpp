@@ -3,7 +3,7 @@
 namespace ITP485
 {
 
-	void ParticleSystemMessageHandler::HandleMessage( const json& msg, ParticleSystemPtr system )
+	void ParticleSystemMessageHandler::HandleMessage( const json& msg, ParticleSystemPtr system ) const
 	{
 		if ( msg.is_object() )
 		{

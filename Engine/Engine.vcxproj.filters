@@ -150,6 +150,9 @@
     <ClCompile Include="particles\src\ParticleSystemMessageHandler.cpp">
       <Filter>Source Files\particles\src</Filter>
     </ClCompile>
+    <ClCompile Include="particles\src\ParticleSystemLoader.cpp">
+      <Filter>Source Files\particles\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h">
@@ -228,6 +231,9 @@
       <Filter>Source Files\particles\inc</Filter>
     </ClInclude>
     <ClInclude Include="particles\inc\ParticleSystemMessageHandler.h">
+      <Filter>Source Files\particles\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="particles\inc\ParticleSystemLoader.h">
       <Filter>Source Files\particles\inc</Filter>
     </ClInclude>
   </ItemGroup>
