@@ -35,7 +35,7 @@ namespace ITP485
 
 	////
 
-	ObjMesh::ObjMesh( std::string file )
+	ObjMeshPrimitive::ObjMeshPrimitive( std::string file )
 	{
 		std::vector<tinyobj::shape_t> shapes;
 		std::vector<tinyobj::material_t> materials;
@@ -74,17 +74,26 @@ namespace ITP485
 				return (uint16_t)val;
 			} );
 		mIndexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( indices16.data(), sizeof( uint16_t ) * indices16.size(), EBindflags::EBF_IndexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
-		mNumIndexes = indices16.size();
+		mNumIndices = indices16.size();
+
+		// Compile vertex shader
+		vector< char > compiledVertexShader;
+		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\phong.hlsl", "VS", "vs_4_0", compiledVertexShader );
+		mVertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
+
+		// Create an input layout
+		InputLayoutElement elements[3] {
+			/* from vertex buffer */
+			{ "POSITION", 0, EGFormat::EGF_R32G32B32_Float, 0, 0, EIC_PerVertex, 0 },
+			{ "NORMAL", 0, EGFormat::EGF_R32G32B32_Float, 0, sizeof( float ) * 3, EIC_PerVertex, 0 },
+			{ "TEXCOORD", 0, EGFormat::EGF_R32G32_Float, 0, sizeof( float ) * 6, EIC_PerVertex, 0 },
+		};
+		mInputLayout = GraphicsDriver::Get()->CreateInputLayout( elements, 3, compiledVertexShader );
+
+		// Create our object to world constant buffer
+		mUniformBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Matrix4 ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
+
+		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\phong.hlsl", L"Resources\\Textures\\fighter.dds" ) );
 	}
 
-	void ObjMesh::BindContext()
-	{
-		GraphicsDriver::Get()->SetVertexBuffer( mVertexBuffer, sizeof( VERTEX_P_N_T ) );
-		GraphicsDriver::Get()->SetIndexBuffer( mIndexBuffer );
-	}
-
-	void ObjMesh::Draw()
-	{
-		GraphicsDriver::Get()->DrawIndexed( mNumIndexes, 0, 0 );
-	}
 }

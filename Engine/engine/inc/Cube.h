@@ -1,22 +1,14 @@
 namespace ITP485
 {
 
-	class Cube : public Mesh
+	class CubePrimitive : public MeshPrimitive
 	{
 	public:
 
 		DECLARE_ALIGNED_NEW_DELETE
 
-		Cube();
-		virtual void Draw();
-
-	private:
-
-		GraphicsBufferPtr mVertexBuffer;
-		GraphicsBufferPtr mIndexBuffer;
+		CubePrimitive();
 
 	};
-
-	typedef shared_ptr< Cube > CubePtr;
 
 }

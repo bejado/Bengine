@@ -85,6 +85,15 @@
     <Filter Include="Source Files\json\inc">
       <UniqueIdentifier>{c084697d-b905-42ff-96f3-b89ab66733ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\renderer">
+      <UniqueIdentifier>{e8891182-fc7a-4ddb-a1cc-602245fa64ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\renderer\inc">
+      <UniqueIdentifier>{6aa7720b-90ac-4e07-bdd4-561dcac5c0da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\renderer\src">
+      <UniqueIdentifier>{d45484b1-dbbf-4b68-8ef8-725d721eb442}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\src\main.cpp">
@@ -129,9 +138,6 @@
     <ClCompile Include="engine\src\InputManager.cpp">
       <Filter>Source Files\engine\src</Filter>
     </ClCompile>
-    <ClCompile Include="engine\src\Renderer.cpp">
-      <Filter>Source Files\engine\src</Filter>
-    </ClCompile>
     <ClCompile Include="engine\src\Quad.cpp">
       <Filter>Source Files\engine\src</Filter>
     </ClCompile>
@@ -152,6 +158,12 @@
     </ClCompile>
     <ClCompile Include="particles\src\ParticleSystemLoader.cpp">
       <Filter>Source Files\particles\src</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\src\Renderer.cpp">
+      <Filter>Source Files\renderer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\src\MeshPrimitive.cpp">
+      <Filter>Source Files\engine\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,9 +218,6 @@
     <ClInclude Include="engine\inc\InputManager.h">
       <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
-    <ClInclude Include="engine\inc\Renderer.h">
-      <Filter>Source Files\engine\inc</Filter>
-    </ClInclude>
     <ClInclude Include="engine\inc\Quad.h">
       <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
@@ -235,6 +244,12 @@
     </ClInclude>
     <ClInclude Include="particles\inc\ParticleSystemLoader.h">
       <Filter>Source Files\particles\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\inc\Renderer.h">
+      <Filter>Source Files\renderer\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\MeshPrimitive.h">
+      <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

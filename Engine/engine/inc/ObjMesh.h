@@ -1,22 +1,14 @@
 namespace ITP485
 {
 
-	class ObjMesh : public Mesh
+	class ObjMeshPrimitive : public MeshPrimitive
 	{
 	public:
 
-		ObjMesh( std::string file );
-		virtual void BindContext();
-		virtual void Draw();
+		DECLARE_ALIGNED_NEW_DELETE
 
-	private:
-
-		GraphicsBufferPtr mVertexBuffer;
-		GraphicsBufferPtr mIndexBuffer;
-		unsigned int mNumIndexes;
+		ObjMeshPrimitive( std::string file );
 
 	};
-
-	typedef shared_ptr< ObjMesh > ObjMeshPtr;
 
 }

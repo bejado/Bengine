@@ -13,12 +13,25 @@ namespace ITP485
 		Renderer::Get().Initialize();
 
 		// Create our camera
-		mCamera = CameraPtr( new Camera( Vector3( 0.f, 0.f, -5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 1.f, 100.f ) );
+		mCamera = CameraPtr( new Camera( Vector3( 0.f, 0.f, -5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 100.f ) );
 
-		// Create a particle system
-		ParticleSystemLoader loader;
-		mParticleSystem = ParticleSystemPtr( new ParticleSystem() );
-		loader.LoadFromFile( "Resources\\ParticleSystems\\jet_fuel.part", mParticleSystem );
+		// Create Cube
+		MeshPrimitivePtr cubePrimitive = MeshPrimitivePtr( new CubePrimitive() );
+		cubePrimitive->SetTranslation( Vector3( 0.f, 0.f, 0.f ) );
+		Renderer::Get().AddPrimitive( cubePrimitive );
+
+		// Create floor
+		MeshPrimitivePtr floorPrimitive = MeshPrimitivePtr( new CubePrimitive() );
+		floorPrimitive->SetTranslation( Vector3( -10.f, -20.f, -10.f ) );
+		floorPrimitive->SetScale( 20.f );
+		Renderer::Get().AddPrimitive( floorPrimitive );
+
+		// Create Ship
+		/*
+		MeshPrimitivePtr shipPrimitive = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\Fighter.obj" ) );
+		shipPrimitive->SetScale( .05f );
+		Renderer::Get().AddPrimitive( shipPrimitive );
+		*/
 	}
 
 	void App::Update()
@@ -63,24 +76,15 @@ namespace ITP485
 		}
 
 		mCamera->UpdateConstants();
-
-		// Update particle system
-		mParticleSystem->Update();
 	}
 
 	void App::Render()
 	{
-		Renderer::Get().BeginRender();
-
-		mParticleSystem->Render( mCamera->GetPosition() );
-
 		Renderer::Get().Render();
-		Renderer::Get().FinishRender();
 	}
 
 	void App::HandleMessage( const json& msg )
 	{
-		mParticleSystemMessageHandler.HandleMessage( msg, mParticleSystem );
 	}
 
 }

@@ -20,9 +20,9 @@
     <ClCompile Include="engine\src\Cube.cpp" />
     <ClCompile Include="engine\src\InputManager.cpp" />
     <ClCompile Include="engine\src\Material.cpp" />
+    <ClCompile Include="engine\src\MeshPrimitive.cpp" />
     <ClCompile Include="engine\src\ObjMesh.cpp" />
     <ClCompile Include="engine\src\Quad.cpp" />
-    <ClCompile Include="engine\src\Renderer.cpp" />
     <ClCompile Include="graphicsdriver\src\GraphicsDriver.cpp" />
     <ClCompile Include="main\src\main.cpp" />
     <ClCompile Include="main\src\PrecompiledHeader.cpp" />
@@ -32,6 +32,7 @@
     <ClCompile Include="particles\src\ParticleSystem.cpp" />
     <ClCompile Include="particles\src\ParticleSystemLoader.cpp" />
     <ClCompile Include="particles\src\ParticleSystemMessageHandler.cpp" />
+    <ClCompile Include="renderer\src\Renderer.cpp" />
     <ClCompile Include="tinyobj\src\tiny_obj_loader.cc" />
   </ItemGroup>
   <ItemGroup>
@@ -48,9 +49,9 @@
     <ClInclude Include="engine\inc\InputManager.h" />
     <ClInclude Include="engine\inc\Material.h" />
     <ClInclude Include="engine\inc\Mesh.h" />
+    <ClInclude Include="engine\inc\MeshPrimitive.h" />
     <ClInclude Include="engine\inc\ObjMesh.h" />
     <ClInclude Include="engine\inc\Quad.h" />
-    <ClInclude Include="engine\inc\Renderer.h" />
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h" />
     <ClInclude Include="json\inc\json.hpp" />
     <ClInclude Include="main\inc\PrecompiledHeader.h" />
@@ -61,6 +62,7 @@
     <ClInclude Include="particles\inc\ParticleSystem.h" />
     <ClInclude Include="particles\inc\ParticleSystemLoader.h" />
     <ClInclude Include="particles\inc\ParticleSystemMessageHandler.h" />
+    <ClInclude Include="renderer\inc\Renderer.h" />
     <ClInclude Include="tinyobj\inc\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
@@ -123,7 +125,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>engine/inc;main/inc;DirectXTK/inc;graphicsdriver/inc;core/inc;tinyobj/inc;particles/inc;messaging/inc;json/inc;../Mongoose;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>engine/inc;main/inc;DirectXTK/inc;graphicsdriver/inc;core/inc;tinyobj/inc;particles/inc;messaging/inc;renderer/inc;json/inc;../Mongoose;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
     </ClCompile>
@@ -140,7 +142,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>engine/inc;main/inc;DirectXTK/inc;graphicsdriver/inc;core/inc;tinyobj/inc;particles/inc;messaging/inc;json/inc;../Mongoose;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>engine/inc;main/inc;DirectXTK/inc;graphicsdriver/inc;core/inc;tinyobj/inc;particles/inc;messaging/inc;renderer/inc;json/inc;../Mongoose;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
