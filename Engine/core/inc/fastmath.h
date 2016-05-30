@@ -288,6 +288,8 @@ public:
 	// Constructs a Perspective FOV matrix
 	void CreatePerspectiveFOV(float fFOVy, float fAspectRatio, float fNear, float fFar);
 
+	void CreateOrthoFOV( float leftPlane, float rightPlane, float nearPlane, float farPlane );
+
 	// Inverts the matrix
 	void Invert();
 

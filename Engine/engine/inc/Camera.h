@@ -6,25 +6,14 @@ namespace ITP485
 
 		DECLARE_ALIGNED_NEW_DELETE
 
-		struct PerCameraConstants
-		{
-			Matrix4 mProjectionViewMatrix;
-			Vector3 mCameraPosition;
-		};
-
 		Camera( const Vector3& inPosition, const Quaternion& inRotation, 
-				float inFovY, float inAspectRatio, float inNearZ, float inFarZ ) :
+				float inFovY, float inAspectRatio, float inNearZ, float inFarZ, bool hackOrtho ) :
 			mPosition(inPosition), mRotation( inRotation ),
-			mFovY( inFovY ), mAspectRatio( inAspectRatio ), mNearZ( inNearZ ), mFarZ( inFarZ )
+			mFovY( inFovY ), mAspectRatio( inAspectRatio ), mNearZ( inNearZ ), mFarZ( inFarZ ), mHackOrtho( hackOrtho )
 		{
 			UpdateViewMatrix();
 			UpdateProjectionMatrix();
 			UpdateProjectionViewMatrix();
-
-			// Create the camera constant buffer
-			mCameraConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( nullptr, sizeof( Camera::PerCameraConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
-			GraphicsDriver::Get()->SetVSConstantBuffer( mCameraConstantBuffer, 0 );
-			GraphicsDriver::Get()->SetPSConstantBuffer( mCameraConstantBuffer, 0 );
 		}
 
 		void Camera::SetPosition( const Vector3& inPosition )
@@ -97,8 +86,6 @@ namespace ITP485
 
 		const Matrix4& GetProjectionViewMatrix() const { return mProjectionViewMatrix; }
 
-		void UpdateConstants() const;
-
 	private:
 
 		void UpdateViewMatrix();
@@ -116,7 +103,7 @@ namespace ITP485
 		float mNearZ;
 		float mFarZ;
 
-		GraphicsBufferPtr mCameraConstantBuffer;
+		bool mHackOrtho;
 
 	};
 	typedef shared_ptr< Camera > CameraPtr;

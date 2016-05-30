@@ -26,6 +26,10 @@ namespace ITP485
 		ParticleSystemMessageHandler mParticleSystemMessageHandler;
 
 		float mCameraMoveSpeed = 5.0f;
+
+		MeshPrimitivePtr mCubePrimitive;
+		MeshPrimitivePtr mCubePrimitive2;
+		float mX;
 	};
 
 	typedef shared_ptr< App > AppPtr;

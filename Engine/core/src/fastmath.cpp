@@ -87,6 +87,18 @@ void FastMatrix4::CreateCoordinateFrameTransform( const FastVector3& vX, const F
 	_MM_TRANSPOSE4_PS(_rows[0], _rows[1], _rows[2], _rows[3]);
 }
 
+void FastMatrix4::CreateOrthoFOV(float leftPlane, float rightPlane, float nearPlane, float farPlane)
+{
+	DirectX::XMMATRIX result = DirectX::XMMatrixOrthographicLH( 10.f, 10.f, nearPlane, farPlane );
+	_rows[0] = result.r[0];
+	_rows[1] = result.r[1];
+	_rows[2] = result.r[2];
+	_rows[3] = result.r[3];
+
+	// Have to transpose b/c DirectXMath assumes row vectors ( multiplied on left side )
+	_MM_TRANSPOSE4_PS(_rows[0], _rows[1], _rows[2], _rows[3]);
+}
+
 
 void FastMatrix4::CreatePerspectiveFOV(float fFOVy, float fAspectRatio, float fNear, float fFar)
 {

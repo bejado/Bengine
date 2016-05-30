@@ -5,6 +5,7 @@ namespace ITP485
 
 	MeshPrimitive::MeshPrimitive() : mTranslation( 0.f, 0.f, 0.f ),
 									 mScale( 1.f ),
+									 mRotation( Quaternion::Identity ),
 									 mUniformBufferDirty( true )
 	{}
 
@@ -40,18 +41,27 @@ namespace ITP485
 		mUniformBufferDirty = true;
 	}
 
+	void MeshPrimitive::SetRotation( const Quaternion& rotation )
+	{
+		mRotation = rotation;
+		mUniformBufferDirty = true;
+	}
+
 	void MeshPrimitive::UpdateVertexUniformBuffer() const
 	{
+		Matrix4 model;
+		model.CreateTranslation( mTranslation );
+
+		Matrix4 rotation;
+		rotation.CreateFromQuaternion( mRotation );
+		model.Multiply( rotation );
+
 		Matrix4 scale;
 		scale.CreateScale( mScale );
-
-		Matrix4 translation;
-		translation.CreateTranslation( mTranslation );
-
-		translation.Multiply( scale );
+		model.Multiply( scale );
 
 		Matrix4 *objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer( mUniformBuffer ));
-		memcpy( objectToWorld, &translation.GetTranspose(), sizeof( Matrix4 ) );
+		memcpy( objectToWorld, &model.GetTranspose(), sizeof( Matrix4 ) );
 		GraphicsDriver::Get()->UnmapBuffer( mUniformBuffer );
 	}
 

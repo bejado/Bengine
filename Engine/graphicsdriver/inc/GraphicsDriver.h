@@ -111,6 +111,7 @@ namespace ITP485
 		SamplerStatePtr CreateSamplerState();
 		TexturePtr CreateTextureFromFile( const wchar_t* inFileName );
 		DepthStencilPtr CreateDepthStencil( int inWidth, int inHeight );
+		void CreateDepthStencilAndTexture( int inWidth, int inHeight, DepthStencilPtr& depthStencil, TexturePtr& depthStencilTexture );
 		DepthStencilStatePtr CreateDepthStencilState( bool inDepthTestEnable, EComparisonFunc inDepthComparisonFunction );
 		RasterizerStatePtr CreateRasterizerState( EFillMode inFillMode );
 		BlendStatePtr CreateBlendState();

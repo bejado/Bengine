@@ -265,5 +265,8 @@
     <FxCompile Include="..\Resources\Shaders\texture.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\shadow.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

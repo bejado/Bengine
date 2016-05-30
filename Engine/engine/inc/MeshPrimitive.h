@@ -10,6 +10,7 @@ namespace ITP485
 		virtual void Draw( const PrimitiveDrawer& drawer ) const;
 		void SetTranslation( const Vector3& translation );
 		void SetScale( float scale );
+		void SetRotation( const Quaternion& rotation );
 
 	protected:
 		GraphicsBufferPtr mVertexBuffer;
@@ -24,6 +25,7 @@ namespace ITP485
 		void UpdateVertexUniformBuffer() const;
 		Vector3 mTranslation;
 		float mScale;	// we only support uniform scale, for now
+		Quaternion mRotation;
 		mutable bool mUniformBufferDirty = false;
 
 	};

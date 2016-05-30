@@ -31,7 +31,7 @@ namespace ITP485
 			VertexShaderPtr vertexShader;
 		};
 
-		void DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const
+		virtual void DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const
 		{
 			GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
 			GraphicsDriver::Get()->SetVertexShader( mesh.vertexShader );
@@ -44,6 +44,43 @@ namespace ITP485
 			GraphicsDriver::Get()->DrawIndexed( mesh.indices, 0, 0 );
 		}
 
+	};
+
+	class DepthOnlyDrawer : public PrimitiveDrawer
+	{
+	public:
+
+		DepthOnlyDrawer()
+		{
+			// Load the pixel shader
+			vector< char > compiledPixelShader;
+			GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\shadow.hlsl", "DepthOnly", "ps_4_0", compiledPixelShader );
+			mDepthOnlyShader = GraphicsDriver::Get()->CreatePixelShader( compiledPixelShader );
+		}
+
+		virtual void DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const
+		{
+			GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
+			GraphicsDriver::Get()->SetVertexShader( mesh.vertexShader );
+			GraphicsDriver::Get()->SetInputLayout( mesh.inputLayout );
+			GraphicsDriver::Get()->SetVertexBuffer( mesh.vertexBuffer, sizeof( VERTEX_P_N_T ) );	// TODO: here's where the vertex factory comes in
+			GraphicsDriver::Get()->SetIndexBuffer( mesh.indexbuffer );
+			GraphicsDriver::Get()->SetPixelShader( mDepthOnlyShader );
+
+			// Draw!
+			GraphicsDriver::Get()->DrawIndexed( mesh.indices, 0, 0 );
+		}
+
+	private:
+
+		PixelShaderPtr mDepthOnlyShader;
+	};
+
+	struct PerCameraConstants
+	{
+		Matrix4 mProjectionViewMatrix;
+		Vector3 mCameraPosition;
+		Matrix4 mLightMatrix;
 	};
 
 	class Renderer : public Singleton < Renderer >
@@ -59,18 +96,24 @@ namespace ITP485
 		*/
 		void AddPrimitive( const RenderPrimitivePtr primitive );
 
-		void SetObjectToWorldMatrix( const Matrix4& matrix );
+		void SetCamera( const CameraPtr& camera );
 
 	private:
+		void UpdateViewConstants( const Matrix4& projectionView, const Vector3& position ) const;
+
 		RasterizerStatePtr mRasterizerState;
 		BlendStatePtr mBlendState;
 		DepthStencilPtr mDepthStencilView;
 		DepthStencilStatePtr mDepthStencilState;
-		GraphicsBufferPtr mObjectToWorldBuffer;
-		vector<RenderPrimitivePtr> mPrimitives;
+		GraphicsBufferPtr mCameraConstantBuffer;
 
-		void BeginRender();
-		void FinishRender();
+		DepthStencilPtr mShadowMapDepthStencil;
+		TexturePtr mShadowMapTexture;
+		SamplerStatePtr mShadowMapSamplerState;
+
+		CameraPtr mCamera;
+		CameraPtr mLight;	// TODO: make this a real light!
+		vector<RenderPrimitivePtr> mPrimitives;
 
 	};
 }

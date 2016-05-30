@@ -357,8 +357,8 @@ SamplerStatePtr GraphicsDriver::CreateSamplerState()
 	D3D11_SAMPLER_DESC sampDesc;
 	ZeroMemory( &sampDesc, sizeof( sampDesc ) );
 	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-	sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
 	sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 	sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
 	sampDesc.MinLOD = 0;
@@ -477,6 +477,58 @@ TexturePtr GraphicsDriver::CreateTextureFromFile( const wchar_t* inFileName )
 
 }
 
+/*
+void GraphicsDriver::CreateRenderTarget( int inWidth, int inHeight, RenderTargetPtr& outRenderTarget, TexturePtr& outTexture )
+{
+	D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
+	D3D11_TEXTURE2D_DESC textureDesc;
+	D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
+	ZeroMemory( &textureDesc, sizeof( textureDesc ) );
+	ZeroMemory( &renderTargetViewDesc, sizeof( renderTargetViewDesc ) );
+	ZeroMemory( &shaderResourceViewDesc, sizeof( shaderResourceViewDesc ) );
+
+	// Setup the render target texture description
+	textureDesc.Width = inWidth;
+	textureDesc.Height = inHeight;
+	textureDesc.MipLevels = 1;
+	textureDesc.ArraySize = 1;
+	textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	textureDesc.SampleDesc.Count = 1;
+	textureDesc.Usage = D3D11_USAGE_DEFAULT;
+	textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	textureDesc.CPUAccessFlags = 0;
+	textureDesc.MiscFlags = 0;
+
+	// Create the render target texture
+	ID3D11Texture2D* renderTargetTexture;
+	HRESULT hr = g_pd3dDevice->CreateTexture2D( &textureDesc, NULL, &renderTargetTexture );
+	Dbg_Assert( hr == S_OK, "Problem creating render target texture" );
+
+	// Setup the description of the render target view
+	renderTargetViewDesc.Format = textureDesc.Format;
+	renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	renderTargetViewDesc.Texture2D.MipSlice = 0;
+
+	// Create the render target view
+	ID3D11RenderTargetView* renderTargetView;
+	hr = g_pd3dDevice->CreateRenderTargetView( renderTargetTexture, &renderTargetViewDesc, &renderTargetView );
+	Dbg_Assert( hr == S_OK, "Problem creating render target view" );
+	outRenderTarget = RenderTargetPtr( renderTargetView, AutoReleaseD3D );
+
+	// Setup the description of the shader resource view
+	ID3D11ShaderResourceView* shaderResourceView;
+	shaderResourceViewDesc.Format = textureDesc.Format;
+	shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
+	shaderResourceViewDesc.Texture2D.MipLevels = 1;
+
+	// Create the shader resource view (texture)
+	hr = g_pd3dDevice->CreateShaderResourceView(renderTargetTexture, &shaderResourceViewDesc, &shaderResourceView);
+	Dbg_Assert( hr == S_OK, "Problem creating shader resource view for render target" );
+	outTexture = TexturePtr( shaderResourceView, AutoReleaseD3D );
+}
+*/
+
 DepthStencilPtr GraphicsDriver::CreateDepthStencil( int inWidth, int inHeight )
 {
 	ID3D11Texture2D* depthStencilTexture;
@@ -509,6 +561,54 @@ DepthStencilPtr GraphicsDriver::CreateDepthStencil( int inWidth, int inHeight )
 	Dbg_Assert( hr == S_OK, "Problem Creating Depth Stencil" );
 
 	return DepthStencilPtr( toRet, AutoReleaseD3D );
+}
+
+void GraphicsDriver::CreateDepthStencilAndTexture( int inWidth, int inHeight, DepthStencilPtr& outDepthStencil, TexturePtr& outDepthStencilTexture )
+{
+	ID3D11Texture2D* depthStencilTexture;
+	// Create depth stencil texture
+	D3D11_TEXTURE2D_DESC descDepth;
+	ZeroMemory( &descDepth, sizeof( descDepth ) );
+	descDepth.Width = inWidth;
+	descDepth.Height = inHeight;
+	descDepth.MipLevels = 1;
+	descDepth.ArraySize = 1;
+	descDepth.Format = DXGI_FORMAT_R32_TYPELESS;
+	descDepth.SampleDesc.Count = 1;
+	descDepth.SampleDesc.Quality = 0;
+	descDepth.Usage = D3D11_USAGE_DEFAULT;
+	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+	descDepth.CPUAccessFlags = 0;
+	descDepth.MiscFlags = 0;
+	HRESULT hr = g_pd3dDevice->CreateTexture2D( &descDepth, nullptr, &depthStencilTexture );
+	Dbg_Assert( hr == S_OK, "Problem Creating Depth Stencil" );
+
+	ID3D11DepthStencilView* toRet = nullptr;
+
+	// Create the depth stencil view
+	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+	ZeroMemory( &descDSV, sizeof( descDSV ) );
+	descDSV.Format = DXGI_FORMAT_D32_FLOAT;
+	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	descDSV.Texture2D.MipSlice = 0;
+	hr = g_pd3dDevice->CreateDepthStencilView( depthStencilTexture, &descDSV, &toRet );
+	Dbg_Assert( hr == S_OK, "Problem Creating Depth Stencil" );
+	outDepthStencil = DepthStencilPtr( toRet, AutoReleaseD3D );
+
+	// Setup the description of the shader resource view
+	ID3D11ShaderResourceView* shaderResourceView;
+	D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
+	ZeroMemory( &shaderResourceViewDesc, sizeof( shaderResourceViewDesc ) );
+	shaderResourceViewDesc.Format = DXGI_FORMAT_R32_FLOAT;
+	shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
+	shaderResourceViewDesc.Texture2D.MipLevels = 1;
+
+	// Create the shader resource view (texture)
+	hr = g_pd3dDevice->CreateShaderResourceView( depthStencilTexture, &shaderResourceViewDesc, &shaderResourceView );
+	Dbg_Assert( hr == S_OK, "Problem creating shader resource view for depth stencil" );
+	outDepthStencilTexture = TexturePtr( shaderResourceView, AutoReleaseD3D );
+
 }
 
 DepthStencilStatePtr GraphicsDriver::CreateDepthStencilState( bool inDepthTestEnable, EComparisonFunc inDepthComparisonFunction )

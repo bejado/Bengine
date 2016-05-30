@@ -19,21 +19,20 @@ namespace ITP485
 
 	void Camera::UpdateProjectionMatrix()
 	{
-		mProjectionMatrix.CreatePerspectiveFOV( mFovY, mAspectRatio, mNearZ, mFarZ );
+		if ( mHackOrtho )
+		{
+			mProjectionMatrix.CreateOrthoFOV( -10.f, 10.f, mNearZ, mFarZ );
+		}
+		else
+		{
+			mProjectionMatrix.CreatePerspectiveFOV( mFovY, mAspectRatio, mNearZ, mFarZ );
+		}
 	}
 
 	void Camera::UpdateProjectionViewMatrix()
 	{
 		mProjectionViewMatrix = mProjectionMatrix;
 		mProjectionViewMatrix.Multiply( mViewMatrix );
-	}
-
-	void Camera::UpdateConstants() const
-	{
-		PerCameraConstants *cameraConstants = static_cast<PerCameraConstants*>(GraphicsDriver::Get()->MapBuffer(mCameraConstantBuffer));
-		cameraConstants->mProjectionViewMatrix = GetProjectionViewMatrix().GetTranspose();
-		cameraConstants->mCameraPosition = mPosition;
-		GraphicsDriver::Get()->UnmapBuffer(mCameraConstantBuffer);
 	}
 
 }

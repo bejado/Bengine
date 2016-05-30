@@ -5,8 +5,8 @@ namespace ITP485
 	void Renderer::Initialize()
 	{
 		// Create a solid fill rasterizer state
-		mRasterizerState = GraphicsDriver::Get()->CreateRasterizerState(EFM_Solid);
-		GraphicsDriver::Get()->SetRasterizerState(mRasterizerState);
+		mRasterizerState = GraphicsDriver::Get()->CreateRasterizerState( EFM_Solid );
+		GraphicsDriver::Get()->SetRasterizerState( mRasterizerState );
 
 		// Create a blend state
 		mBlendState = GraphicsDriver::Get()->CreateBlendState();
@@ -15,8 +15,23 @@ namespace ITP485
 		// Set up our depth buffer and depth test
 		mDepthStencilView = GraphicsDriver::Get()->CreateDepthStencil( GraphicsDriver::Get()->GetWindowWidth(), GraphicsDriver::Get()->GetWindowHeight() );
 		mDepthStencilState = GraphicsDriver::Get()->CreateDepthStencilState( true, EComparisonFunc::ECF_Less );
-		GraphicsDriver::Get()->SetDepthStencil(mDepthStencilView);
-		GraphicsDriver::Get()->SetDepthStencilState(mDepthStencilState);
+		GraphicsDriver::Get()->SetDepthStencilState( mDepthStencilState );
+
+		// Create our shadow map target and texture
+		GraphicsDriver::Get()->CreateDepthStencilAndTexture( GraphicsDriver::Get()->GetWindowWidth(), GraphicsDriver::Get()->GetWindowHeight(), mShadowMapDepthStencil, mShadowMapTexture );
+
+		// Create a shadow map sampler state
+		mShadowMapSamplerState = GraphicsDriver::Get()->CreateSamplerState();
+		GraphicsDriver::Get()->SetPSSamplerState( mShadowMapSamplerState, 1 );
+		GraphicsDriver::Get()->SetPSTexture( mShadowMapTexture, 1 );
+
+		// Create the camera constant buffer
+		mCameraConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( nullptr, sizeof( PerCameraConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
+		GraphicsDriver::Get()->SetVSConstantBuffer( mCameraConstantBuffer, 0 );
+		GraphicsDriver::Get()->SetPSConstantBuffer( mCameraConstantBuffer, 0 );
+
+		mLight = CameraPtr( new Camera( Vector3( 5.f, 5.f, 5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, true ) );
+		mLight->LookAt( 0.f, 0.f, 0.f );
 	}
 
 	void Renderer::AddPrimitive( const RenderPrimitivePtr primitive )
@@ -24,31 +39,51 @@ namespace ITP485
 		mPrimitives.push_back( primitive );
 	}
 
+	void Renderer::SetCamera( const CameraPtr& camera )
+	{
+		mCamera = camera;
+	}
+
 	void Renderer::Render()
 	{
-		BeginRender();
+		// Clear back buffer and depth stencil
+		GraphicsDriver::Get()->ClearBackBuffer();
+
+		// Shadow depth pass
+		DepthOnlyDrawer depthOnlyDrawer;
+		GraphicsDriver::Get()->ClearDepthStencil( mShadowMapDepthStencil, 1.0f );
+		GraphicsDriver::Get()->SetDepthStencil( mShadowMapDepthStencil );
+		UpdateViewConstants( mLight->GetProjectionViewMatrix(), mLight->GetPosition() );
+		for ( const RenderPrimitivePtr& primitive : mPrimitives )
+		{
+			primitive->Draw( depthOnlyDrawer );
+		}
+
+		GraphicsDriver::Get()->ClearBackBuffer();
+
+
+		// Base pass
 		PrimitiveDrawer drawer;
+		GraphicsDriver::Get()->ClearDepthStencil( mDepthStencilView, 1.0f );
+		GraphicsDriver::Get()->SetDepthStencil( mDepthStencilView );
+		UpdateViewConstants( mCamera->GetProjectionViewMatrix(), mCamera->GetPosition() );
+		GraphicsDriver::Get()->SetPSTexture( mShadowMapTexture, 1 );
 		for ( const RenderPrimitivePtr& primitive : mPrimitives )
 		{
 			primitive->Draw( drawer );
 		}
-		FinishRender();
-	}
 
-	void Renderer::BeginRender()
-	{
-		// Clear back buffer and depth stencil
-		GraphicsDriver::Get()->ClearBackBuffer();
-		GraphicsDriver::Get()->ClearDepthStencil( mDepthStencilView, 1.0f );
-	}
-
-	void Renderer::FinishRender()
-	{
 		// Present!
 		ITP485::GraphicsDriver::Get()->Present();
 	}
 
-	void Renderer::SetObjectToWorldMatrix( const Matrix4& matrix )
+	void Renderer::UpdateViewConstants( const Matrix4& projectionView, const Vector3& position ) const
 	{
+		PerCameraConstants *cameraConstants = static_cast<PerCameraConstants*>(GraphicsDriver::Get()->MapBuffer(mCameraConstantBuffer));
+		cameraConstants->mProjectionViewMatrix = projectionView.GetTranspose();
+		cameraConstants->mCameraPosition = position;
+		cameraConstants->mLightMatrix = mLight->GetProjectionViewMatrix().GetTranspose();	// TODO: refactor
+		GraphicsDriver::Get()->UnmapBuffer(mCameraConstantBuffer);
 	}
+
 }

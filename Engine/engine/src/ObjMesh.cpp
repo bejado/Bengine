@@ -78,7 +78,7 @@ namespace ITP485
 
 		// Compile vertex shader
 		vector< char > compiledVertexShader;
-		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\phong.hlsl", "VS", "vs_4_0", compiledVertexShader );
+		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\shadow.hlsl", "VS", "vs_4_0", compiledVertexShader );
 		mVertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
 
 		// Create an input layout
@@ -93,7 +93,7 @@ namespace ITP485
 		// Create our object to world constant buffer
 		mUniformBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Matrix4 ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 
-		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\phong.hlsl", L"Resources\\Textures\\fighter.dds" ) );
+		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\shadow.hlsl", L"Resources\\Textures\\fighter.dds" ) );
 	}
 
 }

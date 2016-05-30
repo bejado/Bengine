@@ -50,7 +50,7 @@ namespace ITP485
 
 		// Compile vertex shader
 		vector< char > compiledVertexShader;
-		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\phong.hlsl", "VS", "vs_4_0", compiledVertexShader );
+		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\shadow.hlsl", "VS", "vs_4_0", compiledVertexShader );
 		mVertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
 
 		// Create an input layout
@@ -74,7 +74,7 @@ namespace ITP485
 										  22, 21, 20, 20, 23, 22 };	// top
 		mIndexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( indexes, sizeof( uint16_t ) * NUM_INDICES, EBindflags::EBF_IndexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
 
-		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\phong.hlsl", L"Resources\\Textures\\crate.dds" ) );
+		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\shadow.hlsl", L"Resources\\Textures\\crate.dds" ) );
 
 		mNumIndices = NUM_INDICES;
 	}

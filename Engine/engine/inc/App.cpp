@@ -13,12 +13,19 @@ namespace ITP485
 		Renderer::Get().Initialize();
 
 		// Create our camera
-		mCamera = CameraPtr( new Camera( Vector3( 0.f, 0.f, -5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 100.f ) );
+		mCamera = CameraPtr( new Camera( Vector3( 0.f, 5.f, 5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, false ) );
+		mCamera->LookAt( 0.f, 0.f, 0.f );
+		Renderer::Get().SetCamera( mCamera );
 
 		// Create Cube
-		MeshPrimitivePtr cubePrimitive = MeshPrimitivePtr( new CubePrimitive() );
-		cubePrimitive->SetTranslation( Vector3( 0.f, 0.f, 0.f ) );
-		Renderer::Get().AddPrimitive( cubePrimitive );
+		mCubePrimitive = MeshPrimitivePtr( new CubePrimitive() );
+		mCubePrimitive->SetTranslation( Vector3( 0.f, 0.f, 0.f ) );
+		Renderer::Get().AddPrimitive( mCubePrimitive );
+
+		// Create other Cube
+		mCubePrimitive2 = MeshPrimitivePtr( new CubePrimitive() );
+		mCubePrimitive2->SetTranslation( Vector3( 0.25f, 1.5f, 0.5f ) );
+		Renderer::Get().AddPrimitive( mCubePrimitive2 );
 
 		// Create floor
 		MeshPrimitivePtr floorPrimitive = MeshPrimitivePtr( new CubePrimitive() );
@@ -27,11 +34,10 @@ namespace ITP485
 		Renderer::Get().AddPrimitive( floorPrimitive );
 
 		// Create Ship
-		/*
 		MeshPrimitivePtr shipPrimitive = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\Fighter.obj" ) );
+		shipPrimitive->SetTranslation( Vector3( 2.f, 1.f, 2.f ) );
 		shipPrimitive->SetScale( .05f );
 		Renderer::Get().AddPrimitive( shipPrimitive );
-		*/
 	}
 
 	void App::Update()
@@ -75,7 +81,12 @@ namespace ITP485
 			PostQuitMessage( 0 );
 		}
 
-		mCamera->UpdateConstants();
+		mX += Timing::Get().GetDeltaTime();
+		mCubePrimitive->SetTranslation( Vector3( 0.f, cos( mX ) + 1.f, 0.f ) );
+		mCubePrimitive2->SetTranslation( Vector3( 0.25f, cos( mX ) + 2.5f, 0.5f ) );
+		Quaternion rotation(Vector3::UnitY, 3.14159 / 4 + 0.01);
+		// rotation.FromEulerAngles( 1.f, 0.f, 0.f );
+		mCubePrimitive2->SetRotation( rotation );
 	}
 
 	void App::Render()

@@ -48,6 +48,7 @@ namespace ITP485
 	{
 		mg_mgr_init(&mgr, NULL);
 
+		// TODO: if this fails, don't crash!
 		nc = mg_bind(&mgr, s_http_port, ev_handler);
 		mg_set_protocol_http_websocket(nc);
 		printf("Started on port %s\n", s_http_port);
