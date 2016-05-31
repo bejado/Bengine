@@ -17,12 +17,17 @@ namespace ITP485
 		mCamera->LookAt( 0.f, 0.f, 0.f );
 		Renderer::Get().SetCamera( mCamera );
 
-		// Create Cube
+		// Create our light
+		mLight = CameraPtr( new Camera( Vector3( 5.f, 5.f, 5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, true ) );
+		mLight->LookAt( 0.f, 0.f, 0.f );
+		Renderer::Get().SetLight( mLight );
+
+		// Create cube
 		mCubePrimitive = MeshPrimitivePtr( new CubePrimitive() );
 		mCubePrimitive->SetTranslation( Vector3( 0.f, 0.f, 0.f ) );
 		Renderer::Get().AddPrimitive( mCubePrimitive );
 
-		// Create other Cube
+		// Create other cube
 		mCubePrimitive2 = MeshPrimitivePtr( new CubePrimitive() );
 		mCubePrimitive2->SetTranslation( Vector3( 0.25f, 1.5f, 0.5f ) );
 		Renderer::Get().AddPrimitive( mCubePrimitive2 );
@@ -81,12 +86,17 @@ namespace ITP485
 			PostQuitMessage( 0 );
 		}
 
+		// Animate the cubes
 		mX += Timing::Get().GetDeltaTime();
 		mCubePrimitive->SetTranslation( Vector3( 0.f, cos( mX ) + 1.f, 0.f ) );
 		mCubePrimitive2->SetTranslation( Vector3( 0.25f, cos( mX ) + 2.5f, 0.5f ) );
 		Quaternion rotation(Vector3::UnitY, 3.14159 / 4 + 0.01);
-		// rotation.FromEulerAngles( 1.f, 0.f, 0.f );
+		// rotation.FromEulerAngles( 1.f, 0.f, 0.f ); // TODO: WHY ISN'T THIS WORKING
 		mCubePrimitive2->SetRotation( rotation );
+
+		// Animate the light
+		mLight->SetPosition( cos( mX ) * 5.f, 5.f, sin( mX ) * 5.f );
+		mLight->LookAt( 0.f, 0.f, 0.f );
 	}
 
 	void App::Render()

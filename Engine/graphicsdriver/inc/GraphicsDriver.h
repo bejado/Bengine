@@ -61,6 +61,12 @@ namespace ITP485
 		EIC_PerInstance = D3D11_INPUT_PER_INSTANCE_DATA
 	};
 
+	enum ETextureAddressMode
+	{
+		EClamp = D3D11_TEXTURE_ADDRESS_CLAMP,
+		EWrap = D3D11_TEXTURE_ADDRESS_WRAP
+	};
+
 	struct InputLayoutElement : D3D11_INPUT_ELEMENT_DESC
 	{
 		InputLayoutElement( const char* inSemanticName, uint32_t inSemanticIndex, EGFormat inFormat, uint32_t inInputSlot, uint32_t inByteOffset, EInputClassificationType inInputClassification, uint32_t inInstanceDataStepRate ) 
@@ -108,7 +114,7 @@ namespace ITP485
 		PixelShaderPtr CreatePixelShader( const std::vector< char >& inCompiledShaderCode );
 		InputLayoutPtr CreateInputLayout( const InputLayoutElement* inElements, int inNumElements, const vector< char >& inCompiledVertexShader );
 		GraphicsBufferPtr CreateGraphicsBuffer( const void* inRawData, int inRawDataSize, int inBindFlags, int inCPUAccessFlags, EGraphicsBufferUsage inUsage );
-		SamplerStatePtr CreateSamplerState();
+		SamplerStatePtr CreateSamplerState( ETextureAddressMode inAddressModeU, ETextureAddressMode inAddressModeV );
 		TexturePtr CreateTextureFromFile( const wchar_t* inFileName );
 		DepthStencilPtr CreateDepthStencil( int inWidth, int inHeight );
 		void CreateDepthStencilAndTexture( int inWidth, int inHeight, DepthStencilPtr& depthStencil, TexturePtr& depthStencilTexture );

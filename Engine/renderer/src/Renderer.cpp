@@ -21,7 +21,7 @@ namespace ITP485
 		GraphicsDriver::Get()->CreateDepthStencilAndTexture( GraphicsDriver::Get()->GetWindowWidth(), GraphicsDriver::Get()->GetWindowHeight(), mShadowMapDepthStencil, mShadowMapTexture );
 
 		// Create a shadow map sampler state
-		mShadowMapSamplerState = GraphicsDriver::Get()->CreateSamplerState();
+		mShadowMapSamplerState = GraphicsDriver::Get()->CreateSamplerState( ETextureAddressMode::EClamp, ETextureAddressMode::EClamp );
 		GraphicsDriver::Get()->SetPSSamplerState( mShadowMapSamplerState, 1 );
 		GraphicsDriver::Get()->SetPSTexture( mShadowMapTexture, 1 );
 
@@ -29,9 +29,6 @@ namespace ITP485
 		mCameraConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( nullptr, sizeof( PerCameraConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 		GraphicsDriver::Get()->SetVSConstantBuffer( mCameraConstantBuffer, 0 );
 		GraphicsDriver::Get()->SetPSConstantBuffer( mCameraConstantBuffer, 0 );
-
-		mLight = CameraPtr( new Camera( Vector3( 5.f, 5.f, 5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, true ) );
-		mLight->LookAt( 0.f, 0.f, 0.f );
 	}
 
 	void Renderer::AddPrimitive( const RenderPrimitivePtr primitive )
@@ -42,6 +39,11 @@ namespace ITP485
 	void Renderer::SetCamera( const CameraPtr& camera )
 	{
 		mCamera = camera;
+	}
+
+	void Renderer::SetLight( const CameraPtr& light )
+	{
+		mLight = light;
 	}
 
 	void Renderer::Render()
@@ -60,7 +62,6 @@ namespace ITP485
 		}
 
 		GraphicsDriver::Get()->ClearBackBuffer();
-
 
 		// Base pass
 		PrimitiveDrawer drawer;

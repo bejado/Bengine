@@ -97,6 +97,7 @@ namespace ITP485
 		void AddPrimitive( const RenderPrimitivePtr primitive );
 
 		void SetCamera( const CameraPtr& camera );
+		void SetLight( const CameraPtr& light );
 
 	private:
 		void UpdateViewConstants( const Matrix4& projectionView, const Vector3& position ) const;

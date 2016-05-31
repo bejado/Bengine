@@ -10,7 +10,7 @@ namespace ITP485
 		mPixelShader = GraphicsDriver::Get()->CreatePixelShader( compiledPixelShader );
 
 		// Create a sampler state
-		mSamplerState = GraphicsDriver::Get()->CreateSamplerState();
+		mSamplerState = GraphicsDriver::Get()->CreateSamplerState( ETextureAddressMode::EWrap, ETextureAddressMode::EWrap );
 
 		// Load and set the texture
 		if ( !texturePath.empty() ) {
