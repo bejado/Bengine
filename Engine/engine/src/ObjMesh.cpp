@@ -1,3 +1,5 @@
+#include "ObjMesh.h"
+
 #include <PrecompiledHeader.h>
 #include <tiny_obj_loader.h>
 #include <algorithm>

@@ -206,9 +206,6 @@
     <ClInclude Include="engine\inc\ObjMesh.h">
       <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
-    <ClInclude Include="engine\inc\Mesh.h">
-      <Filter>Source Files\engine\inc</Filter>
-    </ClInclude>
     <ClInclude Include="engine\inc\Material.h">
       <Filter>Source Files\engine\inc</Filter>
     </ClInclude>

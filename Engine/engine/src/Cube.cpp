@@ -1,3 +1,5 @@
+#include "Cube.h"
+
 #include <PrecompiledHeader.h>
 
 static const unsigned int NUM_VERTICES = 24;

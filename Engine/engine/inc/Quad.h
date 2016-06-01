@@ -1,5 +1,7 @@
 #pragma once
 
+#include "MeshPrimitive.h"	// TODO: do the integration!
+
 namespace ITP485
 {
 

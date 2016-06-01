@@ -37,13 +37,7 @@ using std::set;
 #include <GraphicsDriver.h>
 
 #include <View.h>
-#include <Mesh.h>
 #include <Material.h>
 
 #include <InputManager.h>
 #include <MessageManager.h>
-
-#include <Renderer.h>
-#include <MeshPrimitive.h>
-#include <Cube.h>
-#include <ObjMesh.h>

@@ -47,7 +47,6 @@
     <ClInclude Include="engine\inc\Cube.h" />
     <ClInclude Include="engine\inc\InputManager.h" />
     <ClInclude Include="engine\inc\Material.h" />
-    <ClInclude Include="engine\inc\Mesh.h" />
     <ClInclude Include="engine\inc\MeshPrimitive.h" />
     <ClInclude Include="engine\inc\ObjMesh.h" />
     <ClInclude Include="engine\inc\Quad.h" />

@@ -3,6 +3,10 @@
 #include "ParticleEmitterMessageHandler.h"
 #include "ParticleSystemMessageHandler.h"
 
+#include "MeshPrimitive.h"
+#include "Cube.h"
+#include "ObjMesh.h"
+
 namespace ITP485
 {
 
@@ -21,7 +25,7 @@ namespace ITP485
 		DepthStencilStatePtr mDepthStencilState;
 
 		ViewPtr mCamera;
-		ViewPtr mLight;	// TODO: make a light class
+		ViewPtr mLight;
 
 		ParticleSystemPtr mParticleSystem;
 		ParticleSystemMessageHandler mParticleSystemMessageHandler;

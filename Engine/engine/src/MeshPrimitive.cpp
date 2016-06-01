@@ -1,3 +1,5 @@
+#include "MeshPrimitive.h"
+
 #include <PrecompiledHeader.h>
 
 namespace ITP485
@@ -21,6 +23,7 @@ namespace ITP485
 		PrimitiveDrawer::Mesh mesh;
 		mesh.indexbuffer = mIndexBuffer;
 		mesh.vertexBuffer = mVertexBuffer;
+		mesh.vertexStride = sizeof( VERTEX_P_N_T );
 		mesh.indices = mNumIndices;
 		mesh.inputLayout = mInputLayout;
 		mesh.vertexShader = mVertexShader;

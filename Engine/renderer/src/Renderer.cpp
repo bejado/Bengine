@@ -1,4 +1,4 @@
-#include <PrecompiledHeader.h>
+#include "Renderer.h"
 
 namespace ITP485
 {
@@ -52,26 +52,24 @@ namespace ITP485
 		GraphicsDriver::Get()->ClearBackBuffer();
 
 		// Shadow depth pass
-		DepthOnlyDrawer depthOnlyDrawer;
 		GraphicsDriver::Get()->ClearDepthStencil( mShadowMapDepthStencil, 1.0f );
 		GraphicsDriver::Get()->SetDepthStencil( mShadowMapDepthStencil );
 		UpdateViewConstants( mLight->GetProjectionViewMatrix(), mLight->GetPosition() );
 		for ( const RenderPrimitivePtr& primitive : mPrimitives )
 		{
-			primitive->Draw( depthOnlyDrawer );
+			primitive->Draw( mShadowPassDrawer );
 		}
 
 		GraphicsDriver::Get()->ClearBackBuffer();
 
 		// Base pass
-		PrimitiveDrawer drawer;
 		GraphicsDriver::Get()->ClearDepthStencil( mDepthStencilView, 1.0f );
 		GraphicsDriver::Get()->SetDepthStencil( mDepthStencilView );
 		UpdateViewConstants( mCamera->GetProjectionViewMatrix(), mCamera->GetPosition() );
 		GraphicsDriver::Get()->SetPSTexture( mShadowMapTexture, 1 );
 		for ( const RenderPrimitivePtr& primitive : mPrimitives )
 		{
-			primitive->Draw( drawer );
+			primitive->Draw( mBasePassDrawer );
 		}
 
 		// Present!

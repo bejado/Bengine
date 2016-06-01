@@ -1,3 +1,5 @@
+#include <PrecompiledHeader.h>
+
 namespace ITP485
 {
 
@@ -23,6 +25,7 @@ namespace ITP485
 		struct Mesh
 		{
 			GraphicsBufferPtr vertexBuffer;
+			size_t vertexStride;
 			GraphicsBufferPtr indexbuffer;
 			GraphicsBufferPtr vertexUniformBuffer;
 			size_t indices;
@@ -36,7 +39,7 @@ namespace ITP485
 			GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
 			GraphicsDriver::Get()->SetVertexShader( mesh.vertexShader );
 			GraphicsDriver::Get()->SetInputLayout( mesh.inputLayout );
-			GraphicsDriver::Get()->SetVertexBuffer( mesh.vertexBuffer, sizeof( VERTEX_P_N_T ) );	// TODO: here's where the vertex factory comes in
+			GraphicsDriver::Get()->SetVertexBuffer( mesh.vertexBuffer, mesh.vertexStride );	// TODO: here's where the vertex factory comes in
 			GraphicsDriver::Get()->SetIndexBuffer( mesh.indexbuffer );
 			mesh.material->ActivateMaterial();
 
@@ -63,7 +66,7 @@ namespace ITP485
 			GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
 			GraphicsDriver::Get()->SetVertexShader( mesh.vertexShader );
 			GraphicsDriver::Get()->SetInputLayout( mesh.inputLayout );
-			GraphicsDriver::Get()->SetVertexBuffer( mesh.vertexBuffer, sizeof( VERTEX_P_N_T ) );	// TODO: here's where the vertex factory comes in
+			GraphicsDriver::Get()->SetVertexBuffer( mesh.vertexBuffer, mesh.vertexStride );
 			GraphicsDriver::Get()->SetIndexBuffer( mesh.indexbuffer );
 			GraphicsDriver::Get()->SetPixelShader( mDepthOnlyShader );
 
@@ -111,6 +114,9 @@ namespace ITP485
 		DepthStencilPtr mShadowMapDepthStencil;
 		TexturePtr mShadowMapTexture;
 		SamplerStatePtr mShadowMapSamplerState;
+
+		PrimitiveDrawer mBasePassDrawer;
+		DepthOnlyDrawer mShadowPassDrawer;
 
 		ViewPtr mCamera;
 		ViewPtr mLight;

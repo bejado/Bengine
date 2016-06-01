@@ -109,5 +109,6 @@ namespace ITP485
 		bool mHackOrtho;
 
 	};
+
 	typedef shared_ptr< View > ViewPtr;
 }
