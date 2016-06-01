@@ -36,7 +36,7 @@ using std::set;
 
 #include <GraphicsDriver.h>
 
-#include <Camera.h>
+#include <View.h>
 #include <Mesh.h>
 #include <Material.h>
 

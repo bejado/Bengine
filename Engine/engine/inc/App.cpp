@@ -12,13 +12,13 @@ namespace ITP485
 	{
 		Renderer::Get().Initialize();
 
-		// Create our camera
-		mCamera = CameraPtr( new Camera( Vector3( 0.f, 5.f, 5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, false ) );
+		// Create the player's view
+		mCamera = ViewPtr( new View( Vector3( 0.f, 5.f, 5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, false ) );
 		mCamera->LookAt( 0.f, 0.f, 0.f );
 		Renderer::Get().SetCamera( mCamera );
 
 		// Create our light
-		mLight = CameraPtr( new Camera( Vector3( 5.f, 5.f, 5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, true ) );
+		mLight = ViewPtr( new View( Vector3( 5.f, 5.f, 5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, true ) );
 		mLight->LookAt( 0.f, 0.f, 0.f );
 		Renderer::Get().SetLight( mLight );
 

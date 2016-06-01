@@ -5,7 +5,7 @@ namespace ITP485
 	class PrimitiveDrawer;
 
 	/**
-	* Base class for all render primitives. Primitives draw themselves given a PrimitiveDrawer.
+	* Base class for all render primitives. Primitives draw themselves using the PrimitiveDrawer interface.
 	*/
 	class RenderPrimitive
 	{
@@ -96,8 +96,8 @@ namespace ITP485
 		*/
 		void AddPrimitive( const RenderPrimitivePtr primitive );
 
-		void SetCamera( const CameraPtr& camera );
-		void SetLight( const CameraPtr& light );
+		void SetCamera( const ViewPtr view );
+		void SetLight( const ViewPtr light );
 
 	private:
 		void UpdateViewConstants( const Matrix4& projectionView, const Vector3& position ) const;
@@ -112,8 +112,8 @@ namespace ITP485
 		TexturePtr mShadowMapTexture;
 		SamplerStatePtr mShadowMapSamplerState;
 
-		CameraPtr mCamera;
-		CameraPtr mLight;	// TODO: make this a real light!
+		ViewPtr mCamera;
+		ViewPtr mLight;
 		vector<RenderPrimitivePtr> mPrimitives;
 
 	};

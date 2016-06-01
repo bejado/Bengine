@@ -25,7 +25,7 @@ namespace ITP485
 		GraphicsDriver::Get()->SetPSSamplerState( mShadowMapSamplerState, 1 );
 		GraphicsDriver::Get()->SetPSTexture( mShadowMapTexture, 1 );
 
-		// Create the camera constant buffer
+		// Create the player view constant buffer
 		mCameraConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( nullptr, sizeof( PerCameraConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 		GraphicsDriver::Get()->SetVSConstantBuffer( mCameraConstantBuffer, 0 );
 		GraphicsDriver::Get()->SetPSConstantBuffer( mCameraConstantBuffer, 0 );
@@ -36,12 +36,12 @@ namespace ITP485
 		mPrimitives.push_back( primitive );
 	}
 
-	void Renderer::SetCamera( const CameraPtr& camera )
+	void Renderer::SetCamera( const ViewPtr view )
 	{
-		mCamera = camera;
+		mCamera = view;
 	}
 
-	void Renderer::SetLight( const CameraPtr& light )
+	void Renderer::SetLight( const ViewPtr light )
 	{
 		mLight = light;
 	}

@@ -1,12 +1,15 @@
 namespace ITP485
 {
-	class __declspec( align( 16 ) ) Camera
+	class __declspec( align( 16 ) ) View
 	{
 	public:
 
 		DECLARE_ALIGNED_NEW_DELETE
 
-		Camera( const Vector3& inPosition, const Quaternion& inRotation, 
+		/**
+		* A vantage point into the game world, e.g., the player's perspective or a light.
+		*/
+		View( const Vector3& inPosition, const Quaternion& inRotation, 
 				float inFovY, float inAspectRatio, float inNearZ, float inFarZ, bool hackOrtho ) :
 			mPosition(inPosition), mRotation( inRotation ),
 			mFovY( inFovY ), mAspectRatio( inAspectRatio ), mNearZ( inNearZ ), mFarZ( inFarZ ), mHackOrtho( hackOrtho )
@@ -16,26 +19,26 @@ namespace ITP485
 			UpdateProjectionViewMatrix();
 		}
 
-		void Camera::SetPosition( const Vector3& inPosition )
+		void View::SetPosition( const Vector3& inPosition )
 		{
 			mPosition = inPosition;
 			UpdateViewMatrix();
 			UpdateProjectionViewMatrix();
 		}
 
-		void Camera::SetPosition( float x, float y, float z )
+		void View::SetPosition( float x, float y, float z )
 		{
 			mPosition = Vector3( x, y, z );
 			UpdateViewMatrix();
 			UpdateProjectionViewMatrix();
 		}
 
-		const Vector3& Camera::GetPosition() const
+		const Vector3& View::GetPosition() const
 		{
 			return mPosition;
 		}
 
-		void Camera::MoveCamera( const Vector3& cameraSpaceDirection, float amount )
+		void View::MoveCamera( const Vector3& cameraSpaceDirection, float amount )
 		{
 			Vector3 vector = cameraSpaceDirection;
 			vector.Rotate( mRotation );
@@ -44,14 +47,14 @@ namespace ITP485
 			UpdateProjectionViewMatrix();
 		}
 
-		void Camera::RotateCameraFixedAxis( const Vector3& axis, float amount )
+		void View::RotateCameraFixedAxis( const Vector3& axis, float amount )
 		{
 			mRotation.Multiply( Quaternion( axis, amount ) );
 			UpdateViewMatrix();
 			UpdateProjectionViewMatrix();
 		}
 
-		void Camera::RotateCameraRelativeAxis( const Vector3& axis, float amount )
+		void View::RotateCameraRelativeAxis( const Vector3& axis, float amount )
 		{
 			Vector3 rotationAxis = axis;
 			rotationAxis.Rotate( mRotation );
@@ -60,7 +63,7 @@ namespace ITP485
 			UpdateProjectionViewMatrix();
 		}
 
-		void Camera::LookAt( float x, float y, float z )
+		void View::LookAt( float x, float y, float z )
 		{
 			mViewMatrix.CreateLookAt( mPosition, Vector3(x, y, z), Vector3::Up );	
 			UpdateProjectionViewMatrix();
@@ -106,5 +109,5 @@ namespace ITP485
 		bool mHackOrtho;
 
 	};
-	typedef shared_ptr< Camera > CameraPtr;
+	typedef shared_ptr< View > ViewPtr;
 }

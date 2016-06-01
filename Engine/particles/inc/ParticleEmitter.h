@@ -61,7 +61,6 @@ namespace ITP485
 
 		QuadPtr mParticleQuad;
 		MaterialPtr mMaterial;
-		CameraPtr mCamera;
 		float mSpawnTimer = 0.f;
 
 		uint32_t mAliveParticles = 0;

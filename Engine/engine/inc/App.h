@@ -20,8 +20,8 @@ namespace ITP485
 		DepthStencilPtr		mDepthStencilView;
 		DepthStencilStatePtr mDepthStencilState;
 
-		CameraPtr mCamera;
-		CameraPtr mLight;	// TODO: make a light class
+		ViewPtr mCamera;
+		ViewPtr mLight;	// TODO: make a light class
 
 		ParticleSystemPtr mParticleSystem;
 		ParticleSystemMessageHandler mParticleSystemMessageHandler;

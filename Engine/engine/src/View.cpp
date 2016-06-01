@@ -2,22 +2,22 @@
 
 namespace ITP485
 {
-	void Camera::UpdateViewMatrix()
+	void View::UpdateViewMatrix()
 	{
 		//the camera's position is mPosition
 		//take a forward vector and rotate it by the rotation and that's the look direction
 		//what is going to be "forward" in our world?
 
-		Vector3 cameraForward = Vector3::Forward;
-		cameraForward.Rotate( mRotation );
+		Vector3 viewForward = Vector3::Forward;
+		viewForward.Rotate( mRotation );
 
-		Vector3 cameraUp = Vector3::Up;
-		cameraUp.Rotate( mRotation );
+		Vector3 viewUp = Vector3::Up;
+		viewUp.Rotate( mRotation );
 
-		mViewMatrix.CreateLookAt( mPosition, mPosition + cameraForward, cameraUp );	
+		mViewMatrix.CreateLookAt( mPosition, mPosition + viewForward, viewUp );	
 	}
 
-	void Camera::UpdateProjectionMatrix()
+	void View::UpdateProjectionMatrix()
 	{
 		if ( mHackOrtho )
 		{
@@ -29,7 +29,7 @@ namespace ITP485
 		}
 	}
 
-	void Camera::UpdateProjectionViewMatrix()
+	void View::UpdateProjectionViewMatrix()
 	{
 		mProjectionViewMatrix = mProjectionMatrix;
 		mProjectionViewMatrix.Multiply( mViewMatrix );
