@@ -2,6 +2,10 @@
 
 namespace ITP485
 {
+	//////////////////////////
+	// Renderer
+	//////////////////////////
+
 	void Renderer::Initialize()
 	{
 		// Create a solid fill rasterizer state
@@ -83,6 +87,44 @@ namespace ITP485
 		cameraConstants->mCameraPosition = position;
 		cameraConstants->mLightMatrix = mLight->GetProjectionViewMatrix().GetTranspose();	// TODO: refactor
 		GraphicsDriver::Get()->UnmapBuffer(mCameraConstantBuffer);
+	}
+
+	//////////////////////////
+	// PrimitiveDrawer
+	//////////////////////////
+
+	void PrimitiveDrawer::DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const
+	{
+		GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
+		GraphicsDriver::Get()->SetVertexShader( mesh.vertexShader );
+		GraphicsDriver::Get()->SetInputLayout( mesh.inputLayout );
+		GraphicsDriver::Get()->SetVertexBuffer( mesh.vertexBuffer, mesh.vertexStride );	// TODO: here's where the vertex factory comes in
+		GraphicsDriver::Get()->SetIndexBuffer( mesh.indexbuffer );
+		mesh.material->ActivateMaterial();
+
+		// Draw!
+		GraphicsDriver::Get()->DrawIndexed( mesh.indices, 0, 0 );
+	}
+
+	DepthOnlyDrawer::DepthOnlyDrawer()
+	{
+		// Load the pixel shader
+		vector< char > compiledPixelShader;
+		GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\shadow.hlsl", "DepthOnly", "ps_4_0", compiledPixelShader );
+		mDepthOnlyShader = GraphicsDriver::Get()->CreatePixelShader( compiledPixelShader );
+	}
+
+	void DepthOnlyDrawer::DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const
+	{
+		GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
+		GraphicsDriver::Get()->SetVertexShader( mesh.vertexShader );
+		GraphicsDriver::Get()->SetInputLayout( mesh.inputLayout );
+		GraphicsDriver::Get()->SetVertexBuffer( mesh.vertexBuffer, mesh.vertexStride );
+		GraphicsDriver::Get()->SetIndexBuffer( mesh.indexbuffer );
+		GraphicsDriver::Get()->SetPixelShader( mDepthOnlyShader );
+
+		// Draw!
+		GraphicsDriver::Get()->DrawIndexed( mesh.indices, 0, 0 );
 	}
 
 }

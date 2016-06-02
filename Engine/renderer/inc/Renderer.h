@@ -34,45 +34,15 @@ namespace ITP485
 			VertexShaderPtr vertexShader;
 		};
 
-		virtual void DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const
-		{
-			GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
-			GraphicsDriver::Get()->SetVertexShader( mesh.vertexShader );
-			GraphicsDriver::Get()->SetInputLayout( mesh.inputLayout );
-			GraphicsDriver::Get()->SetVertexBuffer( mesh.vertexBuffer, mesh.vertexStride );	// TODO: here's where the vertex factory comes in
-			GraphicsDriver::Get()->SetIndexBuffer( mesh.indexbuffer );
-			mesh.material->ActivateMaterial();
-
-			// Draw!
-			GraphicsDriver::Get()->DrawIndexed( mesh.indices, 0, 0 );
-		}
-
+		virtual void DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const;
 	};
 
 	class DepthOnlyDrawer : public PrimitiveDrawer
 	{
 	public:
 
-		DepthOnlyDrawer()
-		{
-			// Load the pixel shader
-			vector< char > compiledPixelShader;
-			GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\shadow.hlsl", "DepthOnly", "ps_4_0", compiledPixelShader );
-			mDepthOnlyShader = GraphicsDriver::Get()->CreatePixelShader( compiledPixelShader );
-		}
-
-		virtual void DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const
-		{
-			GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
-			GraphicsDriver::Get()->SetVertexShader( mesh.vertexShader );
-			GraphicsDriver::Get()->SetInputLayout( mesh.inputLayout );
-			GraphicsDriver::Get()->SetVertexBuffer( mesh.vertexBuffer, mesh.vertexStride );
-			GraphicsDriver::Get()->SetIndexBuffer( mesh.indexbuffer );
-			GraphicsDriver::Get()->SetPixelShader( mDepthOnlyShader );
-
-			// Draw!
-			GraphicsDriver::Get()->DrawIndexed( mesh.indices, 0, 0 );
-		}
+		DepthOnlyDrawer();
+		virtual void DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const;
 
 	private:
 
@@ -86,6 +56,9 @@ namespace ITP485
 		Matrix4 mLightMatrix;
 	};
 
+	/**
+	 * The main Rendering algorithm.
+	 */
 	class Renderer : public Singleton < Renderer >
 	{
 	public:
