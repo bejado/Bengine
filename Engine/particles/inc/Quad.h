@@ -5,6 +5,9 @@
 namespace ITP485
 {
 
+	// Forward declaration
+	struct PrimitiveDrawer::InstancedMesh;
+
 	class Quad 
 	{
 	public:
@@ -12,10 +15,11 @@ namespace ITP485
 		DECLARE_ALIGNED_NEW_DELETE
 
 		Quad( uint32_t instanceDataSize, uint32_t instanceCount );
-		void BindContext();
 		void DrawInstanced( uint32_t instanceCount );
 		void* MapInstanceBuffer();
 		void UnmapInstanceBuffer();
+
+		void FillOutMeshStruct( PrimitiveDrawer::InstancedMesh* const mesh );
 
 	private:
 

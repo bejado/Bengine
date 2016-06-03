@@ -12,29 +12,37 @@ namespace ITP485
 	{
 		Renderer::Get().Initialize();
 
-		// Create the player's view
+		// Create the player's view.
 		mCamera = ViewPtr( new View( Vector3( 0.f, 5.f, 5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, false ) );
 		mCamera->LookAt( 0.f, 0.f, 0.f );
 		Renderer::Get().SetCamera( mCamera );
 
-		// Create our light
+		// Create our light.
 		mLight = ViewPtr( new View( Vector3( 5.f, 5.f, 5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, true ) );
 		mLight->LookAt( 0.f, 0.f, 0.f );
 		Renderer::Get().SetLight( mLight );
 
+		// Create the particle system.
+		ParticleSystemLoader loader;
+		mParticleSystem = ParticleSystemPtr( new ParticleSystem() );
+		loader.LoadFromFile( "Resources\\ParticleSystems\\jet_fuel.part", mParticleSystem );
+
+		// Let the renderer know about our system.
+		Renderer::Get().AddPrimitive( mParticleSystem );
+
 		// Create cube
 		mCubePrimitive = MeshPrimitivePtr( new CubePrimitive() );
-		mCubePrimitive->SetTranslation( Vector3( 0.f, 0.f, 0.f ) );
+		mCubePrimitive->SetTranslation( Vector3( 5.f, 0.f, 5.f ) );
 		Renderer::Get().AddPrimitive( mCubePrimitive );
 
 		// Create other cube
 		mCubePrimitive2 = MeshPrimitivePtr( new CubePrimitive() );
-		mCubePrimitive2->SetTranslation( Vector3( 0.25f, 1.5f, 0.5f ) );
+		mCubePrimitive2->SetTranslation( Vector3( 5.25f, 1.5f, 5.5f ) );
 		Renderer::Get().AddPrimitive( mCubePrimitive2 );
 
 		// Create floor
 		MeshPrimitivePtr floorPrimitive = MeshPrimitivePtr( new CubePrimitive() );
-		floorPrimitive->SetTranslation( Vector3( -10.f, -20.f, -10.f ) );
+		floorPrimitive->SetTranslation( Vector3( -10.f, -25.f, -10.f ) );
 		floorPrimitive->SetScale( 20.f );
 		Renderer::Get().AddPrimitive( floorPrimitive );
 
@@ -86,17 +94,7 @@ namespace ITP485
 			PostQuitMessage( 0 );
 		}
 
-		// Animate the cubes
-		mX += Timing::Get().GetDeltaTime();
-		mCubePrimitive->SetTranslation( Vector3( 0.f, cos( mX ) + 1.f, 0.f ) );
-		mCubePrimitive2->SetTranslation( Vector3( 0.25f, cos( mX ) + 2.5f, 0.5f ) );
-		Quaternion rotation(Vector3::UnitY, 3.14159 / 4 + 0.01);
-		// rotation.FromEulerAngles( 1.f, 0.f, 0.f ); // TODO: WHY ISN'T THIS WORKING
-		mCubePrimitive2->SetRotation( rotation );
-
-		// Animate the light
-		mLight->SetPosition( cos( mX ) * 5.f, 5.f, sin( mX ) * 5.f );
-		mLight->LookAt( 0.f, 0.f, 0.f );
+		mParticleSystem->Update();
 	}
 
 	void App::Render()

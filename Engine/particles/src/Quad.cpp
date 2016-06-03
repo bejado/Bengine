@@ -1,5 +1,6 @@
 #include <PrecompiledHeader.h>
 #include "Quad.h"
+#include "Renderer.h"
 
 static const unsigned int NUM_VERTICES = 4;
 static const unsigned int NUM_INDICES = 6;
@@ -43,17 +44,17 @@ namespace ITP485
 		mIndexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( indexes, sizeof( uint16_t ) * NUM_INDICES, EBindflags::EBF_IndexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
 	}
 
-	void Quad::BindContext()
+	void Quad::FillOutMeshStruct( PrimitiveDrawer::InstancedMesh* const mesh )
 	{
-		GraphicsDriver::Get()->SetInputLayout( mInputLayout );
-		GraphicsDriver::Get()->SetVertexShader( mVertexShader );
-		GraphicsDriver::Get()->SetVertexBuffers( mVertexBuffer, sizeof( VERTEX_P_N_T ), mInstanceBuffer, mInstanceDataSize );
-		GraphicsDriver::Get()->SetIndexBuffer( mIndexBuffer );
-	}
-
-	void Quad::DrawInstanced( uint32_t instanceCount )
-	{
-		GraphicsDriver::Get()->DrawIndexedInstanced( NUM_INDICES, instanceCount, 0, 0, 0 );
+		mesh->inputLayout = mInputLayout;
+		mesh->vertexBuffer = mVertexBuffer;
+		mesh->vertexUniformBuffer = nullptr;
+		mesh->vertexShader = mVertexShader;
+		mesh->vertexStride = sizeof( VERTEX_P_N_T );
+		mesh->instanceStride = mInstanceDataSize;
+		mesh->indexbuffer = mIndexBuffer;
+		mesh->indices = NUM_INDICES;
+		mesh->instanceBuffer = mInstanceBuffer;
 	}
 
 	void* Quad::MapInstanceBuffer()

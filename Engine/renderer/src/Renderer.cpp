@@ -6,6 +6,8 @@ namespace ITP485
 	// Renderer
 	//////////////////////////
 
+	// TODO: figure this out
+
 	void Renderer::Initialize()
 	{
 		// Create a solid fill rasterizer state
@@ -58,10 +60,10 @@ namespace ITP485
 		// Shadow depth pass
 		GraphicsDriver::Get()->ClearDepthStencil( mShadowMapDepthStencil, 1.0f );
 		GraphicsDriver::Get()->SetDepthStencil( mShadowMapDepthStencil );
-		UpdateViewConstants( mLight->GetProjectionViewMatrix(), mLight->GetPosition() );
+		UpdateViewConstants( mLight->GetProjectionViewMatrix(), mLight->GetPosition() );	// TODO: should this be in the Renderer?
 		for ( const RenderPrimitivePtr& primitive : mPrimitives )
 		{
-			primitive->Draw( mShadowPassDrawer );
+			primitive->Draw( mShadowPassDrawer, mLight );
 		}
 
 		GraphicsDriver::Get()->ClearBackBuffer();
@@ -73,7 +75,7 @@ namespace ITP485
 		GraphicsDriver::Get()->SetPSTexture( mShadowMapTexture, 1 );
 		for ( const RenderPrimitivePtr& primitive : mPrimitives )
 		{
-			primitive->Draw( mBasePassDrawer );
+			primitive->Draw( mBasePassDrawer, mCamera );
 		}
 
 		// Present!
@@ -95,7 +97,10 @@ namespace ITP485
 
 	void PrimitiveDrawer::DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const
 	{
-		GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
+		if ( mesh.vertexUniformBuffer != nullptr )	// not all meshes need a uniform buffer
+		{
+			GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
+		}
 		GraphicsDriver::Get()->SetVertexShader( mesh.vertexShader );
 		GraphicsDriver::Get()->SetInputLayout( mesh.inputLayout );
 		GraphicsDriver::Get()->SetVertexBuffer( mesh.vertexBuffer, mesh.vertexStride );	// TODO: here's where the vertex factory comes in
@@ -104,6 +109,28 @@ namespace ITP485
 
 		// Draw!
 		GraphicsDriver::Get()->DrawIndexed( mesh.indices, 0, 0 );
+	}
+
+	void PrimitiveDrawer::DrawInstancedMesh( const PrimitiveDrawer::InstancedMesh& mesh ) const
+	{
+		if ( mesh.vertexUniformBuffer != nullptr )	// not all meshes need a uniform buffer
+		{
+			GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
+		}
+
+		if ( mesh.fragmentUniformBuffer != nullptr )
+		{
+			GraphicsDriver::Get()->SetPSConstantBuffer( mesh.fragmentUniformBuffer, 1 );
+		}
+
+		GraphicsDriver::Get()->SetVertexShader( mesh.vertexShader );
+		GraphicsDriver::Get()->SetInputLayout( mesh.inputLayout );
+		GraphicsDriver::Get()->SetVertexBuffers( mesh.vertexBuffer, mesh.vertexStride, mesh.instanceBuffer, mesh.instanceStride );
+		GraphicsDriver::Get()->SetIndexBuffer( mesh.indexbuffer );
+		mesh.material->ActivateMaterial();
+
+		// Draw!
+		GraphicsDriver::Get()->DrawIndexedInstanced( mesh.indices, mesh.instanceCount, 0, 0, 0 );
 	}
 
 	DepthOnlyDrawer::DepthOnlyDrawer()

@@ -135,9 +135,6 @@
     <ClCompile Include="engine\src\InputManager.cpp">
       <Filter>Source Files\engine\src</Filter>
     </ClCompile>
-    <ClCompile Include="engine\src\Quad.cpp">
-      <Filter>Source Files\engine\src</Filter>
-    </ClCompile>
     <ClCompile Include="particles\src\ParticleEmitter.cpp">
       <Filter>Source Files\particles\src</Filter>
     </ClCompile>
@@ -164,6 +161,9 @@
     </ClCompile>
     <ClCompile Include="engine\src\View.cpp">
       <Filter>Source Files\engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="particles\src\Quad.cpp">
+      <Filter>Source Files\particles\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,9 +212,6 @@
     <ClInclude Include="engine\inc\InputManager.h">
       <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
-    <ClInclude Include="engine\inc\Quad.h">
-      <Filter>Source Files\engine\inc</Filter>
-    </ClInclude>
     <ClInclude Include="particles\inc\ParticleEmitter.h">
       <Filter>Source Files\particles\inc</Filter>
     </ClInclude>
@@ -247,6 +244,9 @@
     </ClInclude>
     <ClInclude Include="engine\inc\View.h">
       <Filter>Source Files\engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="particles\inc\Quad.h">
+      <Filter>Source Files\particles\inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

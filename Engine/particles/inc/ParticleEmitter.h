@@ -37,7 +37,7 @@ namespace ITP485
 						 const Vector3& startColor = Vector3( 1.f, 1.f, 1.f ),
 						 const Vector3& endColor = Vector3( 1.f, 0.f, 0.f ) );
 		void Update();
-		void Render( const Vector3& viewPosition );
+		void Render( const PrimitiveDrawer& drawer, const ViewPtr view );
 		void BurstParticles( uint32_t amount );
 
 		// We'll delegate all message handling to a message handler class

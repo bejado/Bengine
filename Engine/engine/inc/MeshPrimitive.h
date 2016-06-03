@@ -36,7 +36,7 @@ namespace ITP485
 		DECLARE_ALIGNED_NEW_DELETE
 
 		MeshPrimitive();
-		virtual void Draw( const PrimitiveDrawer& drawer ) const;
+		virtual void Draw( const PrimitiveDrawer& drawer, const ViewPtr view ) const;
 		void SetTranslation( const Vector3& translation );
 		void SetScale( float scale );
 		void SetRotation( const Quaternion& rotation );

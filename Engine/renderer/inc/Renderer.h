@@ -1,3 +1,5 @@
+#pragma once
+
 #include <PrecompiledHeader.h>
 
 namespace ITP485
@@ -12,7 +14,7 @@ namespace ITP485
 	class RenderPrimitive
 	{
 	public:
-		virtual void Draw( const PrimitiveDrawer& drawer ) const = 0;
+		virtual void Draw( const PrimitiveDrawer& drawer, const ViewPtr view ) const = 0;
 
 	};
 
@@ -34,7 +36,28 @@ namespace ITP485
 			VertexShaderPtr vertexShader;
 		};
 
+		struct InstancedMesh
+		{
+			InputLayoutPtr inputLayout;
+			VertexShaderPtr vertexShader;
+
+			GraphicsBufferPtr vertexBuffer;
+			GraphicsBufferPtr instanceBuffer;
+			size_t vertexStride;
+			size_t instanceStride;
+			GraphicsBufferPtr indexbuffer;
+			GraphicsBufferPtr vertexUniformBuffer;
+			GraphicsBufferPtr fragmentUniformBuffer;
+
+			size_t indices;
+			size_t instanceCount;
+
+			MaterialPtr material;
+		};
+
 		virtual void DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const;
+		virtual void DrawInstancedMesh( const PrimitiveDrawer::InstancedMesh& mesh ) const;
+
 	};
 
 	class DepthOnlyDrawer : public PrimitiveDrawer
@@ -81,10 +104,10 @@ namespace ITP485
 		RasterizerStatePtr mRasterizerState;
 		BlendStatePtr mBlendState;
 		DepthStencilPtr mDepthStencilView;
-		DepthStencilStatePtr mDepthStencilState;
 		GraphicsBufferPtr mCameraConstantBuffer;
 
 		DepthStencilPtr mShadowMapDepthStencil;
+		DepthStencilStatePtr mDepthStencilState;
 		TexturePtr mShadowMapTexture;
 		SamplerStatePtr mShadowMapSamplerState;
 

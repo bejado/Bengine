@@ -11,7 +11,7 @@ namespace ITP485
 									 mUniformBufferDirty( true )
 	{}
 
-	void MeshPrimitive::Draw( const PrimitiveDrawer& drawer ) const
+	void MeshPrimitive::Draw( const PrimitiveDrawer& drawer, const ViewPtr view ) const
 	{
 		if ( mUniformBufferDirty )
 		{

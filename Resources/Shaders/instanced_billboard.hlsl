@@ -27,6 +27,7 @@ PS_INPUT VS( VS_INPUT input )
 
 	if ( input.InstanceAge < 0.f ) // check if the particle is dead
 	{
+		// not setting output.Pos here, but that's okay because we'll end up discarding the pixel in the fragment shader anyway
 		output.InstanceAge = input.InstanceAge;
 		return output;	// doesn't matter what we return, just let the pixel shader know that the particle is dead
 	}

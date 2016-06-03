@@ -41,7 +41,6 @@ namespace ITP485
 		if ( ParticleConstantBuffer == nullptr )
 		{
 			ParticleConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( nullptr, sizeof( EmitterConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
-			GraphicsDriver::Get()->SetPSConstantBuffer( ParticleConstantBuffer, 1 );
 		}
 	}
 
@@ -189,12 +188,18 @@ namespace ITP485
 
 	}
 
-	void ParticleEmitter::Render( const Vector3& viewPosition )
+	void ParticleEmitter::Render( const PrimitiveDrawer& drawer, const ViewPtr view )
 	{
-		mMaterial->ActivateMaterial();
 		UpdateParticleConstantBuffer();
-		mParticleQuad->BindContext();
-		mParticleQuad->DrawInstanced( MAX_PARTICLES );
+
+		PrimitiveDrawer::InstancedMesh mesh;
+		mParticleQuad->FillOutMeshStruct( &mesh );
+
+		mesh.material = mMaterial;
+		mesh.instanceCount = MAX_PARTICLES;
+		mesh.fragmentUniformBuffer = ParticleConstantBuffer;
+
+		drawer.DrawInstancedMesh( mesh );
 	}
 
 	void ParticleEmitter::UpdateParticleConstantBuffer()

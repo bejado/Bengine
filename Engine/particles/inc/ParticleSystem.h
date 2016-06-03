@@ -6,7 +6,7 @@
 namespace ITP485
 {
 
-	class ParticleSystem
+	class ParticleSystem : public RenderPrimitive
 	{
 	public:
 
@@ -15,7 +15,7 @@ namespace ITP485
 		void AddEmitter( ParticleEmitterPtr emitter );
 
 		void Update();
-		void Render( const Vector3& viewPosition );
+		virtual void Draw( const PrimitiveDrawer& drawer, const ViewPtr view ) const;
 		void BurstParticles( uint32_t amount );
 
 		// We'll delegate all message handling to a message handler class

@@ -21,7 +21,6 @@
     <ClCompile Include="engine\src\Material.cpp" />
     <ClCompile Include="engine\src\MeshPrimitive.cpp" />
     <ClCompile Include="engine\src\ObjMesh.cpp" />
-    <ClCompile Include="engine\src\Quad.cpp" />
     <ClCompile Include="engine\src\View.cpp" />
     <ClCompile Include="graphicsdriver\src\GraphicsDriver.cpp" />
     <ClCompile Include="main\src\main.cpp" />
@@ -32,6 +31,7 @@
     <ClCompile Include="particles\src\ParticleSystem.cpp" />
     <ClCompile Include="particles\src\ParticleSystemLoader.cpp" />
     <ClCompile Include="particles\src\ParticleSystemMessageHandler.cpp" />
+    <ClCompile Include="particles\src\Quad.cpp" />
     <ClCompile Include="renderer\src\Renderer.cpp" />
     <ClCompile Include="tinyobj\src\tiny_obj_loader.cc" />
   </ItemGroup>
@@ -49,7 +49,6 @@
     <ClInclude Include="engine\inc\Material.h" />
     <ClInclude Include="engine\inc\MeshPrimitive.h" />
     <ClInclude Include="engine\inc\ObjMesh.h" />
-    <ClInclude Include="engine\inc\Quad.h" />
     <ClInclude Include="engine\inc\View.h" />
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h" />
     <ClInclude Include="json\inc\json.hpp" />
@@ -61,6 +60,7 @@
     <ClInclude Include="particles\inc\ParticleSystem.h" />
     <ClInclude Include="particles\inc\ParticleSystemLoader.h" />
     <ClInclude Include="particles\inc\ParticleSystemMessageHandler.h" />
+    <ClInclude Include="particles\inc\Quad.h" />
     <ClInclude Include="renderer\inc\Renderer.h" />
     <ClInclude Include="tinyobj\inc\tiny_obj_loader.h" />
   </ItemGroup>

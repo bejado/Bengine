@@ -11,11 +11,11 @@ namespace ITP485
 		}
 	}
 
-	void ParticleSystem::Render( const Vector3& viewPosition )
+	void ParticleSystem::Draw( const PrimitiveDrawer& drawer, const ViewPtr view ) const
 	{
 		for ( auto emitter : mEmitters )
 		{
-			emitter->Render( viewPosition );
+			emitter->Render( drawer, view );
 		}
 	}
 
