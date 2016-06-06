@@ -44,7 +44,7 @@ namespace ITP485
 		mIndexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( indexes, sizeof( uint16_t ) * NUM_INDICES, EBindflags::EBF_IndexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
 	}
 
-	void Quad::FillOutMeshStruct( PrimitiveDrawer::InstancedMesh* const mesh )
+	void Quad::FillOutMeshStruct( PrimitiveDrawer::Mesh* const mesh )
 	{
 		mesh->inputLayout = mInputLayout;
 		mesh->vertexBuffer = mVertexBuffer;
@@ -52,7 +52,7 @@ namespace ITP485
 		mesh->vertexShader = mVertexShader;
 		mesh->vertexStride = sizeof( VERTEX_P_N_T );
 		mesh->instanceStride = mInstanceDataSize;
-		mesh->indexbuffer = mIndexBuffer;
+		mesh->indexBuffer = mIndexBuffer;
 		mesh->indices = NUM_INDICES;
 		mesh->instanceBuffer = mInstanceBuffer;
 	}

@@ -6,7 +6,7 @@ namespace ITP485
 {
 
 	// Forward declaration
-	struct PrimitiveDrawer::InstancedMesh;
+	struct PrimitiveDrawer::Mesh;
 
 	class Quad 
 	{
@@ -19,7 +19,7 @@ namespace ITP485
 		void* MapInstanceBuffer();
 		void UnmapInstanceBuffer();
 
-		void FillOutMeshStruct( PrimitiveDrawer::InstancedMesh* const mesh );
+		void FillOutMeshStruct( PrimitiveDrawer::Mesh* const mesh );
 
 	private:
 

@@ -5,14 +5,18 @@ namespace ITP485
 	{
 	public:
 
-		Material( std::wstring shader, std::wstring texture );
-		void ActivateMaterial();
+		Material( std::wstring shaderPath, std::wstring texturePath, bool depthBufferReadOnly );
+		void ActivateMaterial() const;
+		void ActivateDepthOnlyMaterial() const;
+		bool DepthBufferIsReadOnly() { return mDepthBufferReadOnly; }
 
 	private:
 
 		PixelShaderPtr mPixelShader = nullptr;
+		PixelShaderPtr mDepthOnlyPixelShader = nullptr;
 		SamplerStatePtr mSamplerState = nullptr;
 		TexturePtr mTexture = nullptr;
+		bool mDepthBufferReadOnly = false;
 
 	};
 

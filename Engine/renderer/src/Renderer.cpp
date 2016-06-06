@@ -98,25 +98,26 @@ namespace ITP485
 	// PrimitiveDrawer
 	//////////////////////////
 
+	void PrimitiveDrawer::ActivateMaterial( const PrimitiveDrawer::Mesh& mesh ) const
+	{
+		mesh.material->ActivateMaterial();
+	}
+
+	bool PrimitiveDrawer::SetDepthState( const PrimitiveDrawer::Mesh& mesh ) const
+	{
+		// Check if this material does not want to write to the depth buffer.
+		if ( mesh.material->DepthBufferIsReadOnly() )
+		{
+			GraphicsDriver::Get()->SetDepthStencilState( mDepthStateReadOnly );
+			return true;
+		}
+		return false;
+	}
+
 	void PrimitiveDrawer::DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const
 	{
-		if ( mesh.vertexUniformBuffer != nullptr )	// not all meshes need a uniform buffer
-		{
-			GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
-		}
-		GraphicsDriver::Get()->SetVertexShader( mesh.vertexShader );
-		GraphicsDriver::Get()->SetInputLayout( mesh.inputLayout );
-		GraphicsDriver::Get()->SetVertexBuffer( mesh.vertexBuffer, mesh.vertexStride );	// TODO: here's where the vertex factory comes in
-		GraphicsDriver::Get()->SetIndexBuffer( mesh.indexbuffer );
-		mesh.material->ActivateMaterial();
+		bool needToRestoreDepthState = SetDepthState( mesh );
 
-		// Draw!
-		GraphicsDriver::Get()->DrawIndexed( mesh.indices, 0, 0 );
-	}
-
-	void PrimitiveDrawer::DrawInstancedMesh( const PrimitiveDrawer::InstancedMesh& mesh ) const
-	{
-		GraphicsDriver::Get()->SetDepthStencilState( mDepthStateReadOnly );
 		if ( mesh.vertexUniformBuffer != nullptr )	// not all meshes need a uniform buffer
 		{
 			GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
@@ -129,60 +130,43 @@ namespace ITP485
 
 		GraphicsDriver::Get()->SetVertexShader( mesh.vertexShader );
 		GraphicsDriver::Get()->SetInputLayout( mesh.inputLayout );
-		GraphicsDriver::Get()->SetVertexBuffers( mesh.vertexBuffer, mesh.vertexStride, mesh.instanceBuffer, mesh.instanceStride );
-		GraphicsDriver::Get()->SetIndexBuffer( mesh.indexbuffer );
-		mesh.material->ActivateMaterial();
+		GraphicsDriver::Get()->SetIndexBuffer( mesh.indexBuffer );
+
+		// Activate the material
+		ActivateMaterial( mesh );
 
 		// Draw!
-		GraphicsDriver::Get()->DrawIndexedInstanced( mesh.indices, mesh.instanceCount, 0, 0, 0 );
-		GraphicsDriver::Get()->SetDepthStencilState( mDepthStateNormal );
-	}
-
-	DepthOnlyDrawer::DepthOnlyDrawer()
-	{
-		// Load the pixel shader
-		vector< char > compiledPixelShader;
-		GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\shadow.hlsl", "DepthOnly", "ps_4_0", compiledPixelShader );		// TODO: this is a hack
-		mDepthOnlyShader = GraphicsDriver::Get()->CreatePixelShader( compiledPixelShader );
-
-		compiledPixelShader.clear();
-		GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\Particle.hlsl", "DepthOnly", "ps_4_0", compiledPixelShader );		// TODO: this is a hack
-		mInstancedDepthOnlyShader = GraphicsDriver::Get()->CreatePixelShader( compiledPixelShader );
-	}
-
-	void DepthOnlyDrawer::DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const
-	{
-		GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
-		GraphicsDriver::Get()->SetVertexShader( mesh.vertexShader );
-		GraphicsDriver::Get()->SetInputLayout( mesh.inputLayout );
-		GraphicsDriver::Get()->SetVertexBuffer( mesh.vertexBuffer, mesh.vertexStride );
-		GraphicsDriver::Get()->SetIndexBuffer( mesh.indexbuffer );
-		GraphicsDriver::Get()->SetPixelShader( mDepthOnlyShader );
-
-		// Draw!
-		GraphicsDriver::Get()->DrawIndexed( mesh.indices, 0, 0 );
-	}
-
-	void DepthOnlyDrawer::DrawInstancedMesh( const PrimitiveDrawer::InstancedMesh& mesh ) const
-	{
-		if ( mesh.vertexUniformBuffer != nullptr )	// not all meshes need a uniform buffer
+		if ( mesh.instanceCount > 1 )
 		{
-			GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
+			GraphicsDriver::Get()->SetVertexBuffers( mesh.vertexBuffer, mesh.vertexStride, mesh.instanceBuffer, mesh.instanceStride );
+			GraphicsDriver::Get()->DrawIndexedInstanced( mesh.indices, mesh.instanceCount, 0, 0, 0 );
+		}
+		else
+		{
+			GraphicsDriver::Get()->SetVertexBuffer( mesh.vertexBuffer, mesh.vertexStride );
+			GraphicsDriver::Get()->DrawIndexed( mesh.indices, 0, 0 );
 		}
 
-		if ( mesh.fragmentUniformBuffer != nullptr )
+		// Restore depth buffer state.
+		if ( needToRestoreDepthState )
 		{
-			GraphicsDriver::Get()->SetPSConstantBuffer( mesh.fragmentUniformBuffer, 1 );
+			GraphicsDriver::Get()->SetDepthStencilState( mDepthStateNormal );
 		}
+	}
 
-		GraphicsDriver::Get()->SetVertexShader( mesh.vertexShader );
-		GraphicsDriver::Get()->SetInputLayout( mesh.inputLayout );
-		GraphicsDriver::Get()->SetVertexBuffers( mesh.vertexBuffer, mesh.vertexStride, mesh.instanceBuffer, mesh.instanceStride );
-		GraphicsDriver::Get()->SetIndexBuffer( mesh.indexbuffer );
-		GraphicsDriver::Get()->SetPixelShader( mInstancedDepthOnlyShader );
+	//////////////////////////
+	// DepthOnlyDrawer
+	//////////////////////////
 
-		// Draw!
-		GraphicsDriver::Get()->DrawIndexedInstanced( mesh.indices, mesh.instanceCount, 0, 0, 0 );
+	bool DepthOnlyDrawer::SetDepthState( const PrimitiveDrawer::Mesh& mesh ) const
+	{
+		// We always want to write to the depth buffer, so assume the implicit normal depth state.
+		return false;
+	}
+
+	void DepthOnlyDrawer::ActivateMaterial( const PrimitiveDrawer::Mesh& mesh ) const
+	{
+		mesh.material->ActivateDepthOnlyMaterial();
 	}
 
 }

@@ -24,39 +24,36 @@ namespace ITP485
 	{
 	public:
 
+		/**
+		* The mesh data to render. Set instanceCount > 1 to render instanced meshes.
+		*/
 		struct Mesh
 		{
-			GraphicsBufferPtr vertexBuffer;
-			size_t vertexStride;
-			GraphicsBufferPtr indexbuffer;
-			GraphicsBufferPtr vertexUniformBuffer;
-			size_t indices;
-			MaterialPtr material;
-			InputLayoutPtr inputLayout;
-			VertexShaderPtr vertexShader;
-		};
+			InputLayoutPtr inputLayout = nullptr;
+			VertexShaderPtr vertexShader = nullptr;
 
-		struct InstancedMesh
-		{
-			InputLayoutPtr inputLayout;
-			VertexShaderPtr vertexShader;
+			GraphicsBufferPtr vertexBuffer = nullptr;
+			GraphicsBufferPtr instanceBuffer = nullptr;
+			size_t vertexStride = 0;
+			size_t instanceStride = 0;
+			GraphicsBufferPtr indexBuffer = nullptr;
+			GraphicsBufferPtr vertexUniformBuffer = nullptr;
+			GraphicsBufferPtr fragmentUniformBuffer = nullptr;
 
-			GraphicsBufferPtr vertexBuffer;
-			GraphicsBufferPtr instanceBuffer;
-			size_t vertexStride;
-			size_t instanceStride;
-			GraphicsBufferPtr indexbuffer;
-			GraphicsBufferPtr vertexUniformBuffer;
-			GraphicsBufferPtr fragmentUniformBuffer;
-
-			size_t indices;
-			size_t instanceCount;
+			size_t indices = 0;
+			size_t instanceCount = 1;
 
 			MaterialPtr material;
 		};
+
+		virtual void ActivateMaterial( const PrimitiveDrawer::Mesh& mesh ) const;
+
+		/**
+		* Bind the depth state for the mesh. Return true if depth state should be restored to the normal state after drawing.
+		*/
+		virtual bool SetDepthState( const PrimitiveDrawer::Mesh& mesh ) const;
 
 		virtual void DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const;
-		virtual void DrawInstancedMesh( const PrimitiveDrawer::InstancedMesh& mesh ) const;
 
 	};
 
@@ -64,14 +61,9 @@ namespace ITP485
 	{
 	public:
 
-		DepthOnlyDrawer();
-		virtual void DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const override;
-		virtual void DrawInstancedMesh( const PrimitiveDrawer::InstancedMesh& mesh ) const override;
+		void ActivateMaterial( const PrimitiveDrawer::Mesh& mesh ) const override;
+		bool SetDepthState( const PrimitiveDrawer::Mesh& mesh ) const override;
 
-	private:
-
-		PixelShaderPtr mDepthOnlyShader;
-		PixelShaderPtr mInstancedDepthOnlyShader;
 	};
 
 	struct PerCameraConstants

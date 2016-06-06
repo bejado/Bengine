@@ -76,7 +76,7 @@ namespace ITP485
 										  22, 21, 20, 20, 23, 22 };	// top
 		mIndexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( indexes, sizeof( uint16_t ) * NUM_INDICES, EBindflags::EBF_IndexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
 
-		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\shadow.hlsl", L"Resources\\Textures\\crate.dds" ) );
+		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\shadow.hlsl", L"Resources\\Textures\\crate.dds", false ) );
 
 		mNumIndices = NUM_INDICES;
 	}

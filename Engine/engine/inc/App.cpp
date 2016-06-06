@@ -45,16 +45,10 @@ namespace ITP485
 		floorPrimitive->SetScale( 20.f );
 		Renderer::Get().AddPrimitive( floorPrimitive );
 
-		// Create Ship
-		MeshPrimitivePtr shipPrimitive = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\Fighter.obj" ) );
-		shipPrimitive->SetTranslation( Vector3( 2.f, 1.f, 2.f ) );
-		shipPrimitive->SetScale( .05f );
-		// Renderer::Get().AddPrimitive( shipPrimitive );
-
 		// Create the particle system.
 		ParticleSystemLoader loader;
 		mParticleSystem = ParticleSystemPtr( new ParticleSystem() );
-		// loader.LoadFromFile( "Resources\\ParticleSystems\\jet_fuel.part", mParticleSystem );
+		loader.LoadFromFile( "Resources\\ParticleSystems\\jet_fuel.part", mParticleSystem );
 
 		// Let the renderer know about our system.
 		Renderer::Get().AddPrimitive( mParticleSystem );

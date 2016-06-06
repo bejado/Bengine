@@ -21,14 +21,14 @@ namespace ITP485
 
 		// Create a primitive mesh and draw it through our drawing interface.
 		PrimitiveDrawer::Mesh mesh;
-		mesh.indexbuffer = mIndexBuffer;
 		mesh.vertexBuffer = mVertexBuffer;
-		mesh.vertexStride = sizeof( VERTEX_P_N_T );
-		mesh.indices = mNumIndices;
-		mesh.inputLayout = mInputLayout;
-		mesh.vertexShader = mVertexShader;
-		mesh.material = mMaterial;
 		mesh.vertexUniformBuffer = mUniformBuffer;
+		mesh.inputLayout = mInputLayout;
+		mesh.vertexStride = sizeof( VERTEX_P_N_T );
+		mesh.indexBuffer = mIndexBuffer;
+		mesh.indices = mNumIndices;
+		mesh.vertexShader = mVertexShader;
+		mesh.material = mMaterial;	// TODO: we're assuming this is set in subclass' constructor
 		drawer.DrawMesh( mesh );
 	}
 
