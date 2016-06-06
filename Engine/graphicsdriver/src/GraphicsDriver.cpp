@@ -558,13 +558,13 @@ void GraphicsDriver::CreateDepthStencilAndTexture( int inWidth, int inHeight, De
 	outDepthStencilTexture = TexturePtr( shaderResourceView, AutoReleaseD3D );
 }
 
-DepthStencilStatePtr GraphicsDriver::CreateDepthStencilState( bool inDepthTestEnable, EComparisonFunc inDepthComparisonFunction )
+DepthStencilStatePtr GraphicsDriver::CreateDepthStencilState( bool inDepthTestEnable, EComparisonFunc inDepthComparisonFunction, EDepthWriteMask inWriteMask )
 {
 	D3D11_DEPTH_STENCIL_DESC dsDesc;
 
 	// Depth test parameters
 	dsDesc.DepthEnable = inDepthTestEnable;
-	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	dsDesc.DepthWriteMask = static_cast< D3D11_DEPTH_WRITE_MASK >( inWriteMask );
 	dsDesc.DepthFunc = static_cast< D3D11_COMPARISON_FUNC >( inDepthComparisonFunction );
 
 	// Stencil test parameters

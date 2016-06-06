@@ -13,36 +13,35 @@ namespace ITP485
 		Renderer::Get().Initialize();
 
 		// Create the player's view.
-		mCamera = ViewPtr( new View( Vector3( 0.f, 5.f, 5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, false ) );
-		mCamera->LookAt( 0.f, 0.f, 0.f );
+		mCamera = ViewPtr( new View( Vector3( 0.f, 1.f, -5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, false ) );
 		Renderer::Get().SetCamera( mCamera );
 
 		// Create our light.
-		mLight = ViewPtr( new View( Vector3( 5.f, 5.f, 5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, true ) );
+		mLight = ViewPtr( new View( Vector3( 0.f, 5.f, 10.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, true ) );
 		mLight->LookAt( 0.f, 0.f, 0.f );
 		Renderer::Get().SetLight( mLight );
 
-		// Create the particle system.
-		ParticleSystemLoader loader;
-		mParticleSystem = ParticleSystemPtr( new ParticleSystem() );
-		loader.LoadFromFile( "Resources\\ParticleSystems\\jet_fuel.part", mParticleSystem );
-
-		// Let the renderer know about our system.
-		Renderer::Get().AddPrimitive( mParticleSystem );
-
-		// Create cube
-		mCubePrimitive = MeshPrimitivePtr( new CubePrimitive() );
-		mCubePrimitive->SetTranslation( Vector3( 5.f, 0.f, 5.f ) );
-		Renderer::Get().AddPrimitive( mCubePrimitive );
-
-		// Create other cube
-		mCubePrimitive2 = MeshPrimitivePtr( new CubePrimitive() );
-		mCubePrimitive2->SetTranslation( Vector3( 5.25f, 1.5f, 5.5f ) );
-		Renderer::Get().AddPrimitive( mCubePrimitive2 );
+		// Create cubes
+		for ( int x = -10; x < 10; x++ )
+		{
+			for ( int y = -10; y < 10; y++ )
+			{
+				if ( random() % 3 == 0 )
+				{
+					int amount = random() % 3;
+					for ( int z = -3.f; z < -3.f + amount; z++ )
+					{
+						mCubePrimitive = MeshPrimitivePtr( new CubePrimitive() );
+						mCubePrimitive->SetTranslation( Vector3( (float)( x ), (float)( z ), (float)( y ) ) );
+						Renderer::Get().AddPrimitive( mCubePrimitive );
+					}
+				}
+			}
+		}
 
 		// Create floor
 		MeshPrimitivePtr floorPrimitive = MeshPrimitivePtr( new CubePrimitive() );
-		floorPrimitive->SetTranslation( Vector3( -10.f, -25.f, -10.f ) );
+		floorPrimitive->SetTranslation( Vector3( -10.f, -23.f, -10.f ) );
 		floorPrimitive->SetScale( 20.f );
 		Renderer::Get().AddPrimitive( floorPrimitive );
 
@@ -50,7 +49,15 @@ namespace ITP485
 		MeshPrimitivePtr shipPrimitive = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\Fighter.obj" ) );
 		shipPrimitive->SetTranslation( Vector3( 2.f, 1.f, 2.f ) );
 		shipPrimitive->SetScale( .05f );
-		Renderer::Get().AddPrimitive( shipPrimitive );
+		// Renderer::Get().AddPrimitive( shipPrimitive );
+
+		// Create the particle system.
+		ParticleSystemLoader loader;
+		mParticleSystem = ParticleSystemPtr( new ParticleSystem() );
+		// loader.LoadFromFile( "Resources\\ParticleSystems\\jet_fuel.part", mParticleSystem );
+
+		// Let the renderer know about our system.
+		Renderer::Get().AddPrimitive( mParticleSystem );
 	}
 
 	void App::Update()
@@ -104,6 +111,7 @@ namespace ITP485
 
 	void App::HandleMessage( const json& msg )
 	{
+		mParticleSystemMessageHandler.HandleMessage( msg, mParticleSystem );
 	}
 
 }

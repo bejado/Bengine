@@ -65,11 +65,13 @@ namespace ITP485
 	public:
 
 		DepthOnlyDrawer();
-		virtual void DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const;
+		virtual void DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const override;
+		virtual void DrawInstancedMesh( const PrimitiveDrawer::InstancedMesh& mesh ) const override;
 
 	private:
 
 		PixelShaderPtr mDepthOnlyShader;
+		PixelShaderPtr mInstancedDepthOnlyShader;
 	};
 
 	struct PerCameraConstants
@@ -107,7 +109,6 @@ namespace ITP485
 		GraphicsBufferPtr mCameraConstantBuffer;
 
 		DepthStencilPtr mShadowMapDepthStencil;
-		DepthStencilStatePtr mDepthStencilState;
 		TexturePtr mShadowMapTexture;
 		SamplerStatePtr mShadowMapSamplerState;
 

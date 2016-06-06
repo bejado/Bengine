@@ -7,6 +7,8 @@ namespace ITP485
 	//////////////////////////
 
 	// TODO: figure this out
+	DepthStencilStatePtr mDepthStateNormal;
+	DepthStencilStatePtr mDepthStateReadOnly;
 
 	void Renderer::Initialize()
 	{
@@ -20,8 +22,9 @@ namespace ITP485
 
 		// Set up our depth buffer and depth test
 		mDepthStencilView = GraphicsDriver::Get()->CreateDepthStencil( GraphicsDriver::Get()->GetWindowWidth(), GraphicsDriver::Get()->GetWindowHeight() );
-		mDepthStencilState = GraphicsDriver::Get()->CreateDepthStencilState( true, EComparisonFunc::ECF_Less );
-		GraphicsDriver::Get()->SetDepthStencilState( mDepthStencilState );
+		mDepthStateNormal = GraphicsDriver::Get()->CreateDepthStencilState( true, EComparisonFunc::ECF_Less, EDepthWriteMask::EDWM_All );
+		mDepthStateReadOnly = GraphicsDriver::Get()->CreateDepthStencilState( true, EComparisonFunc::ECF_Less, EDepthWriteMask::EDWM_None );
+		GraphicsDriver::Get()->SetDepthStencilState( mDepthStateNormal );
 
 		// Create our shadow map target and texture
 		GraphicsDriver::Get()->CreateDepthStencilAndTexture( GraphicsDriver::Get()->GetWindowWidth(), GraphicsDriver::Get()->GetWindowHeight(), mShadowMapDepthStencil, mShadowMapTexture );
@@ -113,6 +116,7 @@ namespace ITP485
 
 	void PrimitiveDrawer::DrawInstancedMesh( const PrimitiveDrawer::InstancedMesh& mesh ) const
 	{
+		GraphicsDriver::Get()->SetDepthStencilState( mDepthStateReadOnly );
 		if ( mesh.vertexUniformBuffer != nullptr )	// not all meshes need a uniform buffer
 		{
 			GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
@@ -131,14 +135,19 @@ namespace ITP485
 
 		// Draw!
 		GraphicsDriver::Get()->DrawIndexedInstanced( mesh.indices, mesh.instanceCount, 0, 0, 0 );
+		GraphicsDriver::Get()->SetDepthStencilState( mDepthStateNormal );
 	}
 
 	DepthOnlyDrawer::DepthOnlyDrawer()
 	{
 		// Load the pixel shader
 		vector< char > compiledPixelShader;
-		GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\shadow.hlsl", "DepthOnly", "ps_4_0", compiledPixelShader );
+		GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\shadow.hlsl", "DepthOnly", "ps_4_0", compiledPixelShader );		// TODO: this is a hack
 		mDepthOnlyShader = GraphicsDriver::Get()->CreatePixelShader( compiledPixelShader );
+
+		compiledPixelShader.clear();
+		GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\Particle.hlsl", "DepthOnly", "ps_4_0", compiledPixelShader );		// TODO: this is a hack
+		mInstancedDepthOnlyShader = GraphicsDriver::Get()->CreatePixelShader( compiledPixelShader );
 	}
 
 	void DepthOnlyDrawer::DrawMesh( const PrimitiveDrawer::Mesh& mesh ) const
@@ -152,6 +161,28 @@ namespace ITP485
 
 		// Draw!
 		GraphicsDriver::Get()->DrawIndexed( mesh.indices, 0, 0 );
+	}
+
+	void DepthOnlyDrawer::DrawInstancedMesh( const PrimitiveDrawer::InstancedMesh& mesh ) const
+	{
+		if ( mesh.vertexUniformBuffer != nullptr )	// not all meshes need a uniform buffer
+		{
+			GraphicsDriver::Get()->SetVSConstantBuffer( mesh.vertexUniformBuffer, 1 );
+		}
+
+		if ( mesh.fragmentUniformBuffer != nullptr )
+		{
+			GraphicsDriver::Get()->SetPSConstantBuffer( mesh.fragmentUniformBuffer, 1 );
+		}
+
+		GraphicsDriver::Get()->SetVertexShader( mesh.vertexShader );
+		GraphicsDriver::Get()->SetInputLayout( mesh.inputLayout );
+		GraphicsDriver::Get()->SetVertexBuffers( mesh.vertexBuffer, mesh.vertexStride, mesh.instanceBuffer, mesh.instanceStride );
+		GraphicsDriver::Get()->SetIndexBuffer( mesh.indexbuffer );
+		GraphicsDriver::Get()->SetPixelShader( mInstancedDepthOnlyShader );
+
+		// Draw!
+		GraphicsDriver::Get()->DrawIndexedInstanced( mesh.indices, mesh.instanceCount, 0, 0, 0 );
 	}
 
 }
