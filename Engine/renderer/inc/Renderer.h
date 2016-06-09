@@ -62,6 +62,13 @@ namespace ITP485
 	public:
 
 		void ActivateMaterial( const PrimitiveDrawer::Mesh& mesh ) const override;
+
+	};
+
+	class TransclucentDrawer : public PrimitiveDrawer
+	{
+	public:
+
 		bool SetDepthState( const PrimitiveDrawer::Mesh& mesh ) const override;
 
 	};
@@ -89,6 +96,11 @@ namespace ITP485
 		*/
 		void AddPrimitive( const RenderPrimitivePtr primitive );
 
+		/**
+		* Add a primitive to be rendererd in a separate translucency pass after all opaque primitivies./
+		*/
+		void AddTranslucentPrimitive( const RenderPrimitivePtr primitive );
+
 		void SetCamera( const ViewPtr view );
 		void SetLight( const ViewPtr light );
 
@@ -106,10 +118,12 @@ namespace ITP485
 
 		PrimitiveDrawer mBasePassDrawer;
 		DepthOnlyDrawer mShadowPassDrawer;
+		TransclucentDrawer mTransclucentDrawer;
 
 		ViewPtr mCamera;
 		ViewPtr mLight;
 		vector<RenderPrimitivePtr> mPrimitives;
+		vector<RenderPrimitivePtr> mTranslucentPrimitives;
 
 	};
 }

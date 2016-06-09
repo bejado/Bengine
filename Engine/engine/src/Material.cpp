@@ -2,7 +2,7 @@
 
 namespace ITP485
 {
-	Material::Material( std::wstring shaderPath, std::wstring texturePath, bool depthBufferReadOnly ) : mDepthBufferReadOnly( depthBufferReadOnly )
+	Material::Material( std::wstring shaderPath, std::wstring texturePath )
 	{
 		// Load the pixel shader
 		vector< char > compiledPixelShader;

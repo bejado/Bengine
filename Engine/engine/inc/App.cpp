@@ -21,6 +21,14 @@ namespace ITP485
 		mLight->LookAt( 0.f, 0.f, 0.f );
 		Renderer::Get().SetLight( mLight );
 
+		// Create the particle system.
+		ParticleSystemLoader loader;
+		mParticleSystem = ParticleSystemPtr( new ParticleSystem() );
+		loader.LoadFromFile( "Resources\\ParticleSystems\\jet_fuel.part", mParticleSystem );
+
+		// Let the renderer know about our system.
+		Renderer::Get().AddTranslucentPrimitive( mParticleSystem );
+
 		// Create cubes
 		for ( int x = -10; x < 10; x++ )
 		{
@@ -44,14 +52,6 @@ namespace ITP485
 		floorPrimitive->SetTranslation( Vector3( -10.f, -23.f, -10.f ) );
 		floorPrimitive->SetScale( 20.f );
 		Renderer::Get().AddPrimitive( floorPrimitive );
-
-		// Create the particle system.
-		ParticleSystemLoader loader;
-		mParticleSystem = ParticleSystemPtr( new ParticleSystem() );
-		loader.LoadFromFile( "Resources\\ParticleSystems\\jet_fuel.part", mParticleSystem );
-
-		// Let the renderer know about our system.
-		Renderer::Get().AddPrimitive( mParticleSystem );
 	}
 
 	void App::Update()

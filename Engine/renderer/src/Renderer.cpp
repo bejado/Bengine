@@ -45,6 +45,11 @@ namespace ITP485
 		mPrimitives.push_back( primitive );
 	}
 
+	void Renderer::AddTranslucentPrimitive( const RenderPrimitivePtr primitive )
+	{
+		mTranslucentPrimitives.push_back( primitive );
+	}
+
 	void Renderer::SetCamera( const ViewPtr view )
 	{
 		mCamera = view;
@@ -64,7 +69,11 @@ namespace ITP485
 		GraphicsDriver::Get()->ClearDepthStencil( mShadowMapDepthStencil, 1.0f );
 		GraphicsDriver::Get()->SetDepthStencil( mShadowMapDepthStencil );
 		UpdateViewConstants( mLight->GetProjectionViewMatrix(), mLight->GetPosition() );	// TODO: should this be in the Renderer?
-		for ( const RenderPrimitivePtr& primitive : mPrimitives )
+		for ( const RenderPrimitivePtr& primitive : mPrimitives )	// render opaque primitives
+		{
+			primitive->Draw( mShadowPassDrawer, mLight );
+		}
+		for ( const RenderPrimitivePtr& primitive : mTranslucentPrimitives )	// render transclucent primitives
 		{
 			primitive->Draw( mShadowPassDrawer, mLight );
 		}
@@ -79,6 +88,12 @@ namespace ITP485
 		for ( const RenderPrimitivePtr& primitive : mPrimitives )
 		{
 			primitive->Draw( mBasePassDrawer, mCamera );
+		}
+
+		// Translucent pass
+		for ( const RenderPrimitivePtr& primitive : mTranslucentPrimitives )
+		{
+			primitive->Draw( mTransclucentDrawer, mCamera );
 		}
 
 		// Present!
@@ -105,12 +120,7 @@ namespace ITP485
 
 	bool PrimitiveDrawer::SetDepthState( const PrimitiveDrawer::Mesh& mesh ) const
 	{
-		// Check if this material does not want to write to the depth buffer.
-		if ( mesh.material->DepthBufferIsReadOnly() )
-		{
-			GraphicsDriver::Get()->SetDepthStencilState( mDepthStateReadOnly );
-			return true;
-		}
+		// We always want to write to the depth buffer, so assume the implicit normal depth state.
 		return false;
 	}
 
@@ -158,15 +168,19 @@ namespace ITP485
 	// DepthOnlyDrawer
 	//////////////////////////
 
-	bool DepthOnlyDrawer::SetDepthState( const PrimitiveDrawer::Mesh& mesh ) const
-	{
-		// We always want to write to the depth buffer, so assume the implicit normal depth state.
-		return false;
-	}
-
 	void DepthOnlyDrawer::ActivateMaterial( const PrimitiveDrawer::Mesh& mesh ) const
 	{
 		mesh.material->ActivateDepthOnlyMaterial();
+	}
+
+	//////////////////////////
+	// TranslucentDrawer
+	//////////////////////////
+
+	bool TransclucentDrawer::SetDepthState( const PrimitiveDrawer::Mesh& mesh ) const
+	{
+		GraphicsDriver::Get()->SetDepthStencilState( mDepthStateReadOnly );
+		return true;
 	}
 
 }

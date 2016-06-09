@@ -95,7 +95,7 @@ namespace ITP485
 		// Create our object to world constant buffer
 		mUniformBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Matrix4 ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 
-		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\shadow.hlsl", L"Resources\\Textures\\fighter.dds", false ) );
+		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\shadow.hlsl", L"Resources\\Textures\\fighter.dds" ) );
 	}
 
 }
