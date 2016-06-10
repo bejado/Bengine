@@ -227,7 +227,7 @@ mCurrentDepthStencil( nullptr )
 	mWindowHeight = height;
 	SetViewport( 0.f, 0.f, static_cast< float >( width ), static_cast< float >( height ) );
 
-	SetRasterizerState( CreateRasterizerState( EFM_Wireframe ) );
+	SetRasterizerState( CreateRasterizerState( EFM_Wireframe, ECM_None ) );
 
 	SetPrimitiveTopology( D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
@@ -670,17 +670,14 @@ void GraphicsDriver::Present()
 }
 
 
-RasterizerStatePtr GraphicsDriver::CreateRasterizerState( EFillMode inFillMode )
+RasterizerStatePtr GraphicsDriver::CreateRasterizerState( EFillMode inFillMode, ECullMode inCullMode )
 {
 	//let's set CCW as the front face, since right hand rule is nice...
 	D3D11_RASTERIZER_DESC rastDesc;
 	ZeroMemory( &rastDesc, sizeof( rastDesc ) );
 
-	//lab3
 	rastDesc.FillMode = static_cast< D3D11_FILL_MODE >( inFillMode );
-
-	rastDesc.CullMode = D3D11_CULL_BACK;
-	//rastDesc.CullMode = D3D11_CULL_NONE;
+	rastDesc.CullMode = static_cast< D3D11_CULL_MODE >( inCullMode );
 	rastDesc.FrontCounterClockwise = false;
 
 	ID3D11RasterizerState* toRet;

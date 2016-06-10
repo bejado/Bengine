@@ -13,7 +13,7 @@ namespace ITP485
 	void Renderer::Initialize()
 	{
 		// Create a solid fill rasterizer state
-		mRasterizerState = GraphicsDriver::Get()->CreateRasterizerState( EFM_Solid );
+		mRasterizerState = GraphicsDriver::Get()->CreateRasterizerState( EFM_Solid, ECM_Back );
 		GraphicsDriver::Get()->SetRasterizerState( mRasterizerState );
 
 		// Create a blend state

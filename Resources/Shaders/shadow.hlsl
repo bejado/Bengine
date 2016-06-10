@@ -52,17 +52,36 @@ float4 PS( PS_INPUT input ) : SV_Target
 {
 	// Shadow calculation
 	float3 projectedCoords = input.LightPos.xyz / input.LightPos.w;
-	projectedCoords.xy = projectedCoords.xy * .5 + .5;
-	float closestDepth = gShadowMap.Sample( gShadowMapSamplerState, float2(projectedCoords.x, 1.0 - projectedCoords.y) );
 	float currentDepth = projectedCoords.z;
-	float bias = 0.0005;
-	float shadow = currentDepth - bias > closestDepth ? 1.f : 0.f;
+
+	float shadow = 0.0f;
+	float bias = 0.00005;
+	float smWidth, smHeight;
+	gShadowMap.GetDimensions( smWidth, smHeight );
+	float2 texelSize = float2( 1.f, 1.f ) / float2( smWidth, smHeight );
+
+	int samples = 1;
+	if ( projectedCoords.z <= 1.0 && projectedCoords.x >= -1.f && projectedCoords.x <= 1.f &&
+									 projectedCoords.y >= -1.f && projectedCoords.y <= 1.f )		// check to make sure the coords are inside the light's clip space
+	{
+		// adjust the projected coords so we can use them for uv lookups
+		projectedCoords.xy = projectedCoords.xy * .5 + .5;
+
+		for ( int x = -samples; x <= samples; x++ )
+		{
+			for ( int y = -samples; y <= samples; y++ )
+			{
+				float2 offset = float2( x, y ) * texelSize;
+				float pcfDepth = gShadowMap.Sample( gShadowMapSamplerState, float2(projectedCoords.x, 1.0 - projectedCoords.y) + offset );
+				shadow += currentDepth - bias > pcfDepth ? 1.f : 0.f;
+			}
+		}
+	}
+	shadow /= pow( ( samples * 2 + 1 ), 2 );
 
 	float3 textureColor = gTexture.Sample( gSamplerState, float2(input.TexCoord.x, 1.0 - input.TexCoord.y) );
 	float3 shadowColor = textureColor * 0.3;
 	return float4( (1.f - shadow) * textureColor + (shadow) * shadowColor, 1.f );
-	float val = closestDepth;
-	return float4(val, val, val, 1.f);
 }
 
 float4 DepthOnly( PS_INPUT input ) : SV_Target

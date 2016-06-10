@@ -27,13 +27,7 @@ namespace ITP485
 		ViewPtr mCamera;
 		ViewPtr mLight;
 
-		ParticleSystemPtr mParticleSystem;
-		ParticleSystemMessageHandler mParticleSystemMessageHandler;
-
 		float mCameraMoveSpeed = 5.0f;
-
-		MeshPrimitivePtr mCubePrimitive;
-		MeshPrimitivePtr mCubePrimitive2;
 		float mX;
 	};
 

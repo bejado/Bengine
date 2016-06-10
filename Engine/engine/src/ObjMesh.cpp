@@ -57,7 +57,7 @@ namespace ITP485
 
 		  // Loop through the vertices of the mesh
 		  for (size_t v = 0; v < shapes[i].mesh.positions.size() / 3; v++) {
-			PackedVector3 pos1 = GetPosition( shapes[i], v );
+			PackedVector3 pos1 = GetPosition( shapes[i], v );	// TODO: support meshes without normals or texture coordinates
 			PackedVector2 tex1 = GetTexCoord( shapes[i], v );
 			PackedVector3 norm1 = GetNormal( shapes[i], v );
 
@@ -95,7 +95,7 @@ namespace ITP485
 		// Create our object to world constant buffer
 		mUniformBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Matrix4 ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 
-		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\shadow.hlsl", L"Resources\\Textures\\fighter.dds" ) );
+		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\shadow.hlsl", L"Resources\\Textures\\bench_color.dds" ) );
 	}
 
 }

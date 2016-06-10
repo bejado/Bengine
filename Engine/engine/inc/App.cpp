@@ -17,39 +17,31 @@ namespace ITP485
 		Renderer::Get().SetCamera( mCamera );
 
 		// Create our light.
-		mLight = ViewPtr( new View( Vector3( 0.f, 5.f, 10.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, true ) );
+		mLight = ViewPtr( new View( Vector3( 0.f, 5.f, 10.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, false ) );
 		mLight->LookAt( 0.f, 0.f, 0.f );
 		Renderer::Get().SetLight( mLight );
 
-		// Create the particle system.
-		ParticleSystemLoader loader;
-		mParticleSystem = ParticleSystemPtr( new ParticleSystem() );
-		loader.LoadFromFile( "Resources\\ParticleSystems\\jet_fuel.part", mParticleSystem );
-
-		// Let the renderer know about our system.
-		Renderer::Get().AddTranslucentPrimitive( mParticleSystem );
-
-		// Create cubes
-		for ( int x = -10; x < 10; x++ )
+		// Create cube.
 		{
-			for ( int y = -10; y < 10; y++ )
-			{
-				if ( random() % 3 == 0 )
-				{
-					int amount = random() % 3;
-					for ( int z = -3.f; z < -3.f + amount; z++ )
-					{
-						mCubePrimitive = MeshPrimitivePtr( new CubePrimitive() );
-						mCubePrimitive->SetTranslation( Vector3( (float)( x ), (float)( z ), (float)( y ) ) );
-						Renderer::Get().AddPrimitive( mCubePrimitive );
-					}
-				}
-			}
+			MeshPrimitivePtr cubePrimitive = MeshPrimitivePtr( new CubePrimitive() );
+			cubePrimitive->SetTranslation( Vector3( -2.f, 0.f, 3.f ) );
+			Quaternion rotation( Vector3::UnitY, -3.14159f / 4.f );
+			cubePrimitive->SetRotation( rotation );
+			Renderer::Get().AddPrimitive( cubePrimitive );
+		}
+
+		// Create bench.
+		{
+			MeshPrimitivePtr benchPrimitive = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\bench\\bench.obj" ) );
+			benchPrimitive->SetScale( 0.019f );
+			Quaternion rotation( Vector3::UnitY, 3.14159f / 4.f );
+			benchPrimitive->SetRotation( rotation );
+			Renderer::Get().AddPrimitive( benchPrimitive );
 		}
 
 		// Create floor
 		MeshPrimitivePtr floorPrimitive = MeshPrimitivePtr( new CubePrimitive() );
-		floorPrimitive->SetTranslation( Vector3( -10.f, -23.f, -10.f ) );
+		floorPrimitive->SetTranslation( Vector3( -10.f, -20.f, -10.f ) );
 		floorPrimitive->SetScale( 20.f );
 		Renderer::Get().AddPrimitive( floorPrimitive );
 	}
@@ -95,7 +87,10 @@ namespace ITP485
 			PostQuitMessage( 0 );
 		}
 
-		mParticleSystem->Update();
+		// Update light
+		mX += Timing::Get().GetDeltaTime();
+		mLight->SetPosition( cos( mX ) * 10.f, 5.f, sin( mX ) * 10.f );
+		mLight->LookAt( 0.f, 0.f, 0.f );
 	}
 
 	void App::Render()
@@ -105,7 +100,6 @@ namespace ITP485
 
 	void App::HandleMessage( const json& msg )
 	{
-		mParticleSystemMessageHandler.HandleMessage( msg, mParticleSystem );
 	}
 
 }

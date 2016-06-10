@@ -43,6 +43,13 @@ namespace ITP485
 		EFM_Solid = D3D11_FILL_SOLID,
 	};
 
+	enum ECullMode
+	{
+		ECM_Back = D3D11_CULL_BACK,
+		ECM_Front = D3D11_CULL_FRONT,
+		ECM_None = D3D11_CULL_NONE
+	};
+
 	enum EComparisonFunc
 	{
 		ECF_Never = D3D11_COMPARISON_NEVER,
@@ -125,7 +132,7 @@ namespace ITP485
 		DepthStencilPtr CreateDepthStencil( int inWidth, int inHeight );
 		void CreateDepthStencilAndTexture( int inWidth, int inHeight, DepthStencilPtr& depthStencil, TexturePtr& depthStencilTexture );
 		DepthStencilStatePtr CreateDepthStencilState( bool inDepthTestEnable, EComparisonFunc inDepthComparisonFunction, EDepthWriteMask inWriteMask );
-		RasterizerStatePtr CreateRasterizerState( EFillMode inFillMode );
+		RasterizerStatePtr CreateRasterizerState( EFillMode inFillMode, ECullMode inCullMode );
 		BlendStatePtr CreateBlendState();
 
 		void SetRenderTarget( RenderTargetPtr inRenderTarget );
