@@ -25,9 +25,6 @@ struct PS_INPUT {
 	float4 LightPos : TEXCOORD2;
 };
 
-Texture2D gTexture : register(t0);
-SamplerState gSamplerState : register(s0);
-
 Texture2D gShadowMap : register(t1);
 SamplerState gShadowMapSamplerState : register(s1);
 
@@ -55,7 +52,7 @@ float4 PS( PS_INPUT input ) : SV_Target
 	float currentDepth = projectedCoords.z;
 
 	float shadow = 0.0f;
-	float bias = 0.00005;
+	float bias = 0.0005;
 	float smWidth, smHeight;
 	gShadowMap.GetDimensions( smWidth, smHeight );
 	float2 texelSize = float2( 1.f, 1.f ) / float2( smWidth, smHeight );
@@ -77,11 +74,11 @@ float4 PS( PS_INPUT input ) : SV_Target
 			}
 		}
 	}
-	shadow /= pow( ( samples * 2 + 1 ), 2 );
 
-	float3 textureColor = gTexture.Sample( gSamplerState, float2(input.TexCoord.x, 1.0 - input.TexCoord.y) );
-	float3 shadowColor = textureColor * 0.3;
-	return float4( (1.f - shadow) * textureColor + (shadow) * shadowColor, 1.f );
+	shadow /= pow( ( samples * 2 + 1 ), 2 );
+	float shadowColor = ( 1.f - shadow );
+
+	return float4( shadowColor, shadowColor, shadowColor, 1.f );
 }
 
 float4 DepthOnly( PS_INPUT input ) : SV_Target

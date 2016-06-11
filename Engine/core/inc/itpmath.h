@@ -47,6 +47,11 @@ namespace ITP485
 		return toRet;
 	}
 
+	inline float RandomFloat(float LO, float HI)
+	{
+		return LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
+	}
+
 }
 
 #endif // _MATH_H_

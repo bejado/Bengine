@@ -8,12 +8,14 @@ namespace ITP485
 	MeshPrimitive::MeshPrimitive() : mTranslation( 0.f, 0.f, 0.f ),
 									 mScale( 1.f ),
 									 mRotation( Quaternion::Identity ),
-									 mUniformBufferDirty( true )
+									 mUniformBuffer( nullptr ),
+									 mUniformBufferDirty( true ),
+									 mVertexStride( sizeof( VERTEX_P_N_T ) )
 	{}
 
 	void MeshPrimitive::Draw( const PrimitiveDrawer& drawer, const ViewPtr view ) const
 	{
-		if ( mUniformBufferDirty )
+		if ( mUniformBufferDirty && mUniformBuffer )
 		{
 			UpdateVertexUniformBuffer();
 			mUniformBufferDirty = false;
@@ -24,7 +26,7 @@ namespace ITP485
 		mesh.vertexBuffer = mVertexBuffer;
 		mesh.vertexUniformBuffer = mUniformBuffer;
 		mesh.inputLayout = mInputLayout;
-		mesh.vertexStride = sizeof( VERTEX_P_N_T );
+		mesh.vertexStride = mVertexStride;
 		mesh.indexBuffer = mIndexBuffer;
 		mesh.indices = mNumIndices;
 		mesh.vertexShader = mVertexShader;

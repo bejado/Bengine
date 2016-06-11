@@ -80,15 +80,23 @@ namespace ITP485
 		Matrix4 mLightMatrix;
 	};
 
+	// Forward declaration
+	class MeshPrimitive;
+	typedef shared_ptr< MeshPrimitive > MeshPrimitivePtr;
+
 	/**
 	 * The main Rendering algorithm.
 	 */
 	class Renderer : public Singleton < Renderer >
 	{
 	public:
+		DECLARE_ALIGNED_NEW_DELETE
 		DECLARE_SINGLETON( Renderer );
 
+		static const uint32_t OCCLUSION_SAMPLES = 512;
+
 		void Initialize();
+		void RenderSingleLight( const Vector3& lightPosition );
 		void Render();
 
 		/**
@@ -97,7 +105,7 @@ namespace ITP485
 		void AddPrimitive( const RenderPrimitivePtr primitive );
 
 		/**
-		* Add a primitive to be rendererd in a separate translucency pass after all opaque primitivies./
+		* Add a primitive to be rendererd in a separate translucency pass after all opaque primitivies.
 		*/
 		void AddTranslucentPrimitive( const RenderPrimitivePtr primitive );
 
@@ -108,9 +116,14 @@ namespace ITP485
 		void UpdateViewConstants( const Matrix4& projectionView, const Vector3& position ) const;
 
 		RasterizerStatePtr mRasterizerState;
-		BlendStatePtr mBlendState;
+		BlendStatePtr mBlendStateNormal;
+		BlendStatePtr mBlendStateAdditive;
 		DepthStencilPtr mDepthStencilView;
 		GraphicsBufferPtr mCameraConstantBuffer;
+
+		RenderTargetPtr mBasePassRenderTarget;
+		TexturePtr mBasePassTexture;
+		MeshPrimitivePtr mFullscreenQuad;
 
 		DepthStencilPtr mShadowMapDepthStencil;
 		TexturePtr mShadowMapTexture;
@@ -124,6 +137,8 @@ namespace ITP485
 		ViewPtr mLight;
 		vector<RenderPrimitivePtr> mPrimitives;
 		vector<RenderPrimitivePtr> mTranslucentPrimitives;
+
+		Vector3 mUniformHemisphereSample[OCCLUSION_SAMPLES];
 
 	};
 }

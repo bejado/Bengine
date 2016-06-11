@@ -62,6 +62,12 @@ namespace ITP485
 		ECF_Always = D3D11_COMPARISON_ALWAYS,
 	};
 
+	enum EBlend
+	{
+		EB_One = D3D11_BLEND_ONE,
+		EB_Zero = D3D11_BLEND_ZERO
+	};
+
 	enum EDepthWriteMask
 	{
 		EDWM_All = D3D11_DEPTH_WRITE_MASK_ALL,
@@ -131,9 +137,10 @@ namespace ITP485
 		TexturePtr CreateTextureFromFile( const wchar_t* inFileName );
 		DepthStencilPtr CreateDepthStencil( int inWidth, int inHeight );
 		void CreateDepthStencilAndTexture( int inWidth, int inHeight, DepthStencilPtr& depthStencil, TexturePtr& depthStencilTexture );
+		void CreateRenderTargetAndTexture( int inWidth, int inHeight, RenderTargetPtr& outRenderTarget, TexturePtr& outRenderTargetTexture );
 		DepthStencilStatePtr CreateDepthStencilState( bool inDepthTestEnable, EComparisonFunc inDepthComparisonFunction, EDepthWriteMask inWriteMask );
 		RasterizerStatePtr CreateRasterizerState( EFillMode inFillMode, ECullMode inCullMode );
-		BlendStatePtr CreateBlendState();
+		BlendStatePtr CreateBlendState( EBlend inSrcBlend, EBlend inDestBlend );
 
 		void SetRenderTarget( RenderTargetPtr inRenderTarget );
 		void SetDepthStencil( DepthStencilPtr inDepthStencil );

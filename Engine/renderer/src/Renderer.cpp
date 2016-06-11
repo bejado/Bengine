@@ -1,7 +1,9 @@
 #include "Renderer.h"
+#include "FullscreenQuad.h"
 
 namespace ITP485
 {
+
 	//////////////////////////
 	// Renderer
 	//////////////////////////
@@ -16,9 +18,9 @@ namespace ITP485
 		mRasterizerState = GraphicsDriver::Get()->CreateRasterizerState( EFM_Solid, ECM_Back );
 		GraphicsDriver::Get()->SetRasterizerState( mRasterizerState );
 
-		// Create a blend state
-		mBlendState = GraphicsDriver::Get()->CreateBlendState();
-		GraphicsDriver::Get()->SetBlendState( mBlendState );
+		// Create a blend states
+		mBlendStateNormal = GraphicsDriver::Get()->CreateBlendState( EBlend::EB_One, EBlend::EB_Zero );
+		mBlendStateAdditive = GraphicsDriver::Get()->CreateBlendState( EBlend::EB_One, EBlend::EB_One );
 
 		// Set up our depth buffer and depth test
 		mDepthStencilView = GraphicsDriver::Get()->CreateDepthStencil( GraphicsDriver::Get()->GetWindowWidth(), GraphicsDriver::Get()->GetWindowHeight() );
@@ -34,10 +36,26 @@ namespace ITP485
 		GraphicsDriver::Get()->SetPSSamplerState( mShadowMapSamplerState, 1 );
 		GraphicsDriver::Get()->SetPSTexture( mShadowMapTexture, 1 );
 
+		// Create off-screen render target
+		GraphicsDriver::Get()->CreateRenderTargetAndTexture( GraphicsDriver::Get()->GetWindowWidth(), GraphicsDriver::Get()->GetWindowHeight(), mBasePassRenderTarget, mBasePassTexture );
+
 		// Create the player view constant buffer
 		mCameraConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( nullptr, sizeof( PerCameraConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 		GraphicsDriver::Get()->SetVSConstantBuffer( mCameraConstantBuffer, 0 );
 		GraphicsDriver::Get()->SetPSConstantBuffer( mCameraConstantBuffer, 0 );
+
+		// Create fullscreen quad
+		mFullscreenQuad = MeshPrimitivePtr( new FullscreenQuad() );
+
+		// Calculate samples
+		for ( int i = 0; i < OCCLUSION_SAMPLES; i++ )
+		{
+			bool validVector = false;
+			Vector3 vec;
+			vec = Vector3( RandomFloat( -1.f, 1.f ), RandomFloat( 0.f, 1.f ), RandomFloat( -1.f, 1.f ) );
+			vec.Normalize();
+			mUniformHemisphereSample[i] = vec * 10.f;
+		}
 	}
 
 	void Renderer::AddPrimitive( const RenderPrimitivePtr primitive )
@@ -60,29 +78,29 @@ namespace ITP485
 		mLight = light;
 	}
 
-	void Renderer::Render()
+	void Renderer::RenderSingleLight( const Vector3& lightPosition )
 	{
-		// Clear back buffer and depth stencil
-		GraphicsDriver::Get()->ClearBackBuffer();
+		// Position light
+		mLight->SetPosition( lightPosition );
+		mLight->LookAt( 0.f, 0.f, 0.f );	// TODO: don't allow setting view position separate from look
 
 		// Shadow depth pass
+		GraphicsDriver::Get()->SetBlendState( mBlendStateNormal );
 		GraphicsDriver::Get()->ClearDepthStencil( mShadowMapDepthStencil, 1.0f );
-		GraphicsDriver::Get()->SetDepthStencil( mShadowMapDepthStencil );
-		UpdateViewConstants( mLight->GetProjectionViewMatrix(), mLight->GetPosition() );	// TODO: should this be in the Renderer?
+		GraphicsDriver::Get()->SetDepthStencil( mShadowMapDepthStencil );	// TODO: merge this and next statement together, more granular control
+		GraphicsDriver::Get()->SetDepthStencilState( mDepthStateNormal );
+		GraphicsDriver::Get()->SetRenderTarget( nullptr );	// disable color writing
+		UpdateViewConstants( mLight->GetProjectionViewMatrix(), lightPosition );	// TODO: should this be in the Renderer?
 		for ( const RenderPrimitivePtr& primitive : mPrimitives )	// render opaque primitives
 		{
 			primitive->Draw( mShadowPassDrawer, mLight );
 		}
-		for ( const RenderPrimitivePtr& primitive : mTranslucentPrimitives )	// render transclucent primitives
-		{
-			primitive->Draw( mShadowPassDrawer, mLight );
-		}
-
-		GraphicsDriver::Get()->ClearBackBuffer();
 
 		// Base pass
 		GraphicsDriver::Get()->ClearDepthStencil( mDepthStencilView, 1.0f );
+		GraphicsDriver::Get()->ClearRenderTarget( mBasePassRenderTarget, DirectX::Colors::Black );
 		GraphicsDriver::Get()->SetDepthStencil( mDepthStencilView );
+		GraphicsDriver::Get()->SetRenderTarget( mBasePassRenderTarget );
 		UpdateViewConstants( mCamera->GetProjectionViewMatrix(), mCamera->GetPosition() );
 		GraphicsDriver::Get()->SetPSTexture( mShadowMapTexture, 1 );
 		for ( const RenderPrimitivePtr& primitive : mPrimitives )
@@ -90,10 +108,24 @@ namespace ITP485
 			primitive->Draw( mBasePassDrawer, mCamera );
 		}
 
-		// Translucent pass
-		for ( const RenderPrimitivePtr& primitive : mTranslucentPrimitives )
+		// Accumulation pass- full screen quad
+		GraphicsDriver::Get()->SetBlendState( mBlendStateAdditive );
+		GraphicsDriver::Get()->ClearDepthStencil( mDepthStencilView, 1.0f );
+		GraphicsDriver::Get()->SetRenderTarget( GraphicsDriver::Get()->GetBackBufferRenderTarget() );
+		GraphicsDriver::Get()->SetDepthStencil( mDepthStencilView );
+		GraphicsDriver::Get()->SetDepthStencilState( mDepthStateReadOnly );
+		GraphicsDriver::Get()->SetPSTexture( mBasePassTexture, 1 );
+		mFullscreenQuad->Draw( mBasePassDrawer, mCamera );
+	}
+
+	void Renderer::Render()
+	{
+		// Clear back buffer
+		GraphicsDriver::Get()->ClearBackBuffer();
+
+		for ( int i = 0; i < OCCLUSION_SAMPLES; i++ )
 		{
-			primitive->Draw( mTransclucentDrawer, mCamera );
+			RenderSingleLight( mUniformHemisphereSample[i] );
 		}
 
 		// Present!

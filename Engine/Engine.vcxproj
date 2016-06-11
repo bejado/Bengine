@@ -17,6 +17,7 @@
     <ClCompile Include="core\src\Timing.cpp" />
     <ClCompile Include="engine\inc\App.cpp" />
     <ClCompile Include="engine\src\Cube.cpp" />
+    <ClCompile Include="engine\src\FullscreenQuad.cpp" />
     <ClCompile Include="engine\src\InputManager.cpp" />
     <ClCompile Include="engine\src\Material.cpp" />
     <ClCompile Include="engine\src\MeshPrimitive.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="core\inc\Timing.h" />
     <ClInclude Include="engine\inc\App.h" />
     <ClInclude Include="engine\inc\Cube.h" />
+    <ClInclude Include="engine\inc\FullscreenQuad.h" />
     <ClInclude Include="engine\inc\InputManager.h" />
     <ClInclude Include="engine\inc\Material.h" />
     <ClInclude Include="engine\inc\MeshPrimitive.h" />
@@ -65,6 +67,9 @@
     <ClInclude Include="tinyobj\inc\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\Resources\Shaders\additive.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="..\Resources\Shaders\instanced_billboard.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

@@ -13,11 +13,13 @@ namespace ITP485
 		Renderer::Get().Initialize();
 
 		// Create the player's view.
-		mCamera = ViewPtr( new View( Vector3( 0.f, 1.f, -5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, false ) );
+		mCamera = ViewPtr( new View( Vector3::Zero, Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, false ) );
+		Quaternion rotation( Vector3::UnitX, 3.14159f / 4.f );
+		mCamera->SetPose( Vector3( 0.f, 5.f, -5.f ), rotation );
 		Renderer::Get().SetCamera( mCamera );
 
 		// Create our light.
-		mLight = ViewPtr( new View( Vector3( 0.f, 5.f, 10.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, false ) );
+		mLight = ViewPtr( new View( Vector3( 0.f, 5.f, 10.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, true ) );
 		mLight->LookAt( 0.f, 0.f, 0.f );
 		Renderer::Get().SetLight( mLight );
 
@@ -32,8 +34,9 @@ namespace ITP485
 
 		// Create bench.
 		{
-			MeshPrimitivePtr benchPrimitive = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\bench\\bench.obj" ) );
-			benchPrimitive->SetScale( 0.019f );
+			MeshPrimitivePtr benchPrimitive = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\bunny.obj" ) );
+			benchPrimitive->SetTranslation( Vector3( 0.f, -1.f, 0.f ) );
+			benchPrimitive->SetScale( 3 );
 			Quaternion rotation( Vector3::UnitY, 3.14159f / 4.f );
 			benchPrimitive->SetRotation( rotation );
 			Renderer::Get().AddPrimitive( benchPrimitive );
@@ -41,8 +44,8 @@ namespace ITP485
 
 		// Create floor
 		MeshPrimitivePtr floorPrimitive = MeshPrimitivePtr( new CubePrimitive() );
-		floorPrimitive->SetTranslation( Vector3( -10.f, -20.f, -10.f ) );
-		floorPrimitive->SetScale( 20.f );
+		floorPrimitive->SetTranslation( Vector3( -50.f, -100.f, -50.f ) );
+		floorPrimitive->SetScale( 100.f );
 		Renderer::Get().AddPrimitive( floorPrimitive );
 	}
 
