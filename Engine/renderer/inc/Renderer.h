@@ -88,6 +88,8 @@ namespace ITP485
 	public:
 		DECLARE_SINGLETON( Renderer );
 
+		Renderer() : mCamera( nullptr), mLight( nullptr ) {}
+
 		void Initialize();
 		void Render();
 

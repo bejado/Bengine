@@ -25,7 +25,6 @@ namespace ITP485
 		DepthStencilStatePtr mDepthStencilState;
 
 		ViewPtr mCamera;
-		ViewPtr mLight;
 
 		float mCameraMoveSpeed = 5.0f;
 		float mX;

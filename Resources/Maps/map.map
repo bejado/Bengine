@@ -1,0 +1,10 @@
+{
+  "objects": [
+    {
+      "mesh": "Resources\\Meshes\\bottom_trim.obj"
+    },
+    {
+      "mesh": "Resources\\Meshes\\statue.obj"
+    }
+  ]
+}

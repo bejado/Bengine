@@ -66,19 +66,22 @@ namespace ITP485
 		GraphicsDriver::Get()->ClearBackBuffer();
 
 		// Shadow depth pass
-		GraphicsDriver::Get()->ClearDepthStencil( mShadowMapDepthStencil, 1.0f );
-		GraphicsDriver::Get()->SetDepthStencil( mShadowMapDepthStencil );
-		UpdateViewConstants( mLight->GetProjectionViewMatrix(), mLight->GetPosition() );	// TODO: should this be in the Renderer?
-		for ( const RenderPrimitivePtr& primitive : mPrimitives )	// render opaque primitives
+		if ( mLight )
 		{
-			primitive->Draw( mShadowPassDrawer, mLight );
-		}
-		for ( const RenderPrimitivePtr& primitive : mTranslucentPrimitives )	// render transclucent primitives
-		{
-			primitive->Draw( mShadowPassDrawer, mLight );
-		}
+			GraphicsDriver::Get()->ClearDepthStencil( mShadowMapDepthStencil, 1.0f );
+			GraphicsDriver::Get()->SetDepthStencil( mShadowMapDepthStencil );
+			UpdateViewConstants( mLight->GetProjectionViewMatrix(), mLight->GetPosition() );	// TODO: should this be in the Renderer?
+			for ( const RenderPrimitivePtr& primitive : mPrimitives )	// render opaque primitives
+			{
+				primitive->Draw( mShadowPassDrawer, mLight );
+			}
+			for ( const RenderPrimitivePtr& primitive : mTranslucentPrimitives )	// render transclucent primitives
+			{
+				primitive->Draw( mShadowPassDrawer, mLight );
+			}
 
-		GraphicsDriver::Get()->ClearBackBuffer();
+			GraphicsDriver::Get()->ClearBackBuffer();
+		}
 
 		// Base pass
 		GraphicsDriver::Get()->ClearDepthStencil( mDepthStencilView, 1.0f );
@@ -105,7 +108,10 @@ namespace ITP485
 		PerCameraConstants *cameraConstants = static_cast<PerCameraConstants*>(GraphicsDriver::Get()->MapBuffer(mCameraConstantBuffer));
 		cameraConstants->mProjectionViewMatrix = projectionView.GetTranspose();
 		cameraConstants->mCameraPosition = position;
-		cameraConstants->mLightMatrix = mLight->GetProjectionViewMatrix().GetTranspose();	// TODO: refactor
+		if ( mLight )
+		{
+			cameraConstants->mLightMatrix = mLight->GetProjectionViewMatrix().GetTranspose();	// TODO: refactor
+		}
 		GraphicsDriver::Get()->UnmapBuffer(mCameraConstantBuffer);
 	}
 

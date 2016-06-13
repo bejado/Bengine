@@ -1,3 +1,4 @@
+#include "MapLoader.h"
 #include "App.h"
 #include "ParticleSystemLoader.h"
 #include <PrecompiledHeader.h>
@@ -16,34 +17,7 @@ namespace ITP485
 		mCamera = ViewPtr( new View( Vector3( 0.f, 1.f, -5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, false ) );
 		Renderer::Get().SetCamera( mCamera );
 
-		// Create our light.
-		mLight = ViewPtr( new View( Vector3( 0.f, 5.f, 10.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, false ) );
-		mLight->LookAt( 0.f, 0.f, 0.f );
-		Renderer::Get().SetLight( mLight );
-
-		// Create cube.
-		{
-			MeshPrimitivePtr cubePrimitive = MeshPrimitivePtr( new CubePrimitive() );
-			cubePrimitive->SetTranslation( Vector3( -2.f, 0.f, 3.f ) );
-			Quaternion rotation( Vector3::UnitY, -3.14159f / 4.f );
-			cubePrimitive->SetRotation( rotation );
-			Renderer::Get().AddPrimitive( cubePrimitive );
-		}
-
-		// Create bench.
-		{
-			MeshPrimitivePtr benchPrimitive = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\bench.obj" ) );
-			benchPrimitive->SetScale( 0.019f );
-			Quaternion rotation( Vector3::UnitY, 3.14159f / 4.f );
-			benchPrimitive->SetRotation( rotation );
-			Renderer::Get().AddPrimitive( benchPrimitive );
-		}
-
-		// Create floor
-		MeshPrimitivePtr floorPrimitive = MeshPrimitivePtr( new CubePrimitive() );
-		floorPrimitive->SetTranslation( Vector3( -10.f, -20.f, -10.f ) );
-		floorPrimitive->SetScale( 20.f );
-		Renderer::Get().AddPrimitive( floorPrimitive );
+		MapLoader::LoadFromFile( "Resources\\Maps\\map.map" );
 	}
 
 	void App::Update()
@@ -86,11 +60,6 @@ namespace ITP485
 		if ( InputManager::Get().GetKeyState( Key::ESC ) ) {
 			PostQuitMessage( 0 );
 		}
-
-		// Update light
-		mX += Timing::Get().GetDeltaTime();
-		mLight->SetPosition( cos( mX ) * 10.f, 5.f, sin( mX ) * 10.f );
-		mLight->LookAt( 0.f, 0.f, 0.f );
 	}
 
 	void App::Render()

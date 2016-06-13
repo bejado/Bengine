@@ -43,10 +43,11 @@ PS_INPUT VS( VS_INPUT input )
 //--------------------------------------------------------------------------------------
 float4 PS( PS_INPUT input ) : SV_Target
 {
-	float3 lightWorldPosition = float3(0.f, 10.f, 0.f);
+	float3 lightWorldPosition = float3(10.f, 10.f, 10.f);
 	float3 ambient = float3(.15f, .15f, .15f);
 
-	float3 textureColor = gTexture.Sample( gSamplerState, float2(input.TexCoord.x, 1.f - input.TexCoord.y) );
+	// float3 textureColor = gTexture.Sample( gSamplerState, float2(input.TexCoord.x, 1.f - input.TexCoord.y) );
+	float3 textureColor = float3( .3, .3, .3 );
 	float3 light = normalize( lightWorldPosition - input.WorldPos );
 	float3 view = normalize( gCameraPosition - input.WorldPos );
 	float3 normal = normalize( input.WorldNormal );
@@ -61,10 +62,15 @@ float4 PS( PS_INPUT input ) : SV_Target
 	}
 
 	// Specular
-	float specular = pow( saturate( dot( reflected, view ) ), 1.f );
+	float specular = pow( saturate( dot( reflected, view ) ), 5.f );
 	if (specular > 0.f) {
 		phong += specular * float3(1.0f, 1.0f, 1.0f);
 	}
 
 	return float4( textureColor * phong, 1.0f );
+}
+
+float4 DepthOnly( PS_INPUT input ) : SV_Target
+{
+	return float4( 1.f, 1.f, 1.f, 1.f );
 }
