@@ -22,6 +22,13 @@ namespace ITP485
 		float mX, mY, mZ;
 	};
 
+	struct VERTEX_P_T
+	{
+		VERTEX_P_T( const PackedVector3& position, const PackedVector2& texCoord ) : mPosition( position ), mTexCoord( texCoord ) {}
+		PackedVector3 mPosition;
+		PackedVector2 mTexCoord;
+	};
+
 	struct VERTEX_P_N_T
 	{
 		VERTEX_P_N_T( const PackedVector3& position, const PackedVector3& normal, const PackedVector2& texCoord ) : mPosition( position ), mNormal( normal ), mTexCoord( texCoord ) {}
@@ -49,6 +56,7 @@ namespace ITP485
 		VertexShaderPtr mVertexShader;
 		MaterialPtr mMaterial;
 		size_t mNumIndices;
+		size_t mVertexStride;
 
 	private:
 		void UpdateVertexUniformBuffer() const;

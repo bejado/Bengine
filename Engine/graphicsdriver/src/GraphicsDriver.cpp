@@ -127,7 +127,8 @@ namespace
 			ZeroMemory( &sd, sizeof( sd ) );
 			sd.Width = inBackBufferWidth;
 			sd.Height = inBackBufferHeight;
-			sd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			// sd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			sd.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
 			sd.SampleDesc.Count = 1;
 			sd.SampleDesc.Quality = 0;
 			sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -150,7 +151,8 @@ namespace
 			sd.BufferCount = 1;
 			sd.BufferDesc.Width = inBackBufferWidth;
 			sd.BufferDesc.Height = inBackBufferHeight;
-			sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			// sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			sd.BufferDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 			sd.BufferDesc.RefreshRate.Numerator = 60;
 			sd.BufferDesc.RefreshRate.Denominator = 1;
 			sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -513,8 +515,8 @@ DepthStencilPtr GraphicsDriver::CreateDepthStencil( int inWidth, int inHeight )
 
 void GraphicsDriver::CreateDepthStencilAndTexture( int inWidth, int inHeight, DepthStencilPtr& outDepthStencil, TexturePtr& outDepthStencilTexture )
 {
-	ID3D11Texture2D* depthStencilTexture;
 	// Create depth stencil texture
+	ID3D11Texture2D* depthStencilTexture;
 	D3D11_TEXTURE2D_DESC descDepth;
 	ZeroMemory( &descDepth, sizeof( descDepth ) );
 	descDepth.Width = inWidth;
@@ -556,6 +558,53 @@ void GraphicsDriver::CreateDepthStencilAndTexture( int inWidth, int inHeight, De
 	hr = g_pd3dDevice->CreateShaderResourceView( depthStencilTexture, &shaderResourceViewDesc, &shaderResourceView );
 	Dbg_Assert( hr == S_OK, "Problem creating shader resource view for depth stencil" );
 	outDepthStencilTexture = TexturePtr( shaderResourceView, AutoReleaseD3D );
+}
+
+void GraphicsDriver::CreateRenderTargetAndTexture( int inWidth, int inHeight, RenderTargetPtr& outRenderTarget, TexturePtr& outRenderTargetTexture )
+{
+	// Create depth stencil texture
+	ID3D11Texture2D* renderTargetTexture;
+	D3D11_TEXTURE2D_DESC textureDesc;
+	ZeroMemory( &textureDesc, sizeof( textureDesc ) );
+	textureDesc.Width = inWidth;
+	textureDesc.Height = inHeight;
+	textureDesc.MipLevels = 1;
+	textureDesc.ArraySize = 1;
+	textureDesc.Format = DXGI_FORMAT_R8G8B8A8_TYPELESS;
+	textureDesc.SampleDesc.Count = 1;
+	textureDesc.SampleDesc.Quality = 0;
+	textureDesc.Usage = D3D11_USAGE_DEFAULT;
+	textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	textureDesc.CPUAccessFlags = 0;
+	textureDesc.MiscFlags = 0;
+	HRESULT hr = g_pd3dDevice->CreateTexture2D( &textureDesc, nullptr, &renderTargetTexture );
+	Dbg_Assert( hr == S_OK, "Problem creating render target texture" );
+
+	ID3D11RenderTargetView* toRet = nullptr;
+
+	// Create the render target view
+	D3D11_RENDER_TARGET_VIEW_DESC descRTV;
+	ZeroMemory( &descRTV, sizeof( descRTV ) );
+	descRTV.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	descRTV.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	descRTV.Texture2D.MipSlice = 0;
+	hr = g_pd3dDevice->CreateRenderTargetView( renderTargetTexture, &descRTV, &toRet );
+	Dbg_Assert( hr == S_OK, "Problem creating render target view" );
+	outRenderTarget = RenderTargetPtr( toRet, AutoReleaseD3D );
+
+	// Setup the description of the shader resource view
+	ID3D11ShaderResourceView* shaderResourceView;
+	D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
+	ZeroMemory( &shaderResourceViewDesc, sizeof( shaderResourceViewDesc ) );
+	shaderResourceViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
+	shaderResourceViewDesc.Texture2D.MipLevels = 1;
+
+	// Create the shader resource view (texture)
+	hr = g_pd3dDevice->CreateShaderResourceView( renderTargetTexture, &shaderResourceViewDesc, &shaderResourceView );
+	Dbg_Assert( hr == S_OK, "Problem creating shader resource view for render target" );
+	outRenderTargetTexture = TexturePtr( shaderResourceView, AutoReleaseD3D );
 }
 
 DepthStencilStatePtr GraphicsDriver::CreateDepthStencilState( bool inDepthTestEnable, EComparisonFunc inDepthComparisonFunction, EDepthWriteMask inWriteMask )
@@ -687,13 +736,13 @@ RasterizerStatePtr GraphicsDriver::CreateRasterizerState( EFillMode inFillMode, 
 	return RasterizerStatePtr( toRet, AutoReleaseD3D );
 }
 
-BlendStatePtr GraphicsDriver::CreateBlendState()
+BlendStatePtr GraphicsDriver::CreateBlendState( EBlend inSrcBlend, EBlend inDestBlend )
 {
 	D3D11_BLEND_DESC blendDesc;
 	ZeroMemory( &blendDesc, sizeof( blendDesc ) );
 	blendDesc.RenderTarget[0].BlendEnable = true;
-	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blendDesc.RenderTarget[0].SrcBlend = static_cast< D3D11_BLEND >( inSrcBlend );
+	blendDesc.RenderTarget[0].DestBlend = static_cast< D3D11_BLEND >( inDestBlend );
 	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
 	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;

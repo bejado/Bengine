@@ -17,7 +17,7 @@ namespace ITP485
 		GraphicsDriver::Get()->SetRasterizerState( mRasterizerState );
 
 		// Create a blend state
-		mBlendState = GraphicsDriver::Get()->CreateBlendState();
+		mBlendState = GraphicsDriver::Get()->CreateBlendState( EBlend::EB_One, EBlend::EB_Zero );
 		GraphicsDriver::Get()->SetBlendState( mBlendState );
 
 		// Set up our depth buffer and depth test

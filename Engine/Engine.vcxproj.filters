@@ -165,6 +165,9 @@
     <ClCompile Include="particles\src\Quad.cpp">
       <Filter>Source Files\particles\src</Filter>
     </ClCompile>
+    <ClCompile Include="engine\src\FullscreenQuad.cpp">
+      <Filter>Source Files\engine\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h">
@@ -247,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="particles\inc\Quad.h">
       <Filter>Source Files\particles\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\FullscreenQuad.h">
+      <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

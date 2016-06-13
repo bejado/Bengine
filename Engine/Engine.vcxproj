@@ -17,6 +17,7 @@
     <ClCompile Include="core\src\Timing.cpp" />
     <ClCompile Include="engine\inc\App.cpp" />
     <ClCompile Include="engine\src\Cube.cpp" />
+    <ClCompile Include="engine\src\FullscreenQuad.cpp" />
     <ClCompile Include="engine\src\InputManager.cpp" />
     <ClCompile Include="engine\src\Material.cpp" />
     <ClCompile Include="engine\src\MeshPrimitive.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="core\inc\Timing.h" />
     <ClInclude Include="engine\inc\App.h" />
     <ClInclude Include="engine\inc\Cube.h" />
+    <ClInclude Include="engine\inc\FullscreenQuad.h" />
     <ClInclude Include="engine\inc\InputManager.h" />
     <ClInclude Include="engine\inc\Material.h" />
     <ClInclude Include="engine\inc\MeshPrimitive.h" />

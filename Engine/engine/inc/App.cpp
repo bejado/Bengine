@@ -32,7 +32,7 @@ namespace ITP485
 
 		// Create bench.
 		{
-			MeshPrimitivePtr benchPrimitive = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\bench\\bench.obj" ) );
+			MeshPrimitivePtr benchPrimitive = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\bench.obj" ) );
 			benchPrimitive->SetScale( 0.019f );
 			Quaternion rotation( Vector3::UnitY, 3.14159f / 4.f );
 			benchPrimitive->SetRotation( rotation );
