@@ -13,4 +13,12 @@ namespace ITP485
 
 	};
 
+	class QuadPrimitive : public MeshPrimitive
+	{
+	public:
+
+		QuadPrimitive();
+
+	};
+
 }

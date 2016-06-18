@@ -17,7 +17,10 @@ namespace ITP485
 		mCamera = ViewPtr( new View( Vector3( 0.f, 1.f, -5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, false ) );
 		Renderer::Get().SetCamera( mCamera );
 
-		MapLoader::LoadFromFile( "Resources\\Maps\\map.map" );
+		MeshPrimitivePtr quad = MeshPrimitivePtr( new QuadPrimitive() );
+		Renderer::Get().AddPrimitive( quad );
+
+		// MapLoader::LoadFromFile( "Resources\\Maps\\map.map" );
 	}
 
 	void App::Update()

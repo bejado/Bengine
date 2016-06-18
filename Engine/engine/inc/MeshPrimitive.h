@@ -22,6 +22,13 @@ namespace ITP485
 		float mX, mY, mZ;
 	};
 
+	struct PackedVector4
+	{
+		PackedVector4( float x, float y, float z, float w ) : mX( x ), mY( y ), mZ( z ), mW( w ) {}
+		PackedVector4() : PackedVector4( 0.f, 0.f, 0.f, 0.f ) {}
+		float mX, mY, mZ, mW;
+	};
+
 	struct VERTEX_P_T
 	{
 		VERTEX_P_T( const PackedVector3& position, const PackedVector2& texCoord ) : mPosition( position ), mTexCoord( texCoord ) {}
@@ -35,6 +42,16 @@ namespace ITP485
 		PackedVector3 mPosition;
 		PackedVector3 mNormal;
 		PackedVector2 mTexCoord;
+	};
+
+	// Position, normal, texture, tangent
+	struct VERTEX_P_N_T_T
+	{
+		VERTEX_P_N_T_T( const PackedVector3& position, const PackedVector3& normal, const PackedVector2& texCoord, const PackedVector4 tangent ) : mPosition( position ), mNormal( normal ), mTexCoord( texCoord ), mTangent( tangent ) {}
+		PackedVector3 mPosition;
+		PackedVector3 mNormal;
+		PackedVector2 mTexCoord;
+		PackedVector4 mTangent;
 	};
 
 	class MeshPrimitive : public RenderPrimitive
