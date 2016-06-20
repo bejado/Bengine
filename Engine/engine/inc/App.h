@@ -26,6 +26,8 @@ namespace ITP485
 
 		ViewPtr mCamera;
 
+		MeshPrimitivePtr sphere;
+
 		float mCameraMoveSpeed = 5.0f;
 		float mX;
 	};

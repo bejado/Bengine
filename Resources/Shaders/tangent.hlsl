@@ -94,10 +94,10 @@ float4 PS( PS_INPUT input ) : SV_Target
 	input.TangentViewPos = normalize( input.TangentViewPos );
 
 	float3 ambient = float3( 0, 0, 0 );
-	float3 baseColor = float3( .5f, 0.f, .5f );
 	float3 specularColor = float3( 1.f, 1.f, 1.f );
 
 	float3 normalSample = gTexture.Sample( gSamplerState, float2(input.TexCoord.x, input.TexCoord.y) );
+	float3 baseColor = normalSample;
 	float3 normal = float3( -1.f, -1.f, -1.f ) + normalSample * 2.f;
 
 	return float4( Phong( ambient, baseColor, specularColor, 10.f, input.TangentViewPos, input.TangentLightPos, normal ), 1.f );

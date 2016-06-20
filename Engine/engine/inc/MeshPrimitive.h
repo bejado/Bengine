@@ -20,6 +20,14 @@ namespace ITP485
 		PackedVector3( float x, float y, float z ) : mX( x ), mY( y ), mZ( z ) {}
 		PackedVector3() : PackedVector3( 0.f, 0.f, 0.f ) {}
 		float mX, mY, mZ;
+
+		__forceinline PackedVector3& operator+=( const PackedVector3& in )
+		{
+			this->mX += in.mX;
+			this->mY += in.mY;
+			this->mZ += in.mZ;
+			return *this;
+		}
 	};
 
 	struct PackedVector4

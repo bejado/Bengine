@@ -70,16 +70,94 @@ namespace ITP485
 			} );
 	}
 
+	// Algorithm from Lengyel's Mathematics for 3D Game Programming and Computer Graphics, page 184.
+	static void CalculateTangents( RawMesh& mesh )
+	{
+		const size_t numVertices = mesh.positions.size();
+		const size_t numTriangles = mesh.indices.size() / 3;
+
+		mesh.tangents.clear();
+		mesh.tangents.resize( numVertices );
+		std::vector< PackedVector3 > tan( numVertices );
+		std::vector< PackedVector3 > bitan( numVertices );
+
+		for ( size_t t = 0; t < numTriangles; t++ )
+		{
+			uint16_t indexA, indexB, indexC;
+			indexA = mesh.indices[t * 3 + 0];
+			indexB = mesh.indices[t * 3 + 1];
+			indexC = mesh.indices[t * 3 + 2];
+
+			PackedVector3 positionA, positionB, positionC;
+			positionA = mesh.positions[indexA];
+			positionB = mesh.positions[indexB];
+			positionC = mesh.positions[indexC];
+
+			PackedVector2 textureA, textureB, textureC;
+			textureA = mesh.textureCoordinates[indexA];
+			textureB = mesh.textureCoordinates[indexB];
+			textureC = mesh.textureCoordinates[indexC];
+
+			// Calculate position deltas.
+			float x1 = positionB.mX - positionA.mX;
+			float x2 = positionC.mX - positionA.mX;
+			float y1 = positionB.mY - positionA.mY;
+			float y2 = positionC.mY - positionA.mY;
+			float z1 = positionB.mZ - positionA.mZ;
+			float z2 = positionC.mZ - positionA.mZ;
+
+			// Calculate texture coordinate deltas.
+			float s1 = textureB.mX - textureA.mX;
+			float s2 = textureC.mX - textureA.mX;
+			float t1 = textureB.mY - textureA.mY;
+			float t2 = textureC.mY - textureA.mY;
+
+			float r = 1.f / ( s1 * t2 - s2 * t1 );
+			PackedVector3 sdir;
+			sdir.mX = (t2 * x1 - t1 * x2) * r;
+			sdir.mY = (t2 * y1 - t1 * y2) * r;
+			sdir.mZ = (t2 * z1 - t1 * z2) * r;
+			PackedVector3 tdir;
+			tdir.mX = (s1 * x2 - s2 * x1) * r;
+			tdir.mY = (s1 * y2 - s2 * y1) * r;
+			tdir.mZ = (s1 * z2 - s2 * z1) * r;
+
+			tan[indexA] += sdir;
+			tan[indexB] += sdir;
+			tan[indexC] += sdir;
+			bitan[indexA] += tdir;
+			bitan[indexB] += tdir;
+			bitan[indexC] += tdir;
+		}
+
+		for ( size_t i = 0; i < numVertices; i++ )
+		{
+			const Vector3 normal = Vector3( mesh.normals[i].mX, mesh.normals[i].mY, mesh.normals[i].mZ );
+			const Vector3 tangent = Vector3( tan[i].mX, tan[i].mY, tan[i].mZ );
+			const Vector3 bitangent = Vector3( bitan[i].mX, bitan[i].mY, bitan[i].mZ );
+			Vector3 tangentOut;
+
+			// Gram-Schmidt orthogonalize.
+			tangentOut = (tangent - normal * normal.Dot( tangent ));
+			tangentOut.Normalize();
+
+			// Calculate handedness.
+			float handedness = Cross( normal, tangent ).Dot( bitangent ) < 0.f ? 1.f : -1.f;
+
+			mesh.tangents[i] = PackedVector4( tangentOut.GetX(), tangentOut.GetY(), tangentOut.GetZ(), handedness );
+		}
+	}
+
 	GraphicsBufferPtr RawMesh::CreateVertexBuffer()
 	{
-		std::vector< VERTEX_P_N_T > buffer;
+		std::vector< VERTEX_P_N_T_T > buffer;
 		for ( size_t v = 0; v < positions.size(); v++ )
 		{
-			buffer.push_back( VERTEX_P_N_T( positions[v], normals[v], textureCoordinates[v] ) );
+			buffer.push_back( VERTEX_P_N_T_T( positions[v], normals[v], textureCoordinates[v], tangents[v] ) );
 		}
 
 		return GraphicsDriver::Get()->CreateGraphicsBuffer( buffer.data(),
-															sizeof( VERTEX_P_N_T ) * buffer.size(),
+															sizeof( VERTEX_P_N_T_T ) * buffer.size(),
 															EBindflags::EBF_VertexBuffer,
 															0,
 															EGraphicsBufferUsage::EGBU_Immutable );
@@ -99,6 +177,9 @@ namespace ITP485
 		RawMesh mesh;
 		LoadMeshFromObjFile( file, mesh );
 
+		// Calculate tangent vectors.
+		CalculateTangents( mesh );
+
 		// Create vertex and index buffers.
 		mIndexBuffer = mesh.CreateIndexBuffer();
 		mVertexBuffer = mesh.CreateVertexBuffer();
@@ -107,21 +188,23 @@ namespace ITP485
 
 		// Compile vertex shader
 		vector< char > compiledVertexShader;
-		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\shadow.hlsl", "VS", "vs_4_0", compiledVertexShader );
+		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\tangent.hlsl", "VS", "vs_4_0", compiledVertexShader );
 		mVertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
 
 		// Create an input layout
-		InputLayoutElement elements[3] {
+		InputLayoutElement elements[4] {
 			{ "POSITION", 0, EGFormat::EGF_R32G32B32_Float, 0, 0, EIC_PerVertex, 0 },
 			{ "NORMAL", 0, EGFormat::EGF_R32G32B32_Float, 0, sizeof( float ) * 3, EIC_PerVertex, 0 },
 			{ "TEXCOORD", 0, EGFormat::EGF_R32G32_Float, 0, sizeof( float ) * 6, EIC_PerVertex, 0 },
+			{ "TANGENT", 0, EGFormat::EGF_R32G32B32A32_Float, 0, sizeof( float ) * 8, EIC_PerVertex, 0 },
 		};
-		mInputLayout = GraphicsDriver::Get()->CreateInputLayout( elements, 3, compiledVertexShader );
+		mInputLayout = GraphicsDriver::Get()->CreateInputLayout( elements, 4, compiledVertexShader );
 
 		// Create our object to world constant buffer
 		mUniformBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Matrix4 ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 
-		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\phong.hlsl", L"" ) );
+		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\normal2.dds" ) );
+		mVertexStride = sizeof( VERTEX_P_N_T_T );
 	}
 
 }

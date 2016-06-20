@@ -22,8 +22,8 @@ namespace ITP485
 		Renderer::Get().AddPrimitive( quad );
 		*/
 
-		MeshPrimitivePtr statue = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\statue.obj" ) );
-		Renderer::Get().AddPrimitive( statue );
+		sphere = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\sphere.obj" ) );
+		Renderer::Get().AddPrimitive( sphere );
 
 		// MapLoader::LoadFromFile( "Resources\\Maps\\map.map" );
 	}
@@ -68,6 +68,10 @@ namespace ITP485
 		if ( InputManager::Get().GetKeyState( Key::ESC ) ) {
 			PostQuitMessage( 0 );
 		}
+
+		mX += Timing::Get().GetDeltaTime();
+		Quaternion rot(Vector3::Up, mX);
+		sphere->SetRotation( rot );
 	}
 
 	void App::Render()
