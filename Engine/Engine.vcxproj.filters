@@ -94,6 +94,15 @@
     <Filter Include="Source Files\renderer\src">
       <UniqueIdentifier>{d45484b1-dbbf-4b68-8ef8-725d721eb442}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\game">
+      <UniqueIdentifier>{60d4c79a-1209-4bdf-8a43-2f8b6a1bfda2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game\inc">
+      <UniqueIdentifier>{57fe9121-cc1e-46c1-96fd-0125db12876f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game\src">
+      <UniqueIdentifier>{c021bf14-fd53-4bbe-904d-3d4b16fc87af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\src\main.cpp">
@@ -116,9 +125,6 @@
     </ClCompile>
     <ClCompile Include="main\src\PrecompiledHeader.cpp">
       <Filter>Source Files\main\src</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\inc\App.cpp">
-      <Filter>Source Files\engine\src</Filter>
     </ClCompile>
     <ClCompile Include="engine\src\Cube.cpp">
       <Filter>Source Files\engine\src</Filter>
@@ -171,6 +177,9 @@
     <ClCompile Include="engine\src\QuadPrimitive.cpp">
       <Filter>Source Files\engine\src</Filter>
     </ClCompile>
+    <ClCompile Include="game\src\App.cpp">
+      <Filter>Source Files\game\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h">
@@ -196,9 +205,6 @@
     </ClInclude>
     <ClInclude Include="main\inc\PrecompiledHeader.h">
       <Filter>Source Files\main\inc</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\inc\App.h">
-      <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
     <ClInclude Include="core\inc\ITPMemory.h">
       <Filter>Source Files\core\inc</Filter>
@@ -259,6 +265,9 @@
     </ClInclude>
     <ClInclude Include="engine\inc\MapLoader.h">
       <Filter>Source Files\engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="game\inc\App.h">
+      <Filter>Source Files\game\inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

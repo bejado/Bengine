@@ -15,7 +15,6 @@
     <ClCompile Include="core\src\fastmath.cpp" />
     <ClCompile Include="core\src\StringUtils.cpp" />
     <ClCompile Include="core\src\Timing.cpp" />
-    <ClCompile Include="engine\inc\App.cpp" />
     <ClCompile Include="engine\src\Cube.cpp" />
     <ClCompile Include="engine\src\FullscreenQuad.cpp" />
     <ClCompile Include="engine\src\InputManager.cpp" />
@@ -24,6 +23,7 @@
     <ClCompile Include="engine\src\ObjMesh.cpp" />
     <ClCompile Include="engine\src\QuadPrimitive.cpp" />
     <ClCompile Include="engine\src\View.cpp" />
+    <ClCompile Include="game\src\App.cpp" />
     <ClCompile Include="graphicsdriver\src\GraphicsDriver.cpp" />
     <ClCompile Include="main\src\main.cpp" />
     <ClCompile Include="main\src\PrecompiledHeader.cpp" />
@@ -45,7 +45,6 @@
     <ClInclude Include="core\inc\singleton.h" />
     <ClInclude Include="core\inc\StringUtils.h" />
     <ClInclude Include="core\inc\Timing.h" />
-    <ClInclude Include="engine\inc\App.h" />
     <ClInclude Include="engine\inc\Cube.h" />
     <ClInclude Include="engine\inc\FullscreenQuad.h" />
     <ClInclude Include="engine\inc\InputManager.h" />
@@ -54,6 +53,7 @@
     <ClInclude Include="engine\inc\MeshPrimitive.h" />
     <ClInclude Include="engine\inc\ObjMesh.h" />
     <ClInclude Include="engine\inc\View.h" />
+    <ClInclude Include="game\inc\App.h" />
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h" />
     <ClInclude Include="json\inc\json.hpp" />
     <ClInclude Include="main\inc\PrecompiledHeader.h" />
@@ -135,7 +135,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>engine/inc;main/inc;DirectXTK/inc;graphicsdriver/inc;core/inc;tinyobj/inc;particles/inc;messaging/inc;renderer/inc;json/inc;../Mongoose;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>game/inc;engine/inc;main/inc;DirectXTK/inc;graphicsdriver/inc;core/inc;tinyobj/inc;particles/inc;messaging/inc;renderer/inc;json/inc;../Mongoose;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
     </ClCompile>
@@ -152,7 +152,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>engine/inc;main/inc;DirectXTK/inc;graphicsdriver/inc;core/inc;tinyobj/inc;particles/inc;messaging/inc;renderer/inc;json/inc;../Mongoose;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>game/inc;engine/inc;main/inc;DirectXTK/inc;graphicsdriver/inc;core/inc;tinyobj/inc;particles/inc;messaging/inc;renderer/inc;json/inc;../Mongoose;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
