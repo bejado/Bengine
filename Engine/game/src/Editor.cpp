@@ -1,5 +1,5 @@
 #include "MapLoader.h"
-#include "App.h"
+#include "Editor.h"
 #include "ParticleSystemLoader.h"
 #include <PrecompiledHeader.h>
 
@@ -9,7 +9,7 @@ namespace ITP485
 	const float MOUSE_WHEEL_SCALE = 1.f / 100.f;
 	const float MOUSE_ROTATION_SCALE = 1.f / 300.f;
 
-	App::App()
+	Editor::Editor()
 	{
 		Renderer::Get().Initialize();
 
@@ -22,7 +22,7 @@ namespace ITP485
 		Renderer::Get().AddPrimitive( player );
 	}
 
-	void App::Update()
+	void Editor::Update()
 	{
 		// Handle mouse movement
 		long mouseX = InputManager::Get().GetMouseDeltaX();
@@ -64,12 +64,12 @@ namespace ITP485
 		}
 	}
 
-	void App::Render()
+	void Editor::Render()
 	{
 		Renderer::Get().Render();
 	}
 
-	void App::HandleMessage( const json& msg )
+	void Editor::HandleMessage( const json& msg )
 	{
 	}
 

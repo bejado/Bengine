@@ -1,4 +1,4 @@
-#include "App.h"
+#include "Editor.h"
 #include <PrecompiledHeader.h>
 
 //--------------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 	// Initialize subsystems
 	ITP485::GraphicsDriver::StaticInit( g_hWnd );
-	ITP485::AppPtr app = ITP485::AppPtr( new ITP485::App() );
+	ITP485::GamePtr game = ITP485::GamePtr( new ITP485::Editor() );
 	ITP485::MessageManager::Get().Initialize();
 
 	// Main message loop here
@@ -93,7 +93,7 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 				try
 				{
 					auto jsonMsg = json::parse( socketMsg.data );
-					app->HandleMessage( jsonMsg );
+					game->HandleMessage( jsonMsg );
 				}
 				catch ( const std::exception& )
 				{
@@ -103,8 +103,8 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 			Timing::Get().Update();
 
-			app->Update();
-			app->Render();
+			game->Update();
+			game->Render();
 
 			ITP485::InputManager::Get().ResetEvents();
 		}

@@ -177,7 +177,7 @@
     <ClCompile Include="engine\src\QuadPrimitive.cpp">
       <Filter>Source Files\engine\src</Filter>
     </ClCompile>
-    <ClCompile Include="game\src\App.cpp">
+    <ClCompile Include="game\src\Editor.cpp">
       <Filter>Source Files\game\src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -266,7 +266,10 @@
     <ClInclude Include="engine\inc\MapLoader.h">
       <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
-    <ClInclude Include="game\inc\App.h">
+    <ClInclude Include="game\inc\Game.h">
+      <Filter>Source Files\game\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="game\inc\Editor.h">
       <Filter>Source Files\game\inc</Filter>
     </ClInclude>
   </ItemGroup>

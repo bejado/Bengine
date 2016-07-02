@@ -1,3 +1,5 @@
+#include "Game.h"
+
 #include "ParticleEmitter.h"
 #include "ParticleSystem.h"
 #include "ParticleEmitterMessageHandler.h"
@@ -10,19 +12,16 @@
 namespace ITP485
 {
 
-	class App
+	class Editor : public Game
 	{
 	public:
 
-		App();
-		void Update();
-		void Render();
-		void HandleMessage( const json& msg );
+		Editor();
+		virtual void Update();
+		virtual void Render();
+		virtual void HandleMessage( const json& msg );
 
 	private:
-
-		DepthStencilPtr		mDepthStencilView;
-		DepthStencilStatePtr mDepthStencilState;
 
 		ViewPtr mCamera;
 
@@ -31,7 +30,5 @@ namespace ITP485
 		float mCameraMoveSpeed = 5.0f;
 		float mX;
 	};
-
-	typedef shared_ptr< App > AppPtr;
 
 }
