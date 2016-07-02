@@ -28,8 +28,6 @@ struct PS_INPUT {
 Texture2D gTexture : register(t0);
 SamplerState gSamplerState : register(s0);
 
-Texture2D gNormalMap : register(t1);
-
 //--------------------------------------------------------------------------------------
 // Vertex Shader
 //--------------------------------------------------------------------------------------

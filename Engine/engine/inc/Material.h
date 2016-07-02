@@ -15,7 +15,6 @@ namespace ITP485
 		PixelShaderPtr mDepthOnlyPixelShader = nullptr;
 		SamplerStatePtr mSamplerState = nullptr;
 		TexturePtr mTexture = nullptr;
-		TexturePtr mNormalTexture = nullptr;
 
 	};
 
