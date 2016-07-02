@@ -20,6 +20,7 @@ namespace ITP485
 		// Load and set the texture
 		if ( !texturePath.empty() ) {
 			mTexture = GraphicsDriver::Get()->CreateTextureFromFile( texturePath.c_str() );
+			mNormalTexture = GraphicsDriver::Get()->CreateTextureFromFile( L"Resources\\Textures\\fighter_normal.dds" );
 		}
 	}
 
@@ -28,6 +29,7 @@ namespace ITP485
 		if (mTexture) {
 			GraphicsDriver::Get()->SetPSSamplerState( mSamplerState, 0 );
 			GraphicsDriver::Get()->SetPSTexture( mTexture, 0 );
+			GraphicsDriver::Get()->SetPSTexture( mNormalTexture, 1 );
 		}
 		GraphicsDriver::Get()->SetPixelShader( mPixelShader );
 	}

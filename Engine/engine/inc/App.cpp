@@ -17,15 +17,9 @@ namespace ITP485
 		mCamera = ViewPtr( new View( Vector3( 0.f, 1.f, -5.f ), Quaternion::Identity, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, false ) );
 		Renderer::Get().SetCamera( mCamera );
 
-		/*
-		MeshPrimitivePtr quad = MeshPrimitivePtr( new QuadPrimitive() );
-		Renderer::Get().AddPrimitive( quad );
-		*/
-
-		sphere = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\sphere.obj" ) );
-		Renderer::Get().AddPrimitive( sphere );
-
-		// MapLoader::LoadFromFile( "Resources\\Maps\\map.map" );
+		player = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\fighter_normal.obj" ) );
+		player->SetScale( 0.1 );
+		Renderer::Get().AddPrimitive( player );
 	}
 
 	void App::Update()
@@ -68,10 +62,6 @@ namespace ITP485
 		if ( InputManager::Get().GetKeyState( Key::ESC ) ) {
 			PostQuitMessage( 0 );
 		}
-
-		mX += Timing::Get().GetDeltaTime();
-		Quaternion rot(Vector3::Up, mX);
-		sphere->SetRotation( rot );
 	}
 
 	void App::Render()

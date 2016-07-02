@@ -26,7 +26,7 @@ namespace ITP485
 
 		ViewPtr mCamera;
 
-		MeshPrimitivePtr sphere;
+		MeshPrimitivePtr player;
 
 		float mCameraMoveSpeed = 5.0f;
 		float mX;
