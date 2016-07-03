@@ -84,6 +84,13 @@ namespace ITP485
 		size_t mVertexStride;
 
 	private:
+
+		struct ObjectConstants
+		{
+			Matrix4 objectToWorld;
+			Matrix4 worldToObject;
+		};
+
 		void UpdateVertexUniformBuffer() const;
 		Vector3 mTranslation;
 		float mScale;	// we only support uniform scale, for now

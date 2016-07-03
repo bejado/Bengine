@@ -24,6 +24,7 @@
     <ClCompile Include="engine\src\QuadPrimitive.cpp" />
     <ClCompile Include="engine\src\View.cpp" />
     <ClCompile Include="game\src\Editor.cpp" />
+    <ClCompile Include="game\src\SpaceShooter.cpp" />
     <ClCompile Include="graphicsdriver\src\GraphicsDriver.cpp" />
     <ClCompile Include="main\src\main.cpp" />
     <ClCompile Include="main\src\PrecompiledHeader.cpp" />
@@ -55,6 +56,8 @@
     <ClInclude Include="engine\inc\View.h" />
     <ClInclude Include="game\inc\Editor.h" />
     <ClInclude Include="game\inc\Game.h" />
+    <ClInclude Include="game\inc\GameUtils.h" />
+    <ClInclude Include="game\inc\SpaceShooter.h" />
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h" />
     <ClInclude Include="json\inc\json.hpp" />
     <ClInclude Include="main\inc\PrecompiledHeader.h" />

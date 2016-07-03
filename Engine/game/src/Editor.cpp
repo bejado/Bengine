@@ -3,6 +3,8 @@
 #include "ParticleSystemLoader.h"
 #include <PrecompiledHeader.h>
 
+#include "GameUtils.h"
+
 namespace ITP485
 {
 	const float CAMERA_MIN_SPEED = 1.f;
@@ -18,7 +20,7 @@ namespace ITP485
 		Renderer::Get().SetCamera( mCamera );
 
 		player = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\fighter_normal.obj" ) );
-		player->SetScale( 0.1 );
+		player->SetScale( 0.1f );
 		Renderer::Get().AddPrimitive( player );
 	}
 
@@ -58,10 +60,7 @@ namespace ITP485
 			}
 		}
 
-		// Allow ESC to exit
-		if ( InputManager::Get().GetKeyState( Key::ESC ) ) {
-			PostQuitMessage( 0 );
-		}
+		ExitWithEscapeKey();
 	}
 
 	void Editor::Render()

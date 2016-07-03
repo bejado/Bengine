@@ -7,6 +7,7 @@ cbuffer CameraConstants : register(b0)
 cbuffer ObjectConstants : register(b1)
 {
 	float4x4 gObjectToWorld;
+	float4x4 gWorldToObject;
 }
 
 struct VS_INPUT {
@@ -38,8 +39,6 @@ PS_INPUT VS( VS_INPUT input )
 	// Pass along texture coordinates.
 	output.TexCoord = input.TexCoord;
 
-	float4x4 worldToObject = transpose( gObjectToWorld );	// assuming affine transformation
-
 	// Transform vertex into clip space.
 	float4 worldPos = mul( gObjectToWorld, input.Pos );
 	output.WorldPos = worldPos;
@@ -58,12 +57,13 @@ PS_INPUT VS( VS_INPUT input )
 
 	// Transform view vector into tangent space.
 	float3 view = gCameraPosition - worldPos;
-	float3 objectView = mul( worldToObject, view );
+	float3 objectView = mul( gWorldToObject, view );
 	output.TangentViewPos = mul( objectToTangent, objectView );
 
 	// Transform the light vector into tangent space.
-	float3 lightWorldPosition = float3( 0, 28, -30 );
-	float3 lightObjectPosition = mul( worldToObject, lightWorldPosition );
+	float3 lightWorldPosition = float3( 0.f, 10.f, 0.f );
+	float3 lightVector = lightWorldPosition - worldPos;
+	float3 lightObjectPosition = mul( gWorldToObject, lightVector );
 	output.TangentLightPos = mul( objectToTangent, lightObjectPosition );
 
 	return output;
@@ -102,13 +102,13 @@ float4 PS( PS_INPUT input ) : SV_Target
 
 	float3 textureSample = gTexture.Sample( gSamplerState, float2( input.TexCoord.x, 1.f - input.TexCoord.y ) );
 
-	float3 ambient = .05 * textureSample;
+	float3 ambient = 0.f;
 	float3 specularColor = float3( 1.f, 1.f, 1.f );
 
 	float3 baseColor = textureSample;
 	float3 normal = float3( 0.f, 0.f, 1.f );
 
-	return float4( Phong( ambient, baseColor, specularColor, 10.f, input.TangentViewPos, input.TangentLightPos, normal ), 1.f );
+	return float4( Phong( ambient, baseColor, specularColor, 50.f, input.TangentViewPos, input.TangentLightPos, normal ), 1.f );
 }
 
 float4 DepthOnly( PS_INPUT input ) : SV_Target

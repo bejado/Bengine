@@ -180,6 +180,9 @@
     <ClCompile Include="game\src\Editor.cpp">
       <Filter>Source Files\game\src</Filter>
     </ClCompile>
+    <ClCompile Include="game\src\SpaceShooter.cpp">
+      <Filter>Source Files\game\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h">
@@ -270,6 +273,12 @@
       <Filter>Source Files\game\inc</Filter>
     </ClInclude>
     <ClInclude Include="game\inc\Editor.h">
+      <Filter>Source Files\game\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="game\inc\SpaceShooter.h">
+      <Filter>Source Files\game\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="game\inc\GameUtils.h">
       <Filter>Source Files\game\inc</Filter>
     </ClInclude>
   </ItemGroup>

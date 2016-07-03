@@ -1,4 +1,8 @@
+#ifdef EDITOR
 #include "Editor.h"
+#else
+#include "SpaceShooter.h"
+#endif // EDITOR
 #include <PrecompiledHeader.h>
 
 //--------------------------------------------------------------------------------------
@@ -72,7 +76,11 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 	// Initialize subsystems
 	ITP485::GraphicsDriver::StaticInit( g_hWnd );
+#ifdef EDITOR
 	ITP485::GamePtr game = ITP485::GamePtr( new ITP485::Editor() );
+#else
+	ITP485::GamePtr game = ITP485::GamePtr( new ITP485::SpaceShooter() );
+#endif // EDITOR
 	ITP485::MessageManager::Get().Initialize();
 
 	// Main message loop here

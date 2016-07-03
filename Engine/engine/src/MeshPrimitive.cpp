@@ -11,7 +11,10 @@ namespace ITP485
 									 mUniformBuffer( nullptr ),
 									 mUniformBufferDirty( true ),
 									 mVertexStride( sizeof( VERTEX_P_N_T ) )
-	{}
+	{
+		// Create our object to world constant buffer
+		mUniformBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( ObjectConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
+	}
 
 	void MeshPrimitive::Draw( const PrimitiveDrawer& drawer, const ViewPtr view ) const
 	{
@@ -65,8 +68,10 @@ namespace ITP485
 		scale.CreateScale( mScale );
 		model.Multiply( scale );
 
-		Matrix4 *objectToWorld = static_cast<Matrix4*>(GraphicsDriver::Get()->MapBuffer( mUniformBuffer ));
-		memcpy( objectToWorld, &model.GetTranspose(), sizeof( Matrix4 ) );
+		ObjectConstants* objectConstants = static_cast<ObjectConstants*>(GraphicsDriver::Get()->MapBuffer( mUniformBuffer ));
+		objectConstants->objectToWorld = model.GetTranspose();
+		model.Invert();
+		objectConstants->worldToObject = model.GetTranspose();
 		GraphicsDriver::Get()->UnmapBuffer( mUniformBuffer );
 	}
 

@@ -200,10 +200,7 @@ namespace ITP485
 		};
 		mInputLayout = GraphicsDriver::Get()->CreateInputLayout( elements, 4, compiledVertexShader );
 
-		// Create our object to world constant buffer
-		mUniformBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( Matrix4 ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
-
-		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\fighter.dds" ) );
+		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\frigate.dds" ) );
 		mVertexStride = sizeof( VERTEX_P_N_T_T );
 	}
 
