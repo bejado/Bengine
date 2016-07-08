@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "MeshPrimitive.h"
+#include "ParticleSystem.h"
 
 namespace ITP485
 {
@@ -17,8 +18,13 @@ namespace ITP485
 
 	private:
 
+		void UpdatePlayerShip();
+
 		ViewPtr mCamera;
+
 		MeshPrimitivePtr player;
+
+		ParticleSystemPtr playerJetParticles;
 
 		Vector3 mPlayerTranslation;
 		Quaternion mPlayerRotation;

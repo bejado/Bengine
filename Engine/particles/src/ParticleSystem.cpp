@@ -3,11 +3,38 @@
 namespace ITP485
 {
 
+	ParticleSystem::ParticleSystem()
+	{}
+
 	void ParticleSystem::Update()
 	{
-		for ( auto emitter : mEmitters )
+		for ( auto& emitter : mEmitters )
 		{
 			emitter->Update();
+		}
+	}
+
+	void ParticleSystem::SetEmitterOrigin( const Vector3& origin )
+	{
+		for ( auto& emitter : mEmitters )
+		{
+			emitter->SetEmitterOrigin( origin );
+		}
+	}
+
+	void ParticleSystem::SetEmitterState( bool state )
+	{
+		for ( auto& emitter : mEmitters )
+		{
+			emitter->SetEmitterState( state );
+		}
+	}
+
+	void ParticleSystem::SetTranslationMatrix( const Matrix4& translation )
+	{
+		for ( auto& emitter : mEmitters )
+		{
+			emitter->SetTranslationMatrix( translation );
 		}
 	}
 

@@ -36,6 +36,9 @@ namespace ITP485
 		};
 		mVertexBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( vertices, sizeof( VERTEX_P_N_T ) * NUM_VERTICES, EBindflags::EBF_VertexBuffer, 0, EGraphicsBufferUsage::EGBU_Immutable );
 
+		// Create vertex uniform buffer
+		mUniformBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( UniformBuffer ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
+
 		// Create an instance buffer- we set this to nullptr for now, clients will map and unmap the buffer themselves
 		mInstanceBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( nullptr, mInstanceDataSize * mInstanceCount, EBindflags::EBF_VertexBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 
@@ -48,13 +51,20 @@ namespace ITP485
 	{
 		mesh->inputLayout = mInputLayout;
 		mesh->vertexBuffer = mVertexBuffer;
-		mesh->vertexUniformBuffer = nullptr;
+		mesh->vertexUniformBuffer = mUniformBuffer;
 		mesh->vertexShader = mVertexShader;
 		mesh->vertexStride = sizeof( VERTEX_P_N_T );
 		mesh->instanceStride = mInstanceDataSize;
 		mesh->indexBuffer = mIndexBuffer;
 		mesh->indices = NUM_INDICES;
 		mesh->instanceBuffer = mInstanceBuffer;
+	}
+
+	void Quad::UpdateUniformBuffer( const Matrix4& translation )
+	{
+		UniformBuffer *buffer = GraphicsDriver::Get()->MapBuffer<UniformBuffer>( mUniformBuffer );
+		memcpy( buffer, &translation.GetTranspose(), sizeof( Matrix4 ) );
+		GraphicsDriver::Get()->UnmapBuffer( mUniformBuffer );
 	}
 
 	void* Quad::MapInstanceBuffer()

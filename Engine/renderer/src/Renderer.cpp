@@ -17,7 +17,7 @@ namespace ITP485
 		GraphicsDriver::Get()->SetRasterizerState( mRasterizerState );
 
 		// Create a blend state
-		mBlendState = GraphicsDriver::Get()->CreateBlendState( EBlend::EB_One, EBlend::EB_Zero );
+		mBlendState = GraphicsDriver::Get()->CreateBlendState( EBlend::EB_Src_Alpha, EBlend::Eb_Inv_Src_Alpha );
 		GraphicsDriver::Get()->SetBlendState( mBlendState );
 
 		// Set up our depth buffer and depth test
@@ -112,6 +112,7 @@ namespace ITP485
 		{
 			cameraConstants->mLightMatrix = mLight->GetProjectionViewMatrix().GetTranspose();	// TODO: refactor
 		}
+		cameraConstants->mCameraUp = mCamera->GetUpVector();
 		GraphicsDriver::Get()->UnmapBuffer(mCameraConstantBuffer);
 	}
 

@@ -17,7 +17,8 @@ namespace ITP485
 
 	ParticleEmitter::ParticleEmitter( const Vector3& emitterPosition,
 									  const Vector3& startColor,
-									  const Vector3& endColor ) : mEmitterPosition( emitterPosition )
+									  const Vector3& endColor ) : mEmitterPosition( emitterPosition ),
+																  mEmitterState( true )
 	{
 		mParticleQuad = QuadPtr( new Quad( sizeof(Particle), MAX_PARTICLES ) );
 		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\particle.hlsl", L"" ) ); 
@@ -90,7 +91,7 @@ namespace ITP485
 		float deltaTime = Timing::Get().GetDeltaTime();
 		mSpawnTimer -= deltaTime;
 
-		if ( mSpawnTimer < 0.f && mEmitterRate > 0.f )
+		if ( mSpawnTimer < 0.f && mEmitterRate > 0.f && mEmitterState )
 		{
 			BurstParticles( 1 );
 			mSpawnTimer = 1.f / mEmitterRate;
@@ -103,10 +104,11 @@ namespace ITP485
 			{
 				mParticles[p].position.Add( mParticleVelocity[p] * deltaTime );
 				mParticles[p].age += deltaTime;
-				if ( mGravity != 0.f )
-				{
-					mParticleVelocity[p].Add( Vector3( 0.f, mGravity * deltaTime, 0.f ) );
-				}
+				
+				// Calculate and apply gravity.
+				Vector3 translatedGravity( mGravity );
+				translatedGravity.TransformAsVector( mTranslationMatrix );
+				mParticleVelocity[p].Add( mGravity * deltaTime );
 			}
 
 			// Reset the particle
@@ -190,6 +192,7 @@ namespace ITP485
 
 	void ParticleEmitter::Render( const PrimitiveDrawer& drawer, const ViewPtr view )
 	{
+		mParticleQuad->UpdateUniformBuffer( mTranslationMatrix );
 		UpdateParticleConstantBuffer();
 
 		PrimitiveDrawer::Mesh mesh;

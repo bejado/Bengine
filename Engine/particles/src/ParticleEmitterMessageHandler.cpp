@@ -17,9 +17,9 @@ namespace ITP485
 					emitter->mEmitterConstants.life = value;
 				}
 
-				if ( MessageHandler::ParseForFloat( key, "gravity", value ) )
+				if ( MessageHandler::ParseForVector3( key, "gravity", value ) )
 				{
-					emitter->mGravity = value;
+					emitter->mGravity = Vector3( value[0], value[1], value[2] );
 				}
 
 				if ( MessageHandler::ParseForFloat( key, "initialVelocity", value ) )

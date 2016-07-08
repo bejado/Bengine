@@ -2,7 +2,11 @@
   "emitters": [
     {
       "life": 0.493,
-      "gravity": -15,
+      "gravity": [
+        0,
+        0,
+        -15
+      ],
       "initialVelocity": 0.995,
       "rate": 438.041,
       "startColor": [
@@ -18,7 +22,11 @@
     },
     {
       "life": 0.824,
-      "gravity": -4.587,
+      "gravity": [
+        0,
+        0,
+        -4.587
+      ],
       "initialVelocity": 0.133,
       "rate": 77.548,
       "startColor": [

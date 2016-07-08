@@ -65,7 +65,9 @@ namespace ITP485
 	enum EBlend
 	{
 		EB_One = D3D11_BLEND_ONE,
-		EB_Zero = D3D11_BLEND_ZERO
+		EB_Zero = D3D11_BLEND_ZERO,
+		EB_Src_Alpha = D3D11_BLEND_SRC_ALPHA,
+		Eb_Inv_Src_Alpha = D3D10_BLEND_INV_SRC_ALPHA
 	};
 
 	enum EDepthWriteMask

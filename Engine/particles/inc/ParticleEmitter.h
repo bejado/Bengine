@@ -39,6 +39,17 @@ namespace ITP485
 		void Update();
 		void Render( const PrimitiveDrawer& drawer, const ViewPtr view );
 		void BurstParticles( uint32_t amount );
+		void SetEmitterState( bool state ) { mEmitterState = state; }
+
+		/**
+		* Sets the birth origin of new particles. Does not affect particles already living.
+		*/
+		void SetEmitterOrigin( const Vector3& position ) { mEmitterPosition = position; }
+
+		/**
+		* Sets the matrix used to orient all the particles in this emitter. Affects all past and future particles.
+		*/
+		void SetTranslationMatrix( const Matrix4& matrix ) { mTranslationMatrix = matrix; }
 
 		// We'll delegate all message handling to a message handler class
 		friend class ParticleEmitterMessageHandler;
@@ -69,9 +80,11 @@ namespace ITP485
 		static GraphicsBufferPtr ParticleConstantBuffer;	// static, because we only need one
 		EmitterConstants mEmitterConstants;
 		Vector3 mEmitterPosition = Vector3( 0.f, 0.f, 0.f );
-		float mGravity = 0.f;
+		Vector3 mGravity = Vector3( 0.f, 0.f, 0.f );
 		float mInitialVelocity = 5.f;
 		float mEmitterRate = 1.f;	// in particles per second
+		Matrix4 mTranslationMatrix;
+		bool mEmitterState;
 
 	};
 

@@ -78,6 +78,7 @@ namespace ITP485
 		Matrix4 mProjectionViewMatrix;
 		Vector3 mCameraPosition;
 		Matrix4 mLightMatrix;
+		Vector3 mCameraUp;
 	};
 
 	/**
@@ -99,7 +100,7 @@ namespace ITP485
 		void AddPrimitive( const RenderPrimitivePtr primitive );
 
 		/**
-		* Add a primitive to be rendererd in a separate translucency pass after all opaque primitivies./
+		* Add a primitive to be rendererd in a separate translucency pass after all opaque primitivies.
 		*/
 		void AddTranslucentPrimitive( const RenderPrimitivePtr primitive );
 

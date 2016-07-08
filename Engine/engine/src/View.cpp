@@ -11,10 +11,10 @@ namespace ITP485
 		Vector3 viewForward = Vector3::Forward;
 		viewForward.Rotate( mRotation );
 
-		Vector3 viewUp = Vector3::Up;
-		viewUp.Rotate( mRotation );
+		mViewUp = Vector3::Up;
+		mViewUp.Rotate( mRotation );
 
-		mViewMatrix.CreateLookAt( mPosition, mPosition + viewForward, viewUp );	
+		mViewMatrix.CreateLookAt( mPosition, mPosition + viewForward, mViewUp );	
 	}
 
 	void View::UpdateProjectionMatrix()

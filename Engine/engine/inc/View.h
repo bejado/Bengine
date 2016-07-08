@@ -1,3 +1,5 @@
+#pragma once
+
 namespace ITP485
 {
 	class __declspec( align( 16 ) ) View
@@ -36,6 +38,11 @@ namespace ITP485
 		const Vector3& View::GetPosition() const
 		{
 			return mPosition;
+		}
+
+		const Vector3& View::GetUpVector() const
+		{
+			return mViewUp;
 		}
 
 		void View::MoveCamera( const Vector3& cameraSpaceDirection, float amount )
@@ -98,6 +105,7 @@ namespace ITP485
 		Matrix4 mViewMatrix;
 		Matrix4 mProjectionMatrix;
 		Matrix4 mProjectionViewMatrix;
+		Vector3 mViewUp;
 
 		Vector3 mPosition;
 		Quaternion mRotation;
