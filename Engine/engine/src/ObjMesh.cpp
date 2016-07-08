@@ -172,7 +172,7 @@ namespace ITP485
 															EGraphicsBufferUsage::EGBU_Immutable );
 	}
 
-	ObjMeshPrimitive::ObjMeshPrimitive( const std::string file )
+	ObjMeshPrimitive::ObjMeshPrimitive( std::string file, MaterialPtr material )
 	{
 		RawMesh mesh;
 		LoadMeshFromObjFile( file, mesh );
@@ -200,7 +200,7 @@ namespace ITP485
 		};
 		mInputLayout = GraphicsDriver::Get()->CreateInputLayout( elements, 4, compiledVertexShader );
 
-		mMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\frigate.dds" ) );
+		mMaterial = material;
 		mVertexStride = sizeof( VERTEX_P_N_T_T );
 	}
 

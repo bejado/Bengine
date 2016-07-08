@@ -19,10 +19,12 @@ namespace ITP485
 	private:
 
 		void UpdatePlayerShip();
+		void UpdateAsteroids();
 
 		ViewPtr mCamera;
 
 		MeshPrimitivePtr player;
+		MeshPrimitivePtr asteroid;
 
 		ParticleSystemPtr playerJetParticles;
 
@@ -30,6 +32,8 @@ namespace ITP485
 		Quaternion mPlayerRotation;
 		Vector3 mPlayerVelocity;
 		Vector3 mPlayerAcceleration;
+
+		Quaternion mAsteroidRotation;
 	};
 
 }

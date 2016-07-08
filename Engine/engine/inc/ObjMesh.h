@@ -23,7 +23,7 @@ namespace ITP485
 
 		DECLARE_ALIGNED_NEW_DELETE
 
-		ObjMeshPrimitive( std::string file );
+		ObjMeshPrimitive( std::string file, MaterialPtr material );
 
 	};
 

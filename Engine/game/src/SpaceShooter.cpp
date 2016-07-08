@@ -14,20 +14,27 @@ namespace ITP485
 	SpaceShooter::SpaceShooter() : mPlayerTranslation( 0.f, 0.f, 0.f ),
 								   mPlayerVelocity( 0.f, 0.f, 0.f ),
 								   mPlayerAcceleration( 0.f, 0.f, 0.f ),
-								   mPlayerRotation(Quaternion::Identity)
+								   mPlayerRotation( Quaternion::Identity ),
+								   mAsteroidRotation( Quaternion::Identity )
 	{
 		Renderer::Get().Initialize();
 
 		// Create the player's view.
 		Quaternion viewRotation( Vector3::Right, Pi / 2.f );
-		// Quaternion viewRotation(Quaternion::Identity);
 		mCamera = ViewPtr( new View( Vector3( 0.f, 60.f, 0.f ), viewRotation, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, false ) );
 		Renderer::Get().SetCamera( mCamera );
 
 		// Load the player's ship.
-		player = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\frigate_normal.obj" ) );
+		MaterialPtr playerShipMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\frigate.dds" ) );
+		player = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\frigate_normal.obj", playerShipMaterial ) );
 		player->SetScale( 0.3f );
 		Renderer::Get().AddPrimitive( player );
+
+		// Load an asteroid
+		MaterialPtr asteroidMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\asteroid.dds" ) );
+		asteroid = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\asteroid1.obj", asteroidMaterial ) );
+		asteroid->SetScale( 0.1f );
+		Renderer::Get().AddPrimitive( asteroid );
 
 		// Load the player's jet particles.
 		playerJetParticles = ParticleSystemPtr( new ParticleSystem() );
@@ -93,11 +100,20 @@ namespace ITP485
 		playerJetParticles->SetTranslationMatrix( jetFuelTranspose );
 	}
 
+	void SpaceShooter::UpdateAsteroids()
+	{
+		float deltaTime = Timing::Get().GetDeltaTime();
+		Quaternion asteroidRotation = Quaternion::FromEulerAngles( deltaTime, deltaTime, 0.f );
+		mAsteroidRotation.Multiply( asteroidRotation );
+		asteroid->SetRotation( mAsteroidRotation );
+	}
+
 	void SpaceShooter::Update()
 	{
 		ExitWithEscapeKey();
 
 		UpdatePlayerShip();
+		UpdateAsteroids();
 
 		// Update player's particles.
 		playerJetParticles->Update();

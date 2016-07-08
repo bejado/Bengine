@@ -266,9 +266,6 @@
     <ClInclude Include="engine\inc\FullscreenQuad.h">
       <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
-    <ClInclude Include="engine\inc\MapLoader.h">
-      <Filter>Source Files\engine\inc</Filter>
-    </ClInclude>
     <ClInclude Include="game\inc\Game.h">
       <Filter>Source Files\game\inc</Filter>
     </ClInclude>
