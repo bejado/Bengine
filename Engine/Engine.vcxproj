@@ -18,10 +18,11 @@
     <ClCompile Include="engine\src\Cube.cpp" />
     <ClCompile Include="engine\src\FullscreenQuad.cpp" />
     <ClCompile Include="engine\src\InputManager.cpp" />
-    <ClCompile Include="engine\src\Material.cpp" />
     <ClCompile Include="engine\src\MeshPrimitive.cpp" />
     <ClCompile Include="engine\src\ObjMesh.cpp" />
     <ClCompile Include="engine\src\QuadPrimitive.cpp" />
+    <ClCompile Include="engine\src\RawMesh.cpp" />
+    <ClCompile Include="engine\src\Sphere.cpp" />
     <ClCompile Include="engine\src\View.cpp" />
     <ClCompile Include="game\src\Editor.cpp" />
     <ClCompile Include="game\src\SpaceShooter.cpp" />
@@ -35,6 +36,8 @@
     <ClCompile Include="particles\src\ParticleSystemLoader.cpp" />
     <ClCompile Include="particles\src\ParticleSystemMessageHandler.cpp" />
     <ClCompile Include="particles\src\Quad.cpp" />
+    <ClCompile Include="renderer\src\DebugMaterials.cpp" />
+    <ClCompile Include="renderer\src\Material.cpp" />
     <ClCompile Include="renderer\src\Renderer.cpp" />
     <ClCompile Include="tinyobj\src\tiny_obj_loader.cc" />
   </ItemGroup>
@@ -46,12 +49,12 @@
     <ClInclude Include="core\inc\singleton.h" />
     <ClInclude Include="core\inc\StringUtils.h" />
     <ClInclude Include="core\inc\Timing.h" />
-    <ClInclude Include="engine\inc\Cube.h" />
     <ClInclude Include="engine\inc\FullscreenQuad.h" />
     <ClInclude Include="engine\inc\InputManager.h" />
-    <ClInclude Include="engine\inc\Material.h" />
     <ClInclude Include="engine\inc\MeshPrimitive.h" />
     <ClInclude Include="engine\inc\ObjMesh.h" />
+    <ClInclude Include="engine\inc\Primitives.h" />
+    <ClInclude Include="engine\inc\RawMesh.h" />
     <ClInclude Include="engine\inc\View.h" />
     <ClInclude Include="game\inc\Editor.h" />
     <ClInclude Include="game\inc\Game.h" />
@@ -68,7 +71,9 @@
     <ClInclude Include="particles\inc\ParticleSystemLoader.h" />
     <ClInclude Include="particles\inc\ParticleSystemMessageHandler.h" />
     <ClInclude Include="particles\inc\Quad.h" />
+    <ClInclude Include="renderer\inc\Material.h" />
     <ClInclude Include="renderer\inc\Renderer.h" />
+    <ClInclude Include="renderer\inc\WireframeMaterial.h" />
     <ClInclude Include="tinyobj\inc\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +97,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\texture.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\wireframe.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </FxCompile>

@@ -32,6 +32,11 @@ namespace ITP485
 		GraphicsDriver::Get()->SetPixelShader( mPixelShader );
 	}
 
+	void Material::DeactivateMaterial() const
+	{
+		// Subclasses can override. Return graphics state to default values.
+	}
+
 	void Material::ActivateDepthOnlyMaterial() const
 	{
 		GraphicsDriver::Get()->SetPixelShader( mDepthOnlyPixelShader );

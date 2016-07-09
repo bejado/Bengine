@@ -4,6 +4,8 @@
 #include "ObjMesh.h"
 #include "GameUtils.h"
 #include "ParticleSystemLoader.h"
+#include "Primitives.h"
+#include "WireframeMaterial.h"
 
 namespace ITP485
 {
@@ -42,6 +44,12 @@ namespace ITP485
 		loader.LoadFromFile( "Resources\\ParticleSystems\\jet_fuel.part", playerJetParticles );
 		playerJetParticles->SetEmitterState( false );	// turn the particles off to start with
 		Renderer::Get().AddTranslucentPrimitive( playerJetParticles );
+
+		// Create a debug sphere
+		MaterialPtr sphereMaterial = MaterialPtr( new WireframeMaterial() );
+		sphere = MeshPrimitivePtr( new SpherePrimitive( sphereMaterial ) );
+		sphere->SetScale( 6.5f );
+		Renderer::Get().AddPrimitive( sphere );
 	}
 
 	void SpaceShooter::UpdatePlayerShip()
@@ -77,6 +85,7 @@ namespace ITP485
 		mPlayerTranslation = mPlayerTranslation + mPlayerVelocity * deltaTime;
 
 		// Update player's ship.
+		sphere->SetTranslation( mPlayerTranslation );
 		player->SetTranslation( mPlayerTranslation );
 		Quaternion finalRotation = mPlayerRotation;
 		finalRotation.Multiply( Quaternion( Vector3::Up, Pi / 2.f ) );

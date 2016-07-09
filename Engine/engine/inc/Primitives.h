@@ -21,4 +21,12 @@ namespace ITP485
 
 	};
 
+	class SpherePrimitive : public MeshPrimitive
+	{
+	public:
+
+		SpherePrimitive( MaterialPtr material );
+
+	};
+
 }

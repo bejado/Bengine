@@ -6,10 +6,11 @@ namespace ITP485
 	public:
 
 		Material( std::wstring shaderPath, std::wstring texturePath );
-		void ActivateMaterial() const;
+		virtual void ActivateMaterial() const;
+		virtual void DeactivateMaterial() const;
 		void ActivateDepthOnlyMaterial() const;
 
-	private:
+	protected:
 
 		PixelShaderPtr mPixelShader = nullptr;
 		PixelShaderPtr mDepthOnlyPixelShader = nullptr;

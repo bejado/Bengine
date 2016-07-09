@@ -135,9 +135,6 @@
     <ClCompile Include="engine\src\ObjMesh.cpp">
       <Filter>Source Files\engine\src</Filter>
     </ClCompile>
-    <ClCompile Include="engine\src\Material.cpp">
-      <Filter>Source Files\engine\src</Filter>
-    </ClCompile>
     <ClCompile Include="engine\src\InputManager.cpp">
       <Filter>Source Files\engine\src</Filter>
     </ClCompile>
@@ -183,6 +180,18 @@
     <ClCompile Include="game\src\SpaceShooter.cpp">
       <Filter>Source Files\game\src</Filter>
     </ClCompile>
+    <ClCompile Include="engine\src\RawMesh.cpp">
+      <Filter>Source Files\engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\src\Sphere.cpp">
+      <Filter>Source Files\engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\src\Material.cpp">
+      <Filter>Source Files\renderer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\src\DebugMaterials.cpp">
+      <Filter>Source Files\renderer\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h">
@@ -212,16 +221,10 @@
     <ClInclude Include="core\inc\ITPMemory.h">
       <Filter>Source Files\core\inc</Filter>
     </ClInclude>
-    <ClInclude Include="engine\inc\Cube.h">
-      <Filter>Source Files\engine\inc</Filter>
-    </ClInclude>
     <ClInclude Include="tinyobj\inc\tiny_obj_loader.h">
       <Filter>Source Files\tinyobj\inc</Filter>
     </ClInclude>
     <ClInclude Include="engine\inc\ObjMesh.h">
-      <Filter>Source Files\engine\inc</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\inc\Material.h">
       <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
     <ClInclude Include="engine\inc\InputManager.h">
@@ -278,6 +281,18 @@
     <ClInclude Include="game\inc\GameUtils.h">
       <Filter>Source Files\game\inc</Filter>
     </ClInclude>
+    <ClInclude Include="engine\inc\Primitives.h">
+      <Filter>Source Files\engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\RawMesh.h">
+      <Filter>Source Files\engine\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\inc\Material.h">
+      <Filter>Source Files\renderer\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\inc\WireframeMaterial.h">
+      <Filter>Source Files\renderer\inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Resources\Shaders\instanced_billboard.hlsl">
@@ -296,6 +311,9 @@
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\tangent.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\wireframe.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

@@ -1,5 +1,6 @@
 #include "ObjMesh.h"
 
+#include "RawMesh.h"
 #include <PrecompiledHeader.h>
 #include <tiny_obj_loader.h>
 #include <algorithm>
@@ -146,30 +147,6 @@ namespace ITP485
 
 			mesh.tangents[i] = PackedVector4( tangentOut.GetX(), tangentOut.GetY(), tangentOut.GetZ(), handedness );
 		}
-	}
-
-	GraphicsBufferPtr RawMesh::CreateVertexBuffer()
-	{
-		std::vector< VERTEX_P_N_T_T > buffer;
-		for ( size_t v = 0; v < positions.size(); v++ )
-		{
-			buffer.push_back( VERTEX_P_N_T_T( positions[v], normals[v], textureCoordinates[v], tangents[v] ) );
-		}
-
-		return GraphicsDriver::Get()->CreateGraphicsBuffer( buffer.data(),
-															sizeof( VERTEX_P_N_T_T ) * buffer.size(),
-															EBindflags::EBF_VertexBuffer,
-															0,
-															EGraphicsBufferUsage::EGBU_Immutable );
-	}
-
-	GraphicsBufferPtr RawMesh::CreateIndexBuffer()
-	{
-		return GraphicsDriver::Get()->CreateGraphicsBuffer( indices.data(),
-															sizeof( uint16_t ) * indices.size(),
-															EBindflags::EBF_IndexBuffer,
-															0,
-															EGraphicsBufferUsage::EGBU_Immutable );
 	}
 
 	ObjMeshPrimitive::ObjMeshPrimitive( std::string file, MaterialPtr material )

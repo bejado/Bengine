@@ -6,7 +6,7 @@
 #include "ParticleSystemMessageHandler.h"
 
 #include "MeshPrimitive.h"
-#include "Cube.h"
+#include "Primitives.h"
 #include "ObjMesh.h"
 
 namespace ITP485

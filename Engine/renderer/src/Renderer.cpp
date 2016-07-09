@@ -164,6 +164,9 @@ namespace ITP485
 			GraphicsDriver::Get()->DrawIndexed( mesh.indices, 0, 0 );
 		}
 
+		// TODO: figure out a way so we don't have to deativate materials
+		mesh.material->DeactivateMaterial();
+
 		// Restore depth buffer state.
 		if ( needToRestoreDepthState )
 		{

@@ -37,6 +37,12 @@ namespace ITP485
 		float mX, mY, mZ, mW;
 	};
 
+	struct VERTEX_P
+	{
+		VERTEX_P( const PackedVector3& position ) : mPosition( position ) {}
+		PackedVector3 mPosition;
+	};
+
 	struct VERTEX_P_T
 	{
 		VERTEX_P_T( const PackedVector3& position, const PackedVector2& texCoord ) : mPosition( position ), mTexCoord( texCoord ) {}
