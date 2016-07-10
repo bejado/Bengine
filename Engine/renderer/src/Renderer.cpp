@@ -38,6 +38,9 @@ namespace ITP485
 		mCameraConstantBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( nullptr, sizeof( PerCameraConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 		GraphicsDriver::Get()->SetVSConstantBuffer( mCameraConstantBuffer, 0 );
 		GraphicsDriver::Get()->SetPSConstantBuffer( mCameraConstantBuffer, 0 );
+
+		// Initialize text output
+		GraphicsDriver::Get()->InitSpriteFont();
 	}
 
 	void Renderer::AddPrimitive( const RenderPrimitivePtr primitive )
@@ -62,6 +65,12 @@ namespace ITP485
 
 	void Renderer::Render()
 	{
+		// Reset the state which gets blown away by SpriteBatch.
+		GraphicsDriver::Get()->SetVSConstantBuffer( mCameraConstantBuffer, 0 );
+		GraphicsDriver::Get()->SetPSConstantBuffer( mCameraConstantBuffer, 0 );
+		GraphicsDriver::Get()->SetDepthStencilState( mDepthStateNormal );
+		GraphicsDriver::Get()->SetBlendState( mBlendState );
+
 		// Clear back buffer and depth stencil
 		GraphicsDriver::Get()->ClearBackBuffer();
 
@@ -99,8 +108,15 @@ namespace ITP485
 			primitive->Draw( mTransclucentDrawer, mCamera );
 		}
 
+		GraphicsDriver::Get()->SpriteFontBegin();
+		wchar_t buffer[100];
+		_swprintf( buffer, L"Frame time: %f\nFPS: %f", Timing::Get().GetDeltaTime(), 1.f / Timing::Get().GetDeltaTime() );
+		GraphicsDriver::Get()->DrawSpriteFontString( buffer, 0.f, 0.f );
+		GraphicsDriver::Get()->SpriteFontEnd();
+
 		// Present!
 		ITP485::GraphicsDriver::Get()->Present();
+
 	}
 
 	void Renderer::UpdateViewConstants( const Matrix4& projectionView, const Vector3& position ) const

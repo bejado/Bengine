@@ -1,7 +1,6 @@
 #include <PrecompiledHeader.h>
 #include "DDSTextureLoader.h"
 
-
 ID3D11Device*           g_pd3dDevice = nullptr;
 ID3D11Device1*          g_pd3dDevice1 = nullptr;
 ID3D11DeviceContext*    g_pImmediateContext = nullptr;
@@ -234,6 +233,27 @@ mCurrentDepthStencil( nullptr )
 	SetPrimitiveTopology( D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
 	SetRenderTarget( GetBackBufferRenderTarget() );
+}
+
+void GraphicsDriver::InitSpriteFont()
+{
+	mSpriteBatch = new SpriteBatch( g_pImmediateContext );
+	mSpriteFont = new SpriteFont( g_pd3dDevice, L"Resources\\Fonts\\console.spritefont" );
+}
+
+void GraphicsDriver::SpriteFontBegin()
+{
+	mSpriteBatch->Begin();
+}
+
+void GraphicsDriver::DrawSpriteFontString( std::wstring string, float x, float y )
+{
+	mSpriteFont->DrawString( mSpriteBatch, string.c_str(), XMFLOAT2( x, y ) );
+}
+
+void GraphicsDriver::SpriteFontEnd()
+{
+	mSpriteBatch->End();
 }
 
 void GraphicsDriver::SetRenderTarget( RenderTargetPtr inRenderTarget )
@@ -668,6 +688,9 @@ GraphicsDriver::~GraphicsDriver()
 		//g_d3dDebug->ReportLiveDeviceObjects( D3D11_RLDO_DETAIL );
 		g_d3dDebug->Release();
 	}
+
+	delete mSpriteFont;
+	delete mSpriteBatch;
 
 }
 

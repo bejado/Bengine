@@ -1,5 +1,7 @@
 #include <directxmath.h>
 #include <directxcolors.h>
+#include "SpriteFont.h"
+#include "SpriteBatch.h"
 
 namespace ITP485
 {
@@ -125,6 +127,11 @@ namespace ITP485
 
 		static GraphicsDriver* Get() { return sInstance; }
 
+		void InitSpriteFont();
+		void SpriteFontBegin();
+		void DrawSpriteFontString( std::wstring string, float x, float y );
+		void SpriteFontEnd();
+
 		RenderTargetPtr GetBackBufferRenderTarget() const
 		{
 			return mBackBufferRenderTarget;
@@ -204,6 +211,9 @@ namespace ITP485
 		DepthStencilPtr mCurrentDepthStencil;
 
 		static GraphicsDriver* sInstance;
+
+		DirectX::SpriteFont* mSpriteFont;
+		DirectX::SpriteBatch* mSpriteBatch;
 
 	};
 
