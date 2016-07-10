@@ -31,13 +31,17 @@ namespace ITP485
 		player = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\frigate_normal.obj", playerShipMaterial ) );
 		mPlayerObject = GameObjectPtr( new GameObject( player ) );
 		mPlayerObject->SetScale( 0.3f );
+		mPlayerObject->SetBounds( 6.5f );
+		mPlayerObject->DrawDebugBounds( true );
 		mPlayerObject->Attach();
 
 		// Load an asteroid
 		MaterialPtr asteroidMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\asteroid.dds" ) );
 		asteroid = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\asteroid1.obj", asteroidMaterial ) );
 		mAsteroidObject = GameObjectPtr( new GameObject( asteroid ) );
-		mAsteroidObject->SetScale( 0.1f );
+		mAsteroidObject->SetScale( 1.f );
+		mAsteroidObject->SetBounds( 4.f );
+		mAsteroidObject->DrawDebugBounds( true );
 		mAsteroidObject->Attach();
 
 		// Load the player's jet particles.
@@ -46,14 +50,6 @@ namespace ITP485
 		loader.LoadFromFile( "Resources\\ParticleSystems\\jet_fuel.part", playerJetParticles );
 		playerJetParticles->SetEmitterState( false );	// turn the particles off to start with
 		Renderer::Get().AddTranslucentPrimitive( playerJetParticles );
-
-		// Create a debug sphere
-		/*
-		MaterialPtr sphereMaterial = MaterialPtr( new WireframeMaterial() );
-		sphere = MeshPrimitivePtr( new SpherePrimitive( sphereMaterial ) );
-		sphere->SetScale( 6.5f );
-		Renderer::Get().AddPrimitive( sphere );
-		*/
 	}
 
 	void SpaceShooter::UpdatePlayerShip()

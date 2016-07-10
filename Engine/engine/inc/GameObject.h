@@ -17,13 +17,18 @@ namespace ITP485
 		void SetTranslation( const Vector3& translation );
 		void SetScale( float scale );
 		void SetRotation( const Quaternion& rotation );
-
+		void SetBounds( float bounds );
 		void Attach() const;
+
+		void DrawDebugBounds( bool visible );
 
 	private:
 
+		void UpdateBoundsDebugSphere();
+
 		MeshPrimitivePtr mRenderPrimitive;
-		float bounds;
+		MeshPrimitivePtr mBoundsDebugSphere;
+		float mBoundsRadius;
 
 		void UpdateObjectToWorldMatrix();
 		mutable bool mObjectToWorldMatrixDirty;

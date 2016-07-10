@@ -36,8 +36,6 @@ namespace ITP485
 		Vector3 mPlayerVelocity;
 		Vector3 mPlayerAcceleration;
 
-		MeshPrimitivePtr sphere;
-
 		Quaternion mAsteroidRotation;
 	};
 

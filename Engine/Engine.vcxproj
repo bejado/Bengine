@@ -16,6 +16,7 @@
     <ClCompile Include="core\src\StringUtils.cpp" />
     <ClCompile Include="core\src\Timing.cpp" />
     <ClCompile Include="engine\src\Cube.cpp" />
+    <ClCompile Include="engine\src\DebugDrawing.cpp" />
     <ClCompile Include="engine\src\FullscreenQuad.cpp" />
     <ClCompile Include="engine\src\GameObject.cpp" />
     <ClCompile Include="engine\src\InputManager.cpp" />
@@ -50,6 +51,7 @@
     <ClInclude Include="core\inc\singleton.h" />
     <ClInclude Include="core\inc\StringUtils.h" />
     <ClInclude Include="core\inc\Timing.h" />
+    <ClInclude Include="engine\inc\DebugDrawing.h" />
     <ClInclude Include="engine\inc\FullscreenQuad.h" />
     <ClInclude Include="engine\inc\GameObject.h" />
     <ClInclude Include="engine\inc\InputManager.h" />
