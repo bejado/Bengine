@@ -5,25 +5,17 @@
 namespace ITP485
 {
 
-	MeshPrimitive::MeshPrimitive() : mTranslation( 0.f, 0.f, 0.f ),
-									 mScale( 1.f ),
-									 mRotation( Quaternion::Identity ),
+	MeshPrimitive::MeshPrimitive() : mObjectToWorldMatrix( Matrix4::Identity ),
 									 mUniformBuffer( nullptr ),
-									 mUniformBufferDirty( true ),
 									 mVertexStride( sizeof( VERTEX_P_N_T ) )
 	{
 		// Create our object to world constant buffer
 		mUniformBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( ObjectConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
+		UpdateConstantBuffer();
 	}
 
 	void MeshPrimitive::Draw( const PrimitiveDrawer& drawer, const ViewPtr view ) const
 	{
-		if ( mUniformBufferDirty && mUniformBuffer )
-		{
-			UpdateVertexUniformBuffer();
-			mUniformBufferDirty = false;
-		}
-
 		// Create a primitive mesh and draw it through our drawing interface.
 		PrimitiveDrawer::Mesh mesh;
 		mesh.vertexBuffer = mVertexBuffer;
@@ -37,41 +29,19 @@ namespace ITP485
 		drawer.DrawMesh( mesh );
 	}
 
-	void MeshPrimitive::SetTranslation( const Vector3& translation )
+	void MeshPrimitive::SetObjectToWorldMatrix( const Matrix4& matrix )
 	{
-		mTranslation = translation;
-		mUniformBufferDirty = true;
+		mObjectToWorldMatrix = matrix;
+		UpdateConstantBuffer();
 	}
 
-	void MeshPrimitive::SetScale( float scale )
+	void MeshPrimitive::UpdateConstantBuffer()
 	{
-		mScale = scale;
-		mUniformBufferDirty = true;
-	}
-
-	void MeshPrimitive::SetRotation( const Quaternion& rotation )
-	{
-		mRotation = rotation;
-		mUniformBufferDirty = true;
-	}
-
-	void MeshPrimitive::UpdateVertexUniformBuffer() const
-	{
-		Matrix4 model;
-		model.CreateTranslation( mTranslation );
-
-		Matrix4 rotation;
-		rotation.CreateFromQuaternion( mRotation );
-		model.Multiply( rotation );
-
-		Matrix4 scale;
-		scale.CreateScale( mScale );
-		model.Multiply( scale );
-
 		ObjectConstants* objectConstants = static_cast<ObjectConstants*>(GraphicsDriver::Get()->MapBuffer( mUniformBuffer ));
-		objectConstants->objectToWorld = model.GetTranspose();
-		model.Invert();
-		objectConstants->worldToObject = model.GetTranspose();
+		objectConstants->objectToWorld = mObjectToWorldMatrix.GetTranspose();
+		Matrix4 invertedObjectToWorld = mObjectToWorldMatrix;
+		mObjectToWorldMatrix.Invert();
+		objectConstants->worldToObject = mObjectToWorldMatrix.GetTranspose();
 		GraphicsDriver::Get()->UnmapBuffer( mUniformBuffer );
 	}
 

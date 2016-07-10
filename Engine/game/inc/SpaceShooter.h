@@ -25,6 +25,7 @@ namespace ITP485
 		ViewPtr mCamera;
 
 		GameObjectPtr mPlayerObject;
+		GameObjectPtr mAsteroidObject;
 		MeshPrimitivePtr player;
 		MeshPrimitivePtr asteroid;
 

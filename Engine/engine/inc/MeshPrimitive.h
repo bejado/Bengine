@@ -71,15 +71,15 @@ namespace ITP485
 	class MeshPrimitive : public RenderPrimitive
 	{
 	public:
+
 		DECLARE_ALIGNED_NEW_DELETE
 
 		MeshPrimitive();
 		virtual void Draw( const PrimitiveDrawer& drawer, const ViewPtr view ) const;
-		void SetTranslation( const Vector3& translation );
-		void SetScale( float scale );
-		void SetRotation( const Quaternion& rotation );
+		void SetObjectToWorldMatrix( const Matrix4& matrix );
 
 	protected:
+
 		GraphicsBufferPtr mVertexBuffer;
 		GraphicsBufferPtr mIndexBuffer;
 		GraphicsBufferPtr mUniformBuffer;
@@ -91,17 +91,15 @@ namespace ITP485
 
 	private:
 
+		void UpdateConstantBuffer();
+
 		struct ObjectConstants
 		{
 			Matrix4 objectToWorld;
 			Matrix4 worldToObject;
 		};
 
-		void UpdateVertexUniformBuffer() const;
-		Vector3 mTranslation;
-		float mScale;	// we only support uniform scale, for now
-		Quaternion mRotation;
-		mutable bool mUniformBufferDirty = false;
+		Matrix4 mObjectToWorldMatrix;
 
 	};
 

@@ -29,15 +29,16 @@ namespace ITP485
 		// Load the player's ship.
 		MaterialPtr playerShipMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\frigate.dds" ) );
 		player = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\frigate_normal.obj", playerShipMaterial ) );
-		player->SetScale( 0.3f );
 		mPlayerObject = GameObjectPtr( new GameObject( player ) );
+		mPlayerObject->SetScale( 0.3f );
 		mPlayerObject->Attach();
 
 		// Load an asteroid
 		MaterialPtr asteroidMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\asteroid.dds" ) );
 		asteroid = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\asteroid1.obj", asteroidMaterial ) );
-		asteroid->SetScale( 0.1f );
-		Renderer::Get().AddPrimitive( asteroid );
+		mAsteroidObject = GameObjectPtr( new GameObject( asteroid ) );
+		mAsteroidObject->SetScale( 0.1f );
+		mAsteroidObject->Attach();
 
 		// Load the player's jet particles.
 		playerJetParticles = ParticleSystemPtr( new ParticleSystem() );
@@ -47,10 +48,12 @@ namespace ITP485
 		Renderer::Get().AddTranslucentPrimitive( playerJetParticles );
 
 		// Create a debug sphere
+		/*
 		MaterialPtr sphereMaterial = MaterialPtr( new WireframeMaterial() );
 		sphere = MeshPrimitivePtr( new SpherePrimitive( sphereMaterial ) );
 		sphere->SetScale( 6.5f );
 		Renderer::Get().AddPrimitive( sphere );
+		*/
 	}
 
 	void SpaceShooter::UpdatePlayerShip()
@@ -86,11 +89,10 @@ namespace ITP485
 		mPlayerTranslation = mPlayerTranslation + mPlayerVelocity * deltaTime;
 
 		// Update player's ship.
-		sphere->SetTranslation( mPlayerTranslation );
-		player->SetTranslation( mPlayerTranslation );
+		mPlayerObject->SetTranslation( mPlayerTranslation );
 		Quaternion finalRotation = mPlayerRotation;
 		finalRotation.Multiply( Quaternion( Vector3::Up, Pi / 2.f ) );
-		player->SetRotation( finalRotation );
+		mPlayerObject->SetRotation( finalRotation );
 
 		Matrix4 jetFuelTranspose = Matrix4::Identity;
 
@@ -115,7 +117,7 @@ namespace ITP485
 		float deltaTime = Timing::Get().GetDeltaTime();
 		Quaternion asteroidRotation = Quaternion::FromEulerAngles( deltaTime, deltaTime, 0.f );
 		mAsteroidRotation.Multiply( asteroidRotation );
-		asteroid->SetRotation( mAsteroidRotation );
+		mAsteroidObject->SetRotation( mAsteroidRotation );
 	}
 
 	void SpaceShooter::Update()
@@ -124,6 +126,9 @@ namespace ITP485
 
 		UpdatePlayerShip();
 		UpdateAsteroids();
+
+		mPlayerObject->Update();
+		mAsteroidObject->Update();
 
 		// Update player's particles.
 		playerJetParticles->Update();
