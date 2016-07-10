@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "MeshPrimitive.h"
 #include "ParticleSystem.h"
+#include "GameObject.h"
 
 namespace ITP485
 {
@@ -23,6 +24,7 @@ namespace ITP485
 
 		ViewPtr mCamera;
 
+		GameObjectPtr mPlayerObject;
 		MeshPrimitivePtr player;
 		MeshPrimitivePtr asteroid;
 

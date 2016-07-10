@@ -192,6 +192,9 @@
     <ClCompile Include="renderer\src\DebugMaterials.cpp">
       <Filter>Source Files\renderer\src</Filter>
     </ClCompile>
+    <ClCompile Include="engine\src\GameObject.cpp">
+      <Filter>Source Files\engine\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h">
@@ -292,6 +295,9 @@
     </ClInclude>
     <ClInclude Include="renderer\inc\WireframeMaterial.h">
       <Filter>Source Files\renderer\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\inc\GameObject.h">
+      <Filter>Source Files\engine\inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

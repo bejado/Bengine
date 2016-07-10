@@ -30,7 +30,8 @@ namespace ITP485
 		MaterialPtr playerShipMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\frigate.dds" ) );
 		player = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\frigate_normal.obj", playerShipMaterial ) );
 		player->SetScale( 0.3f );
-		Renderer::Get().AddPrimitive( player );
+		mPlayerObject = GameObjectPtr( new GameObject( player ) );
+		mPlayerObject->Attach();
 
 		// Load an asteroid
 		MaterialPtr asteroidMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\asteroid.dds" ) );
