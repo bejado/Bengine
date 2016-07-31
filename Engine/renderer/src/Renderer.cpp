@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "ConsoleManager.h"
 
 namespace ITP485
 {
@@ -108,15 +109,11 @@ namespace ITP485
 			primitive->Draw( mTransclucentDrawer, mCamera );
 		}
 
-		GraphicsDriver::Get()->SpriteFontBegin();
-		wchar_t buffer[100];
-		_swprintf( buffer, L"Frame time: %f\nFPS: %f", Timing::Get().GetDeltaTime(), 1.f / Timing::Get().GetDeltaTime() );
-		GraphicsDriver::Get()->DrawSpriteFontString( buffer, 0.f, 0.f );
-		GraphicsDriver::Get()->SpriteFontEnd();
+		// Render debug information
+		ConsoleManager::Get().RenderConsole();
 
 		// Present!
 		ITP485::GraphicsDriver::Get()->Present();
-
 	}
 
 	void Renderer::UpdateViewConstants( const Matrix4& projectionView, const Vector3& position ) const

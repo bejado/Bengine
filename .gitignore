@@ -252,3 +252,6 @@ paket-files/
 *.sln.iml
 
 *.db
+
+# Ignore demo video files
+showcase/

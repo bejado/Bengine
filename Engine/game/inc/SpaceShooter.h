@@ -13,7 +13,7 @@ namespace ITP485
 		DECLARE_ALIGNED_NEW_DELETE
 
 		SpaceShooter();
-		virtual void Update();
+		virtual void Update() override;
 		virtual void Render();
 		virtual void HandleMessage( const json& msg );
 

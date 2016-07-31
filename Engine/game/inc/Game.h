@@ -10,7 +10,7 @@ namespace ITP485
 	{
 	public:
 
-		virtual void Update() = 0;
+		virtual void Update();
 		virtual void Render() = 0;
 		virtual void HandleMessage( const json& msg ) = 0;
 	};

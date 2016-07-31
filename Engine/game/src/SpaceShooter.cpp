@@ -2,7 +2,6 @@
 #include <PrecompiledHeader.h>
 
 #include "ObjMesh.h"
-#include "GameUtils.h"
 #include "ParticleSystemLoader.h"
 #include "Primitives.h"
 #include "WireframeMaterial.h"
@@ -32,7 +31,7 @@ namespace ITP485
 		mPlayerObject = GameObjectPtr( new GameObject( player ) );
 		mPlayerObject->SetScale( 0.3f );
 		mPlayerObject->SetBounds( 6.5f );
-		mPlayerObject->DrawDebugBounds( true );
+		// mPlayerObject->DrawDebugBounds( true );
 		mPlayerObject->Attach();
 
 		// Load an asteroid
@@ -41,7 +40,7 @@ namespace ITP485
 		mAsteroidObject = GameObjectPtr( new GameObject( asteroid ) );
 		mAsteroidObject->SetScale( 1.f );
 		mAsteroidObject->SetBounds( 4.f );
-		mAsteroidObject->DrawDebugBounds( true );
+		// mAsteroidObject->DrawDebugBounds( true );
 		mAsteroidObject->Attach();
 
 		// Load the player's jet particles.
@@ -118,7 +117,7 @@ namespace ITP485
 
 	void SpaceShooter::Update()
 	{
-		ExitWithEscapeKey();
+		Game::Update();
 
 		UpdatePlayerShip();
 		UpdateAsteroids();

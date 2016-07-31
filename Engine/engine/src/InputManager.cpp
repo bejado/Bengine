@@ -32,6 +32,10 @@ namespace ITP485
 				HandleKeyboardMessage( message, inWParam, inLParam );
 				break;
 
+			case WM_CHAR:
+				HandleCharMessage( message, inWParam, inLParam );
+				break;
+
 			case WM_INPUT:
 				HandleRawInputMessage( message, inWParam, inLParam );
 				break;
@@ -75,6 +79,28 @@ namespace ITP485
 		if ( inWParam == 0x1B ) {
 			mKeyState[Key::ESC] = state;
 		}
+	}
+
+	void InputManager::HandleCharMessage( UINT message, WPARAM inWParam, LPARAM inLParam )
+	{
+		wchar_t character = static_cast<wchar_t>( inWParam );
+		std::wstring str = std::wstring( &character, 1 );	// inWParam will only be 1 character
+		if ( std::regex_match( str, allowedRegex ) )
+		{
+			mKeyboardStream.push_back( character );
+		}
+	}
+
+	std::wstring InputManager::ReadKeyboardBuffer()
+	{
+		std::wstringstream buffer;
+		for ( wchar_t thisCharacter : mKeyboardStream )
+		{
+			buffer << thisCharacter;
+		}
+		std::wstring returnString = buffer.str();
+		mKeyboardStream.clear();
+		return returnString;
 	}
 
 	void InputManager::HandleRawInputMessage( UINT message, WPARAM inWParam, LPARAM inLParam )

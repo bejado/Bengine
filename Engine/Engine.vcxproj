@@ -15,6 +15,7 @@
     <ClCompile Include="core\src\fastmath.cpp" />
     <ClCompile Include="core\src\StringUtils.cpp" />
     <ClCompile Include="core\src\Timing.cpp" />
+    <ClCompile Include="engine\src\ConsoleManager.cpp" />
     <ClCompile Include="engine\src\Cube.cpp" />
     <ClCompile Include="engine\src\DebugDrawing.cpp" />
     <ClCompile Include="engine\src\FullscreenQuad.cpp" />
@@ -27,6 +28,7 @@
     <ClCompile Include="engine\src\Sphere.cpp" />
     <ClCompile Include="engine\src\View.cpp" />
     <ClCompile Include="game\src\Editor.cpp" />
+    <ClCompile Include="game\src\Game.cpp" />
     <ClCompile Include="game\src\SpaceShooter.cpp" />
     <ClCompile Include="graphicsdriver\src\GraphicsDriver.cpp" />
     <ClCompile Include="main\src\main.cpp" />
@@ -51,6 +53,7 @@
     <ClInclude Include="core\inc\singleton.h" />
     <ClInclude Include="core\inc\StringUtils.h" />
     <ClInclude Include="core\inc\Timing.h" />
+    <ClInclude Include="engine\inc\ConsoleManager.h" />
     <ClInclude Include="engine\inc\DebugDrawing.h" />
     <ClInclude Include="engine\inc\FullscreenQuad.h" />
     <ClInclude Include="engine\inc\GameObject.h" />
