@@ -110,7 +110,10 @@ namespace ITP485
 		}
 
 		// Render debug information
-		ConsoleManager::Get().RenderConsole();
+		if ( mShowConsole )
+		{
+			ConsoleManager::Get().RenderConsole();
+		}
 
 		// Present!
 		ITP485::GraphicsDriver::Get()->Present();

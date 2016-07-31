@@ -5,6 +5,7 @@
 #include "ParticleSystemLoader.h"
 #include "Primitives.h"
 #include "WireframeMaterial.h"
+#include "SpaceShooterObjects.h"
 
 namespace ITP485
 {
@@ -15,8 +16,7 @@ namespace ITP485
 	SpaceShooter::SpaceShooter() : mPlayerTranslation( 0.f, 0.f, 0.f ),
 								   mPlayerVelocity( 0.f, 0.f, 0.f ),
 								   mPlayerAcceleration( 0.f, 0.f, 0.f ),
-								   mPlayerRotation( Quaternion::Identity ),
-								   mAsteroidRotation( Quaternion::Identity )
+								   mPlayerRotation( Quaternion::Identity )
 	{
 		Renderer::Get().Initialize();
 
@@ -28,19 +28,17 @@ namespace ITP485
 		// Load the player's ship.
 		MaterialPtr playerShipMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\frigate.dds" ) );
 		player = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\frigate_normal.obj", playerShipMaterial ) );
-		mPlayerObject = GameObjectPtr( new GameObject( player ) );
+		mPlayerObject = GameObjectPtr( new PlayerShip( player ) );
 		mPlayerObject->SetScale( 0.3f );
 		mPlayerObject->SetBounds( 6.5f );
-		// mPlayerObject->DrawDebugBounds( true );
 		mPlayerObject->Attach();
 
 		// Load an asteroid
 		MaterialPtr asteroidMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\asteroid.dds" ) );
 		asteroid = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\asteroid1.obj", asteroidMaterial ) );
-		mAsteroidObject = GameObjectPtr( new GameObject( asteroid ) );
+		mAsteroidObject = GameObjectPtr( new Asteroid( asteroid ) );
 		mAsteroidObject->SetScale( 1.f );
 		mAsteroidObject->SetBounds( 4.f );
-		// mAsteroidObject->DrawDebugBounds( true );
 		mAsteroidObject->Attach();
 
 		// Load the player's jet particles.
@@ -107,20 +105,11 @@ namespace ITP485
 		playerJetParticles->SetTranslationMatrix( jetFuelTranspose );
 	}
 
-	void SpaceShooter::UpdateAsteroids()
-	{
-		float deltaTime = Timing::Get().GetDeltaTime();
-		Quaternion asteroidRotation = Quaternion::FromEulerAngles( deltaTime, deltaTime, 0.f );
-		mAsteroidRotation.Multiply( asteroidRotation );
-		mAsteroidObject->SetRotation( mAsteroidRotation );
-	}
-
 	void SpaceShooter::Update()
 	{
 		Game::Update();
 
 		UpdatePlayerShip();
-		UpdateAsteroids();
 
 		mPlayerObject->Update();
 		mAsteroidObject->Update();

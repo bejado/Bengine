@@ -204,6 +204,9 @@
     <ClCompile Include="game\src\Game.cpp">
       <Filter>Source Files\game\src</Filter>
     </ClCompile>
+    <ClCompile Include="game\src\SpaceShooterObjects.cpp">
+      <Filter>Source Files\game\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h">
@@ -313,6 +316,9 @@
     </ClInclude>
     <ClInclude Include="engine\inc\ConsoleManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\inc\SpaceShooterObjects.h">
+      <Filter>Source Files\game\inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -30,6 +30,7 @@
     <ClCompile Include="game\src\Editor.cpp" />
     <ClCompile Include="game\src\Game.cpp" />
     <ClCompile Include="game\src\SpaceShooter.cpp" />
+    <ClCompile Include="game\src\SpaceShooterObjects.cpp" />
     <ClCompile Include="graphicsdriver\src\GraphicsDriver.cpp" />
     <ClCompile Include="main\src\main.cpp" />
     <ClCompile Include="main\src\PrecompiledHeader.cpp" />
@@ -67,6 +68,7 @@
     <ClInclude Include="game\inc\Game.h" />
     <ClInclude Include="game\inc\GameUtils.h" />
     <ClInclude Include="game\inc\SpaceShooter.h" />
+    <ClInclude Include="game\inc\SpaceShooterObjects.h" />
     <ClInclude Include="graphicsdriver\inc\GraphicsDriver.h" />
     <ClInclude Include="json\inc\json.hpp" />
     <ClInclude Include="main\inc\PrecompiledHeader.h" />

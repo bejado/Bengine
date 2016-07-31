@@ -89,7 +89,9 @@ namespace ITP485
 	public:
 		DECLARE_SINGLETON( Renderer );
 
-		Renderer() : mCamera( nullptr), mLight( nullptr ) {}
+		Renderer() : mCamera( nullptr ),
+					 mLight( nullptr ),
+					 mShowConsole( false ) {}
 
 		void Initialize();
 		void Render();
@@ -127,6 +129,8 @@ namespace ITP485
 		ViewPtr mLight;
 		vector<RenderPrimitivePtr> mPrimitives;
 		vector<RenderPrimitivePtr> mTranslucentPrimitives;
+
+		bool mShowConsole;
 
 	};
 }

@@ -20,7 +20,6 @@ namespace ITP485
 	private:
 
 		void UpdatePlayerShip();
-		void UpdateAsteroids();
 
 		ViewPtr mCamera;
 
@@ -36,7 +35,6 @@ namespace ITP485
 		Vector3 mPlayerVelocity;
 		Vector3 mPlayerAcceleration;
 
-		Quaternion mAsteroidRotation;
 	};
 
 }

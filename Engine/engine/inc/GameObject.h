@@ -16,6 +16,7 @@ namespace ITP485
 		virtual void Update();
 		void SetTranslation( const Vector3& translation );
 		void SetScale( float scale );
+		void Rotate( const Quaternion& rotation );
 		void SetRotation( const Quaternion& rotation );
 		void SetBounds( float bounds );
 		void Attach() const;

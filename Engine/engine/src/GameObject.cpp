@@ -51,6 +51,12 @@ namespace ITP485
 		mObjectToWorldMatrixDirty = true;
 	}
 
+	void GameObject::Rotate( const Quaternion& rotation )
+	{
+		mRotation.Multiply( rotation );
+		mObjectToWorldMatrixDirty = true;
+	}
+
 	void GameObject::SetRotation( const Quaternion& rotation )
 	{
 		mRotation = rotation;
