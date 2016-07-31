@@ -5,18 +5,11 @@
 #include "ParticleSystemLoader.h"
 #include "Primitives.h"
 #include "WireframeMaterial.h"
-#include "SpaceShooterObjects.h"
 
 namespace ITP485
 {
-	const float PLAYER_ACCELERATION_FACTOR = 50.f;
-	const float PLAYER_ROTATION_FACTOR = 2.f;
-	const float PLAYER_FRICTION_FACTOR = 0.5f;
 
-	SpaceShooter::SpaceShooter() : mPlayerTranslation( 0.f, 0.f, 0.f ),
-								   mPlayerVelocity( 0.f, 0.f, 0.f ),
-								   mPlayerAcceleration( 0.f, 0.f, 0.f ),
-								   mPlayerRotation( Quaternion::Identity )
+	SpaceShooter::SpaceShooter()
 	{
 		Renderer::Get().Initialize();
 
@@ -27,15 +20,19 @@ namespace ITP485
 
 		// Load the player's ship.
 		MaterialPtr playerShipMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\frigate.dds" ) );
-		player = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\frigate_normal.obj", playerShipMaterial ) );
-		mPlayerObject = GameObjectPtr( new PlayerShip( player ) );
+		MeshPrimitivePtr player = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\frigate_normal.obj", playerShipMaterial ) );
+		mPlayerObject = PlayerShipPtr( new PlayerShip( player ) );
 		mPlayerObject->SetScale( 0.3f );
 		mPlayerObject->SetBounds( 6.5f );
+		Matrix4 playerOffset;
+		playerOffset.CreateFromQuaternion( Quaternion( Vector3::Up, Pi / 2.f ) );
+		mPlayerObject->SetOffset( playerOffset );
+		mPlayerObject->SetFrictionFactor( 0.5f );
 		mPlayerObject->Attach();
 
 		// Load an asteroid
 		MaterialPtr asteroidMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\asteroid.dds" ) );
-		asteroid = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\asteroid1.obj", asteroidMaterial ) );
+		MeshPrimitivePtr asteroid = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\asteroid1.obj", asteroidMaterial ) );
 		mAsteroidObject = GameObjectPtr( new Asteroid( asteroid ) );
 		mAsteroidObject->SetScale( 1.f );
 		mAsteroidObject->SetBounds( 4.f );
@@ -51,52 +48,37 @@ namespace ITP485
 
 	void SpaceShooter::UpdatePlayerShip()
 	{
-		float deltaTime = Timing::Get().GetDeltaTime();
-
 		if ( InputManager::Get().GetKeyState( Key::W ) )
 		{
-			Vector3 accelerationDirection = Vector3::Forward;
-			accelerationDirection.Rotate( mPlayerRotation );
-			mPlayerAcceleration = accelerationDirection * PLAYER_ACCELERATION_FACTOR;
+			mPlayerObject->MoveForward();
 			playerJetParticles->SetEmitterState( true );
 		}
 		else
 		{
-			mPlayerAcceleration = Vector3( 0.f, 0.f, 0.f );
+			mPlayerObject->StopAcceleration();
 			playerJetParticles->SetEmitterState( false );
 		}
 
 		if ( InputManager::Get().GetKeyState( Key::A ) )
 		{
-			Quaternion rotateLeft( Vector3::Up, -PLAYER_ROTATION_FACTOR * deltaTime );
-			mPlayerRotation.Multiply( rotateLeft );
+			mPlayerObject->RotateLeft();
 		}
 		if ( InputManager::Get().GetKeyState( Key::D ) )
 		{
-			Quaternion rotateLeft( Vector3::Up, PLAYER_ROTATION_FACTOR * deltaTime );
-			mPlayerRotation.Multiply( rotateLeft );
+			mPlayerObject->RotateRight();
 		}
 
-		// Player ship physics.
-		mPlayerVelocity = mPlayerVelocity + ( mPlayerAcceleration - mPlayerVelocity * PLAYER_FRICTION_FACTOR ) * deltaTime;
-		mPlayerTranslation = mPlayerTranslation + mPlayerVelocity * deltaTime;
-
-		// Update player's ship.
-		mPlayerObject->SetTranslation( mPlayerTranslation );
-		Quaternion finalRotation = mPlayerRotation;
-		finalRotation.Multiply( Quaternion( Vector3::Up, Pi / 2.f ) );
-		mPlayerObject->SetRotation( finalRotation );
-
+		// Update player's particles
 		Matrix4 jetFuelTranspose = Matrix4::Identity;
 
 		Matrix4 jetFuelOffset;
 		jetFuelOffset.CreateTranslation( Vector3(0.f, 0.f, -5.5f) );
 
 		Matrix4 jetFuelRotation;
-		jetFuelRotation.CreateFromQuaternion( mPlayerRotation );
+		jetFuelRotation.CreateFromQuaternion( mPlayerObject->GetRotation() );
 
 		Matrix4 jetFuelTranslation;
-		jetFuelTranslation.CreateTranslation( mPlayerTranslation );
+		jetFuelTranslation.CreateTranslation( mPlayerObject->GetTranslation() );
 
 		jetFuelTranspose.Multiply( jetFuelTranslation );
 		jetFuelTranspose.Multiply( jetFuelRotation );

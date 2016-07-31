@@ -2,6 +2,7 @@
 #include "MeshPrimitive.h"
 #include "ParticleSystem.h"
 #include "GameObject.h"
+#include "SpaceShooterObjects.h"
 
 namespace ITP485
 {
@@ -23,17 +24,9 @@ namespace ITP485
 
 		ViewPtr mCamera;
 
-		GameObjectPtr mPlayerObject;
+		PlayerShipPtr mPlayerObject;
 		GameObjectPtr mAsteroidObject;
-		MeshPrimitivePtr player;
-		MeshPrimitivePtr asteroid;
-
 		ParticleSystemPtr playerJetParticles;
-
-		Vector3 mPlayerTranslation;
-		Quaternion mPlayerRotation;
-		Vector3 mPlayerVelocity;
-		Vector3 mPlayerAcceleration;
 
 	};
 

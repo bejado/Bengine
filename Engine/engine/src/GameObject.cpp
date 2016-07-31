@@ -10,7 +10,11 @@ namespace ITP485
   																 mRotation( Quaternion::Identity ),
   																 mScale( 1.f ),
    																 mObjectToWorldMatrixDirty( true ),
-																 mBoundsRadius( 1.f )
+																 mBoundsRadius( 1.f ),
+															     mVelocity( 0.f, 0.f, 0.f ),
+																 mAcceleration( 0.f, 0.f, 0.f ),
+																 mFrictionFactor( 0.f ),
+																 mObjectOffset( Matrix4::Identity )
 	{
 		mBoundsDebugSphere = CreateDebugSphere( mBoundsRadius );
 	}
@@ -30,6 +34,7 @@ namespace ITP485
 
 	void GameObject::Update()
 	{
+		UpdateForPhysics();
 		if ( mObjectToWorldMatrixDirty )
 		{
 			UpdateObjectToWorldMatrix();
@@ -42,6 +47,12 @@ namespace ITP485
 	void GameObject::SetTranslation( const Vector3& translation )
 	{
 		mTranslation = translation;
+		mObjectToWorldMatrixDirty = true;
+	}
+
+	void GameObject::SetOffset( const Matrix4& offset )
+	{
+		mObjectOffset = offset;
 		mObjectToWorldMatrixDirty = true;
 	}
 
@@ -98,7 +109,17 @@ namespace ITP485
 		scale.CreateScale( mScale );
 		model.Multiply( scale );
 
+		model.Multiply( mObjectOffset );
+
 		mObjectToWorldMatrix = model;
+	}
+
+	void GameObject::UpdateForPhysics()
+	{
+		float deltaTime = Timing::Get().GetDeltaTime();
+		mVelocity = mVelocity + ( mAcceleration - mVelocity * mFrictionFactor ) * deltaTime;
+		mTranslation = mTranslation + mVelocity * deltaTime;
+		mObjectToWorldMatrixDirty = true;	// TODO: this variable is useless, since this is called every update
 	}
 
 }
