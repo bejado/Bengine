@@ -25,7 +25,7 @@ namespace ITP485
 		ViewPtr mCamera;
 
 		PlayerShipPtr mPlayerObject;
-		GameObjectPtr mAsteroidObject;
+		std::vector<GameObjectPtr> mAsteroids;
 		ParticleSystemPtr playerJetParticles;
 
 	};

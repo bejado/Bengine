@@ -30,13 +30,18 @@ namespace ITP485
 		mPlayerObject->SetFrictionFactor( 0.5f );
 		mPlayerObject->Attach();
 
-		// Load an asteroid
+		// Load asteroids
 		MaterialPtr asteroidMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\asteroid.dds" ) );
-		MeshPrimitivePtr asteroid = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\asteroid1.obj", asteroidMaterial ) );
-		mAsteroidObject = GameObjectPtr( new Asteroid( asteroid ) );
-		mAsteroidObject->SetScale( 1.f );
-		mAsteroidObject->SetBounds( 4.f );
-		mAsteroidObject->Attach();
+		MeshPrimitivePtr asteroidMesh = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\asteroid1.obj", asteroidMaterial ) );
+		for ( int i = 0; i < 10; i++ )
+		{
+			GameObjectPtr newAsteroid = GameObjectPtr( new Asteroid( asteroidMesh ) );
+			newAsteroid->SetScale( 1.f );
+			newAsteroid->SetBounds( 4.f );
+			newAsteroid->SetTranslation( Vector3( RandomFloat( -50.f, 50.f ), 0.f, RandomFloat( -50.f, 50.f ) ) );
+			mAsteroids.push_back( newAsteroid );
+			newAsteroid->Attach();
+		}
 
 		// Load the player's jet particles.
 		playerJetParticles = ParticleSystemPtr( new ParticleSystem() );
@@ -94,7 +99,10 @@ namespace ITP485
 		UpdatePlayerShip();
 
 		mPlayerObject->Update();
-		mAsteroidObject->Update();
+		for ( auto asteroid : mAsteroids )
+		{
+			asteroid->Update();
+		}
 
 		// Update player's particles.
 		playerJetParticles->Update();
