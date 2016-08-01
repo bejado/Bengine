@@ -126,9 +126,6 @@
     <ClCompile Include="main\src\PrecompiledHeader.cpp">
       <Filter>Source Files\main\src</Filter>
     </ClCompile>
-    <ClCompile Include="engine\src\Cube.cpp">
-      <Filter>Source Files\engine\src</Filter>
-    </ClCompile>
     <ClCompile Include="tinyobj\src\tiny_obj_loader.cc">
       <Filter>Source Files\tinyobj\src</Filter>
     </ClCompile>
@@ -167,12 +164,6 @@
     </ClCompile>
     <ClCompile Include="particles\src\Quad.cpp">
       <Filter>Source Files\particles\src</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\src\FullscreenQuad.cpp">
-      <Filter>Source Files\engine\src</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\src\QuadPrimitive.cpp">
-      <Filter>Source Files\engine\src</Filter>
     </ClCompile>
     <ClCompile Include="game\src\Editor.cpp">
       <Filter>Source Files\game\src</Filter>

@@ -1,18 +1,12 @@
 #pragma once
 
-#include "MeshPrimitive.h"
+#include "RawMesh.h"
+#include <PrecompiledHeader.h>
 
 namespace ITP485
 {
 
-	class ObjMeshPrimitive : public MeshPrimitive
-	{
-	public:
-
-		DECLARE_ALIGNED_NEW_DELETE
-
-		ObjMeshPrimitive( std::string file, MaterialPtr material );
-
-	};
+	void LoadMeshFromObjFile( const std::string file, RawMesh& mesh );
+	void CalculateTangents( RawMesh& mesh );
 
 }

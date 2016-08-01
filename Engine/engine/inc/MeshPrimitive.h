@@ -1,72 +1,79 @@
 #pragma once
 
 #include "Renderer.h"
+#include "RawMesh.h"
 
 namespace ITP485
 {
 
-	// We use these PackedVectors because we don't want byte-alignment
-	// TODO: candidate for moving these structs into a "VertexFactory" type class
-
-	struct PackedVector2
+	struct VertexSource
 	{
-		PackedVector2( float x, float y ) : mX( x ), mY( y ) {}
-		PackedVector2() : PackedVector2( 0.f, 0.f ) {}
-		float mX, mY;
+		InputLayoutPtr inputLayout;
+		VertexShaderPtr vertexShader;
+		size_t vertexStride;
+		bool positionOnly;
 	};
 
-	struct PackedVector3
+	static const VertexSource GetTangentSpaceVertexSource()
 	{
-		PackedVector3( float x, float y, float z ) : mX( x ), mY( y ), mZ( z ) {}
-		PackedVector3() : PackedVector3( 0.f, 0.f, 0.f ) {}
-		float mX, mY, mZ;
+		static VertexSource TangentVertexSource;
+		static bool initialized = false;
 
-		__forceinline PackedVector3& operator+=( const PackedVector3& in )
+		if ( !initialized )
 		{
-			this->mX += in.mX;
-			this->mY += in.mY;
-			this->mZ += in.mZ;
-			return *this;
+			// Compile vertex shader.
+			vector< char > compiledVertexShader;
+			ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\tangent.hlsl", "VS", "vs_4_0", compiledVertexShader );
+			VertexShaderPtr vertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
+
+			// Create an input layout.
+			InputLayoutElement elements[4] {
+				{ "POSITION", 0, EGFormat::EGF_R32G32B32_Float, 0, 0, EIC_PerVertex, 0 },
+				{ "NORMAL", 0, EGFormat::EGF_R32G32B32_Float, 0, sizeof( float ) * 3, EIC_PerVertex, 0 },
+				{ "TEXCOORD", 0, EGFormat::EGF_R32G32_Float, 0, sizeof( float ) * 6, EIC_PerVertex, 0 },
+				{ "TANGENT", 0, EGFormat::EGF_R32G32B32A32_Float, 0, sizeof( float ) * 8, EIC_PerVertex, 0 },
+			};
+			InputLayoutPtr inputLayout = GraphicsDriver::Get()->CreateInputLayout( elements, 4, compiledVertexShader );
+
+			TangentVertexSource.inputLayout = inputLayout;
+			TangentVertexSource.vertexShader = vertexShader;
+			TangentVertexSource.vertexStride = sizeof( VERTEX_P_N_T_T );
+			TangentVertexSource.positionOnly = false;
+
+			initialized = true;
 		}
-	};
 
-	struct PackedVector4
-	{
-		PackedVector4( float x, float y, float z, float w ) : mX( x ), mY( y ), mZ( z ), mW( w ) {}
-		PackedVector4() : PackedVector4( 0.f, 0.f, 0.f, 0.f ) {}
-		float mX, mY, mZ, mW;
-	};
+		return TangentVertexSource;
+	}
 
-	struct VERTEX_P
+	static const VertexSource GetPositionOnlyVertexSource()
 	{
-		VERTEX_P( const PackedVector3& position ) : mPosition( position ) {}
-		PackedVector3 mPosition;
-	};
+		static VertexSource PositionOnlyVertexSource;
+		static bool initialized = false;
 
-	struct VERTEX_P_T
-	{
-		VERTEX_P_T( const PackedVector3& position, const PackedVector2& texCoord ) : mPosition( position ), mTexCoord( texCoord ) {}
-		PackedVector3 mPosition;
-		PackedVector2 mTexCoord;
-	};
+		if ( !initialized )
+		{
+			// Compile vertex shader.
+			vector< char > compiledVertexShader;
+			ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\wireframe.hlsl", "VS", "vs_4_0", compiledVertexShader );
+			VertexShaderPtr vertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
 
-	struct VERTEX_P_N_T
-	{
-		VERTEX_P_N_T( const PackedVector3& position, const PackedVector3& normal, const PackedVector2& texCoord ) : mPosition( position ), mNormal( normal ), mTexCoord( texCoord ) {}
-		PackedVector3 mPosition;
-		PackedVector3 mNormal;
-		PackedVector2 mTexCoord;
-	};
+			// Create an input layout.
+			InputLayoutElement elements[1] {
+				{ "POSITION", 0, EGFormat::EGF_R32G32B32_Float, 0, 0, EIC_PerVertex, 0 }
+			};
+			InputLayoutPtr inputLayout = GraphicsDriver::Get()->CreateInputLayout( elements, 1, compiledVertexShader );
 
-	// Position, normal, texture, tangent
-	struct VERTEX_P_N_T_T
-	{
-		VERTEX_P_N_T_T( const PackedVector3& position, const PackedVector3& normal, const PackedVector2& texCoord, const PackedVector4 tangent ) : mPosition( position ), mNormal( normal ), mTexCoord( texCoord ), mTangent( tangent ) {}
-		PackedVector3 mPosition;
-		PackedVector3 mNormal;
-		PackedVector2 mTexCoord;
-		PackedVector4 mTangent;
-	};
+			PositionOnlyVertexSource.inputLayout = inputLayout;
+			PositionOnlyVertexSource.vertexShader = vertexShader;
+			PositionOnlyVertexSource.vertexStride = sizeof( VERTEX_P );
+			PositionOnlyVertexSource.positionOnly = true;
+
+			initialized = true;
+		}
+
+		return PositionOnlyVertexSource;
+	}
 
 	class MeshPrimitive : public RenderPrimitive
 	{
@@ -74,20 +81,20 @@ namespace ITP485
 
 		DECLARE_ALIGNED_NEW_DELETE
 
-		MeshPrimitive();
+		MeshPrimitive( const RawMeshPtr rawMesh,
+					   const MaterialPtr material,
+					   const VertexSource& vertexSource );
 		virtual void Draw( const PrimitiveDrawer& drawer, const ViewPtr view ) const;
 		void SetObjectToWorldMatrix( const Matrix4& matrix );
 
 	protected:
 
+		VertexSource mVertexSource;
 		GraphicsBufferPtr mVertexBuffer;
 		GraphicsBufferPtr mIndexBuffer;
 		GraphicsBufferPtr mUniformBuffer;
-		InputLayoutPtr mInputLayout;
-		VertexShaderPtr mVertexShader;
 		MaterialPtr mMaterial;
 		size_t mNumIndices;
-		size_t mVertexStride;
 
 	private:
 
@@ -100,6 +107,7 @@ namespace ITP485
 		};
 
 		Matrix4 mObjectToWorldMatrix;
+		RawMeshPtr mRawMesh;
 
 	};
 

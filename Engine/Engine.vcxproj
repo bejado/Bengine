@@ -16,16 +16,19 @@
     <ClCompile Include="core\src\StringUtils.cpp" />
     <ClCompile Include="core\src\Timing.cpp" />
     <ClCompile Include="engine\src\ConsoleManager.cpp" />
-    <ClCompile Include="engine\src\Cube.cpp" />
-    <ClCompile Include="engine\src\DebugDrawing.cpp" />
-    <ClCompile Include="engine\src\FullscreenQuad.cpp" />
+    <ClCompile Include="engine\src\DebugDrawing.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="engine\src\GameObject.cpp" />
     <ClCompile Include="engine\src\InputManager.cpp" />
     <ClCompile Include="engine\src\MeshPrimitive.cpp" />
     <ClCompile Include="engine\src\ObjMesh.cpp" />
-    <ClCompile Include="engine\src\QuadPrimitive.cpp" />
     <ClCompile Include="engine\src\RawMesh.cpp" />
-    <ClCompile Include="engine\src\Sphere.cpp" />
+    <ClCompile Include="engine\src\Sphere.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="engine\src\View.cpp" />
     <ClCompile Include="game\src\Editor.cpp" />
     <ClCompile Include="game\src\Game.cpp" />

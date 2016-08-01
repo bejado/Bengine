@@ -96,30 +96,4 @@ namespace ITP485
 		int southPoleFanStart = ( NUM_RINGS - 3 ) * NUM_POINTS_IN_RING + 1;
 		AddTriangleFanIndices( southPoleIndex, southPoleFanStart, NUM_POINTS_IN_RING, mesh );
 	}
-
-	SpherePrimitive::SpherePrimitive( MaterialPtr material )
-	{
-		RawMesh sphereMesh;
-		GenerateSphereVerticies( sphereMesh );
-
-		// Create vertex and index buffers.
-		mIndexBuffer = sphereMesh.CreateIndexBuffer();
-		mVertexBuffer = sphereMesh.CreatePositionIndexOnlyVertexBuffer();
-		mVertexStride = sizeof( VERTEX_P );
-		mNumIndices = sphereMesh.indices.size();
-
-		// Compile vertex shader
-		vector< char > compiledVertexShader;
-		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\wireframe.hlsl", "VS", "vs_4_0", compiledVertexShader );
-		mVertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
-
-		// Create an input layout
-		InputLayoutElement elements[1] {
-			/* from vertex buffer */
-			{ "POSITION", 0, EGFormat::EGF_R32G32B32_Float, 0, 0, EIC_PerVertex, 0 }
-		};
-		mInputLayout = GraphicsDriver::Get()->CreateInputLayout( elements, 1, compiledVertexShader );
-
-		mMaterial = material;
-	}
 }

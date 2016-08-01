@@ -3,6 +3,12 @@
 namespace ITP485
 {
 
+	Asteroid::Asteroid( MeshPrimitivePtr renderPrimitive ) : GameObject( renderPrimitive )
+	{
+		Quaternion randomRotation = Quaternion::FromEulerAngles( RandomFloat( 0.f, 100.f ), RandomFloat( 0.f, 100.f ), RandomFloat( 0.f, 100.f ) );
+		Rotate( randomRotation );
+	}
+
 	void Asteroid::Update()
 	{
 		GameObject::Update();

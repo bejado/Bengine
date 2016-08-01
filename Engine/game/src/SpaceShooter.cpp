@@ -20,7 +20,10 @@ namespace ITP485
 
 		// Load the player's ship.
 		MaterialPtr playerShipMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\frigate.dds" ) );
-		MeshPrimitivePtr player = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\frigate_normal.obj", playerShipMaterial ) );
+		RawMeshPtr shipMesh = RawMeshPtr( new RawMesh() );
+		LoadMeshFromObjFile( "Resources\\Meshes\\frigate_normal.obj", *shipMesh.get() );
+		CalculateTangents( *shipMesh.get() );
+		MeshPrimitivePtr player = MeshPrimitivePtr( new MeshPrimitive( shipMesh, playerShipMaterial, GetTangentSpaceVertexSource() ) );
 		mPlayerObject = PlayerShipPtr( new PlayerShip( player ) );
 		mPlayerObject->SetScale( 0.3f );
 		mPlayerObject->SetBounds( 6.5f );
@@ -32,13 +35,16 @@ namespace ITP485
 
 		// Load asteroids
 		MaterialPtr asteroidMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\asteroid.dds" ) );
-		MeshPrimitivePtr asteroidMesh = MeshPrimitivePtr( new ObjMeshPrimitive( "Resources\\Meshes\\asteroid1.obj", asteroidMaterial ) );
-		for ( int i = 0; i < 10; i++ )
+		RawMeshPtr asteroidMesh = RawMeshPtr( new RawMesh() );
+		LoadMeshFromObjFile( "Resources\\Meshes\\asteroid1.obj", *asteroidMesh.get() );
+		CalculateTangents( *asteroidMesh.get() );
+		for ( int i = 0; i < 5; i++ )
 		{
-			GameObjectPtr newAsteroid = GameObjectPtr( new Asteroid( asteroidMesh ) );
+			MeshPrimitivePtr asteroid = MeshPrimitivePtr( new MeshPrimitive( asteroidMesh, asteroidMaterial, GetTangentSpaceVertexSource() ) );
+			GameObjectPtr newAsteroid = GameObjectPtr( new Asteroid( asteroid ) );
 			newAsteroid->SetScale( 1.f );
 			newAsteroid->SetBounds( 4.f );
-			newAsteroid->SetTranslation( Vector3( RandomFloat( -50.f, 50.f ), 0.f, RandomFloat( -50.f, 50.f ) ) );
+			newAsteroid->SetTranslation( Vector3( RandomFloat( -40.f, 40.f ), 0.f, RandomFloat( -40.f, 40.f ) ) );
 			mAsteroids.push_back( newAsteroid );
 			newAsteroid->Attach();
 		}

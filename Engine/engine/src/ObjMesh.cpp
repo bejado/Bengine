@@ -34,7 +34,7 @@ namespace ITP485
 		return PackedVector3( x, y, z );
 	}
 
-	static void LoadMeshFromObjFile( const std::string file, RawMesh& mesh )
+	void LoadMeshFromObjFile( const std::string file, RawMesh& mesh )
 	{
 		std::vector<tinyobj::shape_t> shapes;
 		std::vector<tinyobj::material_t> materials;
@@ -72,7 +72,7 @@ namespace ITP485
 	}
 
 	// Algorithm from Lengyel's Mathematics for 3D Game Programming and Computer Graphics, page 184.
-	static void CalculateTangents( RawMesh& mesh )
+	void CalculateTangents( RawMesh& mesh )
 	{
 		const size_t numVertices = mesh.positions.size();
 		const size_t numTriangles = mesh.indices.size() / 3;
@@ -147,38 +147,6 @@ namespace ITP485
 
 			mesh.tangents[i] = PackedVector4( tangentOut.GetX(), tangentOut.GetY(), tangentOut.GetZ(), handedness );
 		}
-	}
-
-	ObjMeshPrimitive::ObjMeshPrimitive( std::string file, MaterialPtr material )
-	{
-		RawMesh mesh;
-		LoadMeshFromObjFile( file, mesh );
-
-		// Calculate tangent vectors.
-		CalculateTangents( mesh );
-
-		// Create vertex and index buffers.
-		mIndexBuffer = mesh.CreateIndexBuffer();
-		mVertexBuffer = mesh.CreateVertexBuffer();
-
-		mNumIndices = mesh.indices.size();
-
-		// Compile vertex shader
-		vector< char > compiledVertexShader;
-		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\tangent.hlsl", "VS", "vs_4_0", compiledVertexShader );
-		mVertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
-
-		// Create an input layout
-		InputLayoutElement elements[4] {
-			{ "POSITION", 0, EGFormat::EGF_R32G32B32_Float, 0, 0, EIC_PerVertex, 0 },
-			{ "NORMAL", 0, EGFormat::EGF_R32G32B32_Float, 0, sizeof( float ) * 3, EIC_PerVertex, 0 },
-			{ "TEXCOORD", 0, EGFormat::EGF_R32G32_Float, 0, sizeof( float ) * 6, EIC_PerVertex, 0 },
-			{ "TANGENT", 0, EGFormat::EGF_R32G32B32A32_Float, 0, sizeof( float ) * 8, EIC_PerVertex, 0 },
-		};
-		mInputLayout = GraphicsDriver::Get()->CreateInputLayout( elements, 4, compiledVertexShader );
-
-		mMaterial = material;
-		mVertexStride = sizeof( VERTEX_P_N_T_T );
 	}
 
 }

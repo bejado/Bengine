@@ -5,13 +5,20 @@
 namespace ITP485
 {
 
-	MeshPrimitive::MeshPrimitive() : mObjectToWorldMatrix( Matrix4::Identity ),
-									 mUniformBuffer( nullptr ),
-									 mVertexStride( sizeof( VERTEX_P_N_T ) )
+	MeshPrimitive::MeshPrimitive( const RawMeshPtr rawMesh, const MaterialPtr material, const VertexSource& vertexSource ) : mObjectToWorldMatrix( Matrix4::Identity ),
+																															 mUniformBuffer( nullptr ),
+																															 mRawMesh( rawMesh ),
+																															 mMaterial( material ),
+																															 mVertexSource( vertexSource )
 	{
-		// Create our object to world constant buffer
+		// Create our object to world constant buffer.
 		mUniformBuffer = GraphicsDriver::Get()->CreateGraphicsBuffer( NULL, sizeof( ObjectConstants ), EBindflags::EBF_ConstantBuffer, ECPUAccessFlags::ECPUAF_CanWrite, EGraphicsBufferUsage::EGBU_Dynamic );
 		UpdateConstantBuffer();
+
+		// Create vertex and index buffers.
+		mIndexBuffer = mRawMesh->CreateIndexBuffer();
+		mVertexBuffer = mVertexSource.positionOnly ? mRawMesh->CreatePositionIndexOnlyVertexBuffer() : mRawMesh->CreateVertexBuffer();
+		mNumIndices = mRawMesh->indices.size();
 	}
 
 	void MeshPrimitive::Draw( const PrimitiveDrawer& drawer, const ViewPtr view ) const
@@ -20,11 +27,11 @@ namespace ITP485
 		PrimitiveDrawer::Mesh mesh;
 		mesh.vertexBuffer = mVertexBuffer;
 		mesh.vertexUniformBuffer = mUniformBuffer;
-		mesh.inputLayout = mInputLayout;
-		mesh.vertexStride = mVertexStride;
+		mesh.inputLayout = mVertexSource.inputLayout;
+		mesh.vertexStride = mVertexSource.vertexStride;
 		mesh.indexBuffer = mIndexBuffer;
 		mesh.indices = mNumIndices;
-		mesh.vertexShader = mVertexShader;
+		mesh.vertexShader = mVertexSource.vertexShader;
 		mesh.material = mMaterial;	// TODO: we're assuming this is set in subclass' constructor
 		drawer.DrawMesh( mesh );
 	}

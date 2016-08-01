@@ -11,7 +11,7 @@ namespace ITP485
 
 		DECLARE_ALIGNED_NEW_DELETE
 
-		Asteroid( MeshPrimitivePtr renderPrimitive ) : GameObject( renderPrimitive ) {}
+		Asteroid( MeshPrimitivePtr renderPrimitive );
 		virtual void Update() override;
 
 	private:

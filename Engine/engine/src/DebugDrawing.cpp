@@ -8,7 +8,9 @@ namespace ITP485
 	MeshPrimitivePtr CreateDebugSphere( float radius )
 	{
 		MaterialPtr sphereMaterial = MaterialPtr( new WireframeMaterial() );
-		MeshPrimitivePtr sphere = MeshPrimitivePtr( new SpherePrimitive( sphereMaterial ) );
+		RawMeshPtr sphereMesh = RawMeshPtr( new RawMesh() );
+		GenerateSphereVerticies( *sphereMesh.get() );
+		MeshPrimitivePtr sphere = MeshPrimitivePtr( new MeshPrimitive( sphereMesh, sphereMaterial, GetPositionOnlyVertexSource() ) );
 		return sphere;
 	}
 
