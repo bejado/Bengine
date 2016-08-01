@@ -5,14 +5,14 @@
 static const unsigned int NUM_VERTICES = 4;
 static const unsigned int NUM_INDICES = 6;
 
-namespace ITP485
+namespace BNG
 {
 
 	Quad::Quad( uint32_t instanceDataSize, uint32_t instanceCount ) : mInstanceDataSize (instanceDataSize ), mInstanceCount (instanceCount )
 	{
 		// Compile vertex shader
 		vector< char > compiledVertexShader;
-		ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\instanced_billboard.hlsl", "VS", "vs_4_0", compiledVertexShader );
+		BNG::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\instanced_billboard.hlsl", "VS", "vs_4_0", compiledVertexShader );
 		mVertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
 
 		// Create an input layout

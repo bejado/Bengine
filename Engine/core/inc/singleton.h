@@ -5,7 +5,7 @@
 // You must place this macro inside the class definition of your derived Singleton
 #define DECLARE_SINGLETON(SingletonClass) friend class Singleton<SingletonClass>;
 
-namespace ITP485
+namespace BNG
 {
 
 	template <class T>
@@ -32,6 +32,6 @@ namespace ITP485
 
 	template <class T> T* Singleton<T>::_instance = 0;
 
-} // namespace ITP485
+} // namespace BNG
 
 #endif // _SINGLETON_H_

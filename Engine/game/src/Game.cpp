@@ -2,7 +2,7 @@
 #include "ConsoleManager.h"
 #include "GameUtils.h"
 
-namespace ITP485
+namespace BNG
 {
 
 	void Game::Update()

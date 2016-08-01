@@ -1,7 +1,7 @@
 #include "ParticleEmitter.h"
 #include <cstdlib>	// random number generator
 
-namespace ITP485
+namespace BNG
 {
 
 	#define RANDOM_FLOAT ((float) std::rand() / (float) RAND_MAX - .5f)

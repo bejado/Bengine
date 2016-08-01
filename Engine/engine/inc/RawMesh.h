@@ -2,7 +2,7 @@
 
 #include <PrecompiledHeader.h>
 
-namespace ITP485
+namespace BNG
 {
 
 	// We use these PackedVectors because we don't want byte-alignment

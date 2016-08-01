@@ -1,4 +1,4 @@
-namespace ITP485
+namespace BNG
 {
 	// TODO: we should probably support other keys too
 	enum Key

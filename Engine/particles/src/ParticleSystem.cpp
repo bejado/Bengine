@@ -1,6 +1,6 @@
 #include "ParticleSystem.h"
 
-namespace ITP485
+namespace BNG
 {
 
 	ParticleSystem::ParticleSystem()

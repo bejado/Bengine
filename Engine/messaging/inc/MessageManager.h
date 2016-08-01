@@ -1,6 +1,6 @@
 #include <mongoose.h>
 
-namespace ITP485
+namespace BNG
 {
 
 	static const char *s_http_port = "8000";

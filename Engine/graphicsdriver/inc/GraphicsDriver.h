@@ -3,7 +3,7 @@
 #include "SpriteFont.h"
 #include "SpriteBatch.h"
 
-namespace ITP485
+namespace BNG
 {
 
 	enum EBindflags

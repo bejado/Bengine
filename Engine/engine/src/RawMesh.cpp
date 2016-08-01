@@ -1,6 +1,6 @@
 #include "RawMesh.h"
 
-namespace ITP485
+namespace BNG
 {
 
 	GraphicsBufferPtr RawMesh::CreateVertexBuffer()

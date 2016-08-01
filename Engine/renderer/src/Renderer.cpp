@@ -1,7 +1,7 @@
 #include "Renderer.h"
 #include "ConsoleManager.h"
 
-namespace ITP485
+namespace BNG
 {
 	//////////////////////////
 	// Renderer
@@ -116,7 +116,7 @@ namespace ITP485
 		}
 
 		// Present!
-		ITP485::GraphicsDriver::Get()->Present();
+		BNG::GraphicsDriver::Get()->Present();
 	}
 
 	void Renderer::UpdateViewConstants( const Matrix4& projectionView, const Vector3& position ) const

@@ -1,6 +1,6 @@
 #include <PrecompiledHeader.h>
 
-namespace ITP485
+namespace BNG
 {
 	static struct mg_mgr mgr;
 	static struct mg_connection *nc;

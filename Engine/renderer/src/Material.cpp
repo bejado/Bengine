@@ -1,6 +1,6 @@
 #include <PrecompiledHeader.h>
 
-namespace ITP485
+namespace BNG
 {
 	Material::Material( std::wstring shaderPath, std::wstring texturePath )
 	{

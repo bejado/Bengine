@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-namespace ITP485
+namespace BNG
 {
 
 	class Asteroid : public GameObject

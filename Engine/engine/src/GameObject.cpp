@@ -2,7 +2,7 @@
 #include <PrecompiledHeader.h>
 #include "DebugDrawing.h"
 
-namespace ITP485
+namespace BNG
 {
 
 	GameObject::GameObject( MeshPrimitivePtr renderPrimitive ) : mRenderPrimitive( renderPrimitive ),

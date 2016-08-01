@@ -1,6 +1,6 @@
 #include "MeshPrimitive.h"
 
-namespace ITP485
+namespace BNG
 {
 
 	MeshPrimitivePtr CreateDebugSphere( float radius );

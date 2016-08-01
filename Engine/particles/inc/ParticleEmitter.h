@@ -3,7 +3,7 @@
 
 #pragma once
 
-namespace ITP485
+namespace BNG
 {
 
 	const uint32_t MAX_PARTICLES = 1024;

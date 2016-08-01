@@ -1,6 +1,6 @@
 #include "WireframeMaterial.h"
 
-namespace ITP485
+namespace BNG
 {
 	WireframeMaterial::WireframeMaterial() : Material( L"Resources\\Shaders\\wireframe.hlsl", L"" ),
 											 mWireframeRasterizerState( GraphicsDriver::Get()->CreateRasterizerState( EFM_Wireframe, ECM_Back ) ),

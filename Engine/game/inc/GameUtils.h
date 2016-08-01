@@ -1,7 +1,7 @@
 #include <PrecompiledHeader.h>
 #include "View.h"
 
-namespace ITP485
+namespace BNG
 {
 	// Allow ESC to exit
 	inline void ExitWithEscapeKey()

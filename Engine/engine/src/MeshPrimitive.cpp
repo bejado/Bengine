@@ -2,7 +2,7 @@
 
 #include <PrecompiledHeader.h>
 
-namespace ITP485
+namespace BNG
 {
 
 	MeshPrimitive::MeshPrimitive( const RawMeshPtr rawMesh, const MaterialPtr material, const VertexSource& vertexSource ) : mObjectToWorldMatrix( Matrix4::Identity ),

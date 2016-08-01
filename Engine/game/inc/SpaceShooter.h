@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "SpaceShooterObjects.h"
 
-namespace ITP485
+namespace BNG
 {
 
 	class SpaceShooter : public Game

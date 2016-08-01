@@ -5,7 +5,7 @@
 #include <tiny_obj_loader.h>
 #include <algorithm>
 
-namespace ITP485
+namespace BNG
 {
 
 	PackedVector3 GetPosition( const tinyobj::shape_t& shape, unsigned int idx )

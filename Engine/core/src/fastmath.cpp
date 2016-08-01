@@ -2,7 +2,7 @@
 // FastMath.cpp defines statics for the fast math library
 #include "fastmath.h"
 
-namespace ITP485
+namespace BNG
 {
 float _ident[4][4] = {1.0f, 0.0f, 0.0f, 0.0f,
 						0.0f, 1.0f, 0.0f, 0.0f,
@@ -228,4 +228,4 @@ void FastVector3::Rotate(const FastQuaternion& q)
 	_data = DirectX::XMVector3Rotate(_data, q._data);
 }
 
-} // namespace ITP485
+} // namespace BNG

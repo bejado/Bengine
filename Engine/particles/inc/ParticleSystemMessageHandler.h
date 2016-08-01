@@ -6,7 +6,7 @@
 
 #pragma once
 
-namespace ITP485
+namespace BNG
 {
 
 	class ParticleSystemMessageHandler : public MessageHandler

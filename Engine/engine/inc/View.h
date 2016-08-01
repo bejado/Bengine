@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ITP485
+namespace BNG
 {
 	class __declspec( align( 16 ) ) View
 	{

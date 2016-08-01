@@ -3,7 +3,7 @@
 #include "RawMesh.h"
 #include <PrecompiledHeader.h>
 
-namespace ITP485
+namespace BNG
 {
 
 	void LoadMeshFromObjFile( const std::string file, RawMesh& mesh );

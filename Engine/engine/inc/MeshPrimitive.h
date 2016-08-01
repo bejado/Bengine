@@ -3,7 +3,7 @@
 #include "Renderer.h"
 #include "RawMesh.h"
 
-namespace ITP485
+namespace BNG
 {
 
 	struct VertexSource
@@ -23,7 +23,7 @@ namespace ITP485
 		{
 			// Compile vertex shader.
 			vector< char > compiledVertexShader;
-			ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\tangent.hlsl", "VS", "vs_4_0", compiledVertexShader );
+			BNG::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\tangent.hlsl", "VS", "vs_4_0", compiledVertexShader );
 			VertexShaderPtr vertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
 
 			// Create an input layout.
@@ -55,7 +55,7 @@ namespace ITP485
 		{
 			// Compile vertex shader.
 			vector< char > compiledVertexShader;
-			ITP485::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\wireframe.hlsl", "VS", "vs_4_0", compiledVertexShader );
+			BNG::GraphicsDriver::Get()->CompileShaderFromFile( L"Resources\\Shaders\\wireframe.hlsl", "VS", "vs_4_0", compiledVertexShader );
 			VertexShaderPtr vertexShader = GraphicsDriver::Get()->CreateVertexShader( compiledVertexShader );
 
 			// Create an input layout.

@@ -1,4 +1,4 @@
-namespace ITP485
+namespace BNG
 {
 
 	class Material

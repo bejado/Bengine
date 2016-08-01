@@ -1,7 +1,7 @@
 #include "ParticleSystemLoader.h"
 #include <fstream>
 
-namespace ITP485
+namespace BNG
 {
 
 	void ParticleSystemLoader::LoadFromFile( const std::string& path, const ParticleSystemPtr system ) const

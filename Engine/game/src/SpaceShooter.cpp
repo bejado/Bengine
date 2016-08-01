@@ -6,7 +6,7 @@
 #include "Primitives.h"
 #include "WireframeMaterial.h"
 
-namespace ITP485
+namespace BNG
 {
 
 	SpaceShooter::SpaceShooter()

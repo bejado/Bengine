@@ -9,7 +9,7 @@
 #include "Primitives.h"
 #include "ObjMesh.h"
 
-namespace ITP485
+namespace BNG
 {
 
 	class Editor : public Game

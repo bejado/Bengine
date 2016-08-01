@@ -6,7 +6,7 @@
 const uint16_t NUM_POINTS_IN_RING = 15;
 const uint16_t NUM_RINGS = 20;
 
-namespace ITP485
+namespace BNG
 {
 
 	int WrapBetween( int low, int high, int val )

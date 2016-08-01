@@ -1,7 +1,7 @@
 #include <PrecompiledHeader.h>
 #include <windowsx.h>	// for GET_X_LPARAM
 
-namespace ITP485
+namespace BNG
 {
 
 	void InputManager::SetWindow( HWND wnd )

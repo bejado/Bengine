@@ -1,6 +1,6 @@
 #include "ParticleSystemMessageHandler.h"
 
-namespace ITP485
+namespace BNG
 {
 
 	void ParticleSystemMessageHandler::HandleMessage( const json& msg, ParticleSystemPtr system ) const

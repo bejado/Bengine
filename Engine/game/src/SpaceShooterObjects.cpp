@@ -1,6 +1,6 @@
 #include "SpaceShooterObjects.h"
 
-namespace ITP485
+namespace BNG
 {
 
 	Asteroid::Asteroid( MeshPrimitivePtr renderPrimitive ) : GameObject( renderPrimitive )

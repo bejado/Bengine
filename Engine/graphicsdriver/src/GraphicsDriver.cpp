@@ -10,7 +10,7 @@ IDXGISwapChain1*        g_pSwapChain1 = nullptr;
 ID3D11Debug*			g_d3dDebug = nullptr;
 ID3D11RasterizerState*	g_RasterizerState = nullptr;
 
-using namespace ITP485;
+using namespace BNG;
 using namespace DirectX;
 
 //needs to be manually initialized, so not a typical instance...

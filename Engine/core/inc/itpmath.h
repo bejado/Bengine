@@ -3,14 +3,14 @@
 #define _MATH_H_
 
 #include "fastmath.h"
-namespace ITP485
+namespace BNG
 {
 	typedef FastVector3 Vector3;
 	typedef FastMatrix4 Matrix4;
 	typedef FastQuaternion Quaternion;
 }
 
-namespace ITP485
+namespace BNG
 {
 	//helper operator overloads to make using library not terrible.  the clunkyness will all be optimized away...
 	__forceinline Vector3 operator+( const Vector3& inA, const Vector3& inB )

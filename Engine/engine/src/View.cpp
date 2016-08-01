@@ -1,6 +1,6 @@
 #include <PrecompiledHeader.h>
 
-namespace ITP485
+namespace BNG
 {
 	void View::UpdateViewMatrix()
 	{

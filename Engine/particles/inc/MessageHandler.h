@@ -2,7 +2,7 @@
 
 #pragma once
 
-namespace ITP485
+namespace BNG
 {
 
 	class MessageHandler

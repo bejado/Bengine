@@ -29,7 +29,7 @@ typedef struct _D3DMATRIX {
 #define _MM_SHUFFLER( xi, yi, zi, wi ) _MM_SHUFFLE( wi, zi, yi, xi )
 
 
-namespace ITP485
+namespace BNG
 {
 
 #ifndef _MATH_PI_CONSTANTS_
@@ -732,5 +732,5 @@ public:
 	static const FastQuaternion Identity;
 };
 
-} // namespace ITP485
+} // namespace BNG
 #endif // _FASTMATH_H_

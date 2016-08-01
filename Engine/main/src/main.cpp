@@ -47,7 +47,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
                            CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance,
                            nullptr );
 
-	ITP485::InputManager::Get().SetWindow( g_hWnd );
+	BNG::InputManager::Get().SetWindow( g_hWnd );
 
 	if( !g_hWnd )
 	{
@@ -75,17 +75,17 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	}
 
 	// Initialize subsystems
-	ITP485::GraphicsDriver::StaticInit( g_hWnd );
+	BNG::GraphicsDriver::StaticInit( g_hWnd );
 #ifdef EDITOR
-	ITP485::GamePtr game = ITP485::GamePtr( new ITP485::Editor() );
+	BNG::GamePtr game = BNG::GamePtr( new BNG::Editor() );
 #else
-	ITP485::GamePtr game = ITP485::GamePtr( new ITP485::SpaceShooter() );
+	BNG::GamePtr game = BNG::GamePtr( new BNG::SpaceShooter() );
 #endif // EDITOR
-	ITP485::MessageManager::Get().Initialize();
+	BNG::MessageManager::Get().Initialize();
 
 	// Main message loop here
 	MSG msg = { 0 };
-	ITP485::MessageManager::Message socketMsg = { 0 };
+	BNG::MessageManager::Message socketMsg = { 0 };
 	while ( msg.message != WM_QUIT ) {
 		if ( PeekMessage( &msg, nullptr, 0, 0, PM_REMOVE ) )
 		{
@@ -95,8 +95,8 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		else
 		{
 			// Poll for new websocket messages
-			ITP485::MessageManager::Get().Poll();
-			if ( ITP485::MessageManager::Get().PeekMessage( socketMsg ) )
+			BNG::MessageManager::Get().Poll();
+			if ( BNG::MessageManager::Get().PeekMessage( socketMsg ) )
 			{
 				try
 				{
@@ -114,12 +114,12 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 			game->Update();
 			game->Render();
 
-			ITP485::InputManager::Get().ResetEvents();
+			BNG::InputManager::Get().ResetEvents();
 		}
 	}
 
 	// Shut down subsystems
-	ITP485::MessageManager::Get().Shutdown();
+	BNG::MessageManager::Get().Shutdown();
 
 	DestroyWindow( g_hWnd );
 
@@ -135,7 +135,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM inWParam, LPARAM inLPa
     HDC hdc;
 
 	// Allow the InputManager a chance to handle the event
-	if ( ITP485::InputManager::Get().HandleEvent( message, inWParam, inLParam ) )
+	if ( BNG::InputManager::Get().HandleEvent( message, inWParam, inLParam ) )
 	{
 		return 0;
 	}

@@ -1,6 +1,6 @@
 #include <ConsoleManager.h>
 
-namespace ITP485
+namespace BNG
 {
 
 	void ConsoleManager::HandleConsoleInput()

@@ -1,6 +1,6 @@
 #include "ParticleEmitterMessageHandler.h"
 
-namespace ITP485
+namespace BNG
 {
 	void ParticleEmitterMessageHandler::HandleMessage( const json& msg, ParticleEmitterPtr emitter ) const
 	{
