@@ -24,6 +24,7 @@
     <ClCompile Include="engine\src\InputManager.cpp" />
     <ClCompile Include="engine\src\MeshPrimitive.cpp" />
     <ClCompile Include="engine\src\ObjMesh.cpp" />
+    <ClCompile Include="engine\src\QuadPrimitive.cpp" />
     <ClCompile Include="engine\src\RawMesh.cpp" />
     <ClCompile Include="engine\src\Sphere.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
