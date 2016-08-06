@@ -15,8 +15,6 @@ namespace BNG
 
 		SpaceShooter();
 		virtual void Update() override;
-		virtual void Render();
-		virtual void HandleMessage( const json& msg );
 
 	private:
 

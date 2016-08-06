@@ -114,13 +114,4 @@ namespace BNG
 		playerJetParticles->Update();
 	}
 
-	void SpaceShooter::Render()
-	{
-		Renderer::Get().Render();
-	}
-
-	void SpaceShooter::HandleMessage( const json& msg )
-	{
-	}
-
 }

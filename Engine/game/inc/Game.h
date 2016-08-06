@@ -11,8 +11,9 @@ namespace BNG
 	public:
 
 		virtual void Update();
-		virtual void Render() = 0;
-		virtual void HandleMessage( const json& msg ) = 0;
+		virtual void Render();
+		virtual void HandleMessage( const json& msg );
+
 	};
 
 	typedef shared_ptr< Game > GamePtr;
