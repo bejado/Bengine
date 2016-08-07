@@ -22,6 +22,7 @@ namespace BNG
 
 		ViewPtr mCamera;
 
+		GameObjectPtr mBackground;
 		PlayerShipPtr mPlayerObject;
 		std::vector<GameObjectPtr> mAsteroids;
 		ParticleSystemPtr playerJetParticles;

@@ -15,8 +15,20 @@ namespace BNG
 
 		// Create the player's view.
 		Quaternion viewRotation( Vector3::Right, Pi / 2.f );
-		mCamera = ViewPtr( new View( Vector3( 0.f, 60.f, 0.f ), viewRotation, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 70.f, false ) );
+		mCamera = ViewPtr( new View( Vector3( 0.f, 60.f, 0.f ), viewRotation, 1.04719755f, 1920.0f / 1080.0f, 0.1f, 100.f, false ) );
 		Renderer::Get().SetCamera( mCamera );
+
+		// Create the background.
+		MaterialPtr backgroundMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\starfield.dds" ) );
+		RawMeshPtr backgroundMesh = RawMeshPtr( new RawMesh() );
+		GenerateQuadVerticies( *backgroundMesh.get(), 90.f, 45.f );
+		MeshPrimitivePtr background = MeshPrimitivePtr( new MeshPrimitive( backgroundMesh, backgroundMaterial, GetTangentSpaceVertexSource() ) );
+		mBackground = GameObjectPtr( new GameObject( background ) );
+		Matrix4 backgroundOffset;
+		backgroundOffset.CreateFromQuaternion( Quaternion( Vector3::Right, Pi / 2.f ) );
+		mBackground->SetOffset( backgroundOffset );
+		mBackground->SetTranslation( Vector3( 0.f, -10.f, 0.f ) );
+		mBackground->Attach();
 
 		// Load the player's ship.
 		MaterialPtr playerShipMaterial = MaterialPtr( new Material( L"Resources\\Shaders\\tangent.hlsl", L"Resources\\Textures\\frigate.dds" ) );
@@ -109,6 +121,8 @@ namespace BNG
 		{
 			asteroid->Update();
 		}
+
+		mBackground->Update();
 
 		// Update player's particles.
 		playerJetParticles->Update();

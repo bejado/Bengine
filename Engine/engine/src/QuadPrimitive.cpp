@@ -6,13 +6,13 @@
 namespace BNG
 {
 
-	void GenerateQuadVerticies( RawMesh& mesh, size_t width, size_t height )
+	void GenerateQuadVerticies( RawMesh& mesh, float width, float height )
 	{
 		// positions
-		mesh.positions.push_back( PackedVector3( -1.f, 1.f, 0.f ) );
-		mesh.positions.push_back( PackedVector3( 1.f, 1.f, 0.f ) );
-		mesh.positions.push_back( PackedVector3( 1.f, -1.f, 0.f ) );
-		mesh.positions.push_back( PackedVector3( -1.f, -1.f, 0.f ) );
+		mesh.positions.push_back( PackedVector3( -width, height, 0.f ) );
+		mesh.positions.push_back( PackedVector3( width, height, 0.f ) );
+		mesh.positions.push_back( PackedVector3( width, -height, 0.f ) );
+		mesh.positions.push_back( PackedVector3( -width, -height, 0.f ) );
 
 		// normals
 		mesh.normals.push_back( PackedVector3( 0.f, 0.f, -1.f ) );
@@ -31,6 +31,14 @@ namespace BNG
 		mesh.tangents.push_back( PackedVector4( 1.f, 0.f, 0.f, -1.f ) );
 		mesh.tangents.push_back( PackedVector4( 1.f, 0.f, 0.f, -1.f ) );
 		mesh.tangents.push_back( PackedVector4( 1.f, 0.f, 0.f, -1.f ) );
+
+		// indicies
+		mesh.indices.push_back( 0 );
+		mesh.indices.push_back( 1 );
+		mesh.indices.push_back( 2 );
+		mesh.indices.push_back( 2 );
+		mesh.indices.push_back( 3 );
+		mesh.indices.push_back( 0 );
 	}
 
 }

@@ -3,7 +3,7 @@
 namespace BNG
 {
 
-	void GenerateQuadVerticies( RawMesh& mesh, size_t width, size_t height );
+	void GenerateQuadVerticies( RawMesh& mesh, float width, float height );
 	void GenerateSphereVerticies( RawMesh& mesh );
 
 }
