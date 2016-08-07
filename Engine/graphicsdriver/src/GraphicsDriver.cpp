@@ -492,7 +492,7 @@ TexturePtr GraphicsDriver::CreateTextureFromFile( const wchar_t* inFileName )
 {
 	//erg, convert to widechar...
 	ID3D11ShaderResourceView* toRet = nullptr;
-	HRESULT hr = CreateDDSTextureFromFile( g_pd3dDevice, inFileName, nullptr, &toRet );
+	HRESULT hr = CreateDDSTextureFromFileEx( g_pd3dDevice, inFileName, 0, D3D11_USAGE_IMMUTABLE, D3D11_BIND_SHADER_RESOURCE, 0, 0, true, nullptr, &toRet );
 	Dbg_Assert( hr == S_OK, "Problem Creating Texture From File" );
 	
 	return TexturePtr( toRet, AutoReleaseD3D );
